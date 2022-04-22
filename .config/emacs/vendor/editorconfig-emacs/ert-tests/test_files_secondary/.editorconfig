@@ -1,0 +1,15 @@
+root = true
+
+[2_space.el]
+indent_size = 2
+indent_style = tab
+
+[c.txt]
+file_type_emacs = conf
+
+[a.txt]
+file_type_ext = ini
+
+[/bin/*]
+file_type_ext = pl
+indent_size = 5
