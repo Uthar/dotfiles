@@ -46,3 +46,4 @@
 (load "company-module")
 (load "native-search-module")
 (load "markdown-module")
+(load "wgrep-module")
