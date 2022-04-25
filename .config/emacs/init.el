@@ -46,10 +46,3 @@
 (load "company-module")
 (load "native-search-module")
 (load "markdown-module")
-
-;; TODO(kasper): Consider whether these are worth adding.
-;; (load "flycheck")
-;; (load "cider")
-;; (load "lsp")
-;; (load "python")
-;; (load "repl-window")
