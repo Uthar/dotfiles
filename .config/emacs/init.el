@@ -47,3 +47,4 @@
 (load "native-search-module")
 (load "markdown-module")
 (load "wgrep-module")
+(load "todo-module")
