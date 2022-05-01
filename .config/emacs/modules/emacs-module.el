@@ -76,6 +76,9 @@
  ;; More throughput for subprocesses.
  read-process-output-max (* 1024 1024)
 
+ ;; Automatically select help windows
+ help-window-select t
+
  )
 
 ;; See comment above.
