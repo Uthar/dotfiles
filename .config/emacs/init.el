@@ -22,6 +22,7 @@
 (load-theme 'wombat)
 
 (add-to-list 'load-path +module-dir+)
+
 (load "startup-module")
 (load "mouse-module")
 (load "games-module")
@@ -48,3 +49,5 @@
 (load "markdown-module")
 (load "wgrep-module")
 (load "todo-module")
+(load "java-module")
+
