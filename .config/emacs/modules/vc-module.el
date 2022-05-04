@@ -24,6 +24,22 @@
       (vc-annotate-toggle-annotation-visibility)
       (kaspi/vc-annotate-toggle-annotation-visibility*))))
 
+
+(with-eval-after-load 'log-edit
+  (add-hook 'log-edit-hook
+    (lambda ()
+      (let ((log-window (selected-window))
+            (diff-buffer nil))
+        (other-window-prefix)
+        (log-edit-show-diff)
+        (setq diff-buffer (current-buffer))
+        (select-window log-window)
+        (add-hook 'kill-buffer-hook
+          (lambda ()
+            (kill-buffer diff-buffer))
+          100 t)))
+    100))
+
 ;; Fossil support
 (add-to-list 'load-path (concat +vendor-dir+ "vc-fossil"))
 (add-to-list 'vc-handled-backends 'Fossil t)
