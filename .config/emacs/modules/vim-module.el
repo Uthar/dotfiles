@@ -22,11 +22,13 @@
  ;; keys strictly for editing text.
  evil-want-keybinding nil
 
- ;; TODO: Consider whether this should be set.
- ;; evil-want-integration nil
-
  ;; Arguably nice to be able to do C-e C-x C-e in SLIME.
  evil-move-beyond-eol t
+
+ ;; Preserve Emacs defaults as much as possible.
+ ;; Fixes annoying breakage of help, grep and other buffers.
+ evil-motion-state-modes nil
+ evil-insert-state-modes nil
 
  )
 
