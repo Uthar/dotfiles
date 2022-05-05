@@ -19,7 +19,7 @@
 ;; (byte-recompile-directory +vendor-dir+ 0)
 ;; (byte-recompile-directory +module-dir+ 0)
 
-(load-theme 'wombat)
+(load-theme 'modus-operandi)
 
 (add-to-list 'load-path +module-dir+)
 
