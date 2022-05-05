@@ -50,4 +50,5 @@
 (load "wgrep-module")
 (load "todo-module")
 (load "java-module")
+(load "cider-module")
 
