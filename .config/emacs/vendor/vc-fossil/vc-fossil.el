@@ -492,7 +492,7 @@ If nil, use the value of `vc-diff-switches'.  If t, use no switches."
   "\\([[:word:]]+\\)\\s-+\\([-0-9]+\\)\\s-+[0-9]+: ")
 
 (defun vc-fossil-annotate-command (file buffer &optional rev)
-  (vc-fossil--command buffer 0 file "annotate"))
+  (vc-fossil--command buffer 0 file "annotate" "-r" (or rev "trunk")))
 
 (defun vc-fossil-annotate-time ()
   ;; TODO: Currently only the date is used, not the time.
