@@ -10,8 +10,8 @@
   (kaspi/toggle-hook 'vc-annotate-mode-hook
                      'vc-annotate-toggle-annotation-visibility))
 
-;; Display the actual Git/Hg/Fossil commands in the minibuffer.
-(setq vc-command-messages t)
+;; Don't display the actual Git/Hg/Fossil commands in the minibuffer.
+(setq vc-command-messages nil)
 
 (with-eval-after-load 'vc-annotate
   ;; Make the v key in 'vc-annotation-mode' persist between revision
