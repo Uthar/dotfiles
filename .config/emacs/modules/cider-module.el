@@ -12,6 +12,7 @@
 (setq cider-show-error-buffer 'except-in-repl)
 (setq cider-use-fringe-indicators nil)
 (setq cider-mode-line-show-connection nil)
+(setq cider-use-overlays nil)
 
 ;; It has a lot of dependencies:
 
