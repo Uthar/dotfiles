@@ -394,7 +394,29 @@ If nil, use the value of `vc-diff-switches'.  If t, use no switches."
 
 ;; - merge-file (file &optional rev1 rev2)
 
-;; - merge-branch ()
+(defun vc-fossil-branches ()
+  "Return the existing branches, as a list of strings.
+The car of the list is the current branch."
+  (with-temp-buffer
+    (vc-fossil--call t "json" "branch" "list")
+    (goto-char (point-min))
+    (let* ((payload (gethash "payload" (json-parse-buffer)))
+           (current-branch (gethash "current" payload))
+           (branches (append (gethash "branches" payload) nil)))
+      (cons current-branch (remove current-branch branches)))))
+
+(defun vc-fossil-merge-branch ()
+  "Merge changes into the current branch.
+This prompts for a branch to merge from."
+  (let* ((root (vc-fossil-root default-directory))
+	     (buffer (format "*vc-fossil : %s*" (expand-file-name root)))
+	     (branches (cdr (vc-fossil-branches)))
+	     (merge-source
+	      (completing-read "Merge from branch: " branches nil t)))
+    (apply #'vc-do-async-command buffer root "fossil" "merge"
+	       (list merge-source))
+    (with-current-buffer buffer (vc-run-delayed (vc-compilation-mode 'Fossil)))
+    (vc-set-async-update buffer)))
 
 ;; - merge-news (file)
 
