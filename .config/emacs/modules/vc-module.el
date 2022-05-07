@@ -55,6 +55,8 @@
 
 
 ;; Highlight modified lines in the fringe
+(setq diff-hl-highlight-revert-hunk-function 'diff-hl-revert-highlight-first-column)
+
 (add-to-list 'load-path (concat +vendor-dir+ "diff-hl"))
 (autoload 'turn-on-diff-hl-mode "diff-hl" "" t)
 (autoload 'diff-hl-dired-mode-unless-remote "diff-hl-dired" "" t)
