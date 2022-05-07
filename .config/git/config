@@ -1,0 +1,25 @@
+
+[core]
+    autocrlf = false
+
+[alias]
+	tim = log --all --color --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	up = checkout
+	ci = commit -a
+	me = merge --no-ff --no-commit
+	cle = clean -d -f
+	rev = restore .
+
+[init]
+	defaultBranch = trunk
+    
+[merge]
+	ff = no
+	conflictStyle = diff3
+
+[user]
+	email = k@galkowski.xyz
+	name = Kasper Gałkowski
+
+[push]
+	default = current
