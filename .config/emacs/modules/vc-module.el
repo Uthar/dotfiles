@@ -40,6 +40,14 @@
           100 t)))
     100))
 
+;; Ensure smerge detects diff conflicts.
+;; (Stock regexes were sometimes wrong)
+(with-eval-after-load 'smerge-mode
+  (setq smerge-begin-re "^<<<<<<< \\(.*\\)\n")
+  (setq smerge-end-re "^>>>>>>> \\(.*\\)\n")
+  (setq smerge-base-re "^||||||| \\(.*\\)\n")
+  (setq smerge-lower-re "^=======\\(.*\\)\n"))
+
 ;; Fossil support
 (add-to-list 'load-path (concat +vendor-dir+ "vc-fossil"))
 (add-to-list 'vc-handled-backends 'Fossil t)
