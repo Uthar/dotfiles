@@ -610,7 +610,15 @@ This prompts for a branch to merge from."
 (defun vc-fossil-rename-file (old new)
   (vc-fossil--command nil 0 (list (file-truename old) (file-truename new)) "mv" "--hard"))
 
-;; - find-file-hook ()
+(defun vc-fossil-find-file-hook ()
+  "Activate `smerge-mode' if there is a conflict."
+  (when (and buffer-file-name
+             (eq (vc-state buffer-file-name 'Fossil) 'conflict)
+             (save-excursion
+               (goto-char (point-min))
+               (re-search-forward "^<<<<<<< " nil 'noerror)))
+    (smerge-start-session)
+    (vc-message-unresolved-conflicts buffer-file-name)))
 
 ;; - extra-menu ()
 
