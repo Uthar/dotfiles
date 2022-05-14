@@ -452,7 +452,8 @@ This prompts for a branch to merge from."
 	           (nconc
 		        (when start-revision (list "before" start-revision))
 		        (when limit (list "-n" (number-to-string limit)))
-		        (list "-p" (file-relative-name (expand-file-name file)))))))))
+		        (list "-p" (file-relative-name (expand-file-name file))))))
+      (goto-char (point-min)))))
 
 ;; * log-outgoing (buffer remote-location)
 
