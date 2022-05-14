@@ -11,6 +11,8 @@
                      'vc-annotate-toggle-annotation-visibility))
 
 ;; Don't display the actual Git/Hg/Fossil commands in the minibuffer.
+;; This used to be fun, but not anymore after installing 'diff-hl'
+;; which constantly calls VC commands.
 (setq vc-command-messages nil)
 
 (with-eval-after-load 'vc-annotate
