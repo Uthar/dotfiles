@@ -9,6 +9,7 @@
 	me = merge --no-ff --no-commit
 	cle = clean -d -f
 	rev = restore .
+	sum = status
 
 [init]
 	defaultBranch = trunk
