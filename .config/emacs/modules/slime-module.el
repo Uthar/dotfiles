@@ -37,7 +37,7 @@
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup))
 
-;; Disable annoying tab completion buffers.
+;; Disable annoying tab completion buffers. (I prefer to explicitly C-M-I)
 ;; Careful: both 'slime-repl' and 'inferior-slime' set this.
 ;; With M-x 'slime' this is enough because only 'slime-repl' is loaded.
 ;; Probably wouldn't work if using comint (but who would want to?).
