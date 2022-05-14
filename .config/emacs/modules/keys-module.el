@@ -17,4 +17,6 @@
 (global-set-key (kbd "<f11>") 'kill-buffer-and-window)
 (global-set-key (kbd "<f12>") 'universal-argument)
 
+;; Wyłącza wkurzający domyślny skrót na 'suspend-emacs', który
+;; dodatkowo gryzie się z evilowym 'evil-emacs-state'.
 (global-unset-key (kbd "C-z"))
