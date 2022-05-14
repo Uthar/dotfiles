@@ -1,0 +1,19 @@
+[ui]
+username = Kasper Gałkowski <k@galkowski.xyz>
+mergemarkers = detailed
+
+[color]
+mode = auto
+
+[diff]
+nobinary = True
+showfunc = True
+word-diff = True
+
+[rewrite]
+update-timestamp = True
+
+[extensions]
+share =
+strip =
+
