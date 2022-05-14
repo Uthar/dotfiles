@@ -448,11 +448,11 @@ This prompts for a branch to merge from."
   (let ((inhibit-read-only t))
     (with-current-buffer buffer
       (dolist (file files)
-	(apply #'vc-fossil--command buffer 0 nil "timeline"
-	       (nconc
-		(when start-revision (list "before" start-revision))
-		(when limit (list "-n" (number-to-string limit)))
-		(list "-p" (file-relative-name (expand-file-name file)))))))))
+	    (apply #'vc-fossil--command buffer 0 nil "timeline"
+	           (nconc
+		        (when start-revision (list "before" start-revision))
+		        (when limit (list "-n" (number-to-string limit)))
+		        (list "-p" (file-relative-name (expand-file-name file)))))))))
 
 ;; * log-outgoing (buffer remote-location)
 
