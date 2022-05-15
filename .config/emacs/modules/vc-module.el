@@ -26,7 +26,9 @@
       (vc-annotate-toggle-annotation-visibility)
       (kaspi/vc-annotate-toggle-annotation-visibility*))))
 
-
+;; Automatically pop up an emphemeral diff buffer (via C-x 4 4 C-c C-d) with the
+;; current changes in 'vc-log-edit'. I almost always want this, so this saves me
+;; those 2 key chords on each check-in
 (with-eval-after-load 'log-edit
   (add-hook 'log-edit-hook
     (lambda ()
