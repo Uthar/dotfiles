@@ -4,3 +4,4 @@
 ;; thus preventing an interruption popup when these would be invoked.
 (put 'narrow-to-region 'disabled nil)
 (put 'erase-buffer 'disabled nil)
+(put 'downcase-region 'disabled nil)
