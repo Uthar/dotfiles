@@ -10,3 +10,5 @@
  t)
 
 (setq switch-to-prev-buffer-skip-regexp '("*Help* *inferior-lisp*"))
+
+(setq compilation-hidden-output (""))
