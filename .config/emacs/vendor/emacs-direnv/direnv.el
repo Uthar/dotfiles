@@ -132,8 +132,7 @@ use `default-directory', since there is no file name (or directory)."
               (with-temp-buffer
                 (unless (zerop exit-code)
                   (insert-file-contents stderr-tempfile)
-                  (display-warning
-                   'direnv
+                  (message
                    (format-message
                     "Error running direnv (exit code %d):\n%s\nOpen buffer ‘%s’ for full output."
                     exit-code (buffer-string) direnv--output-buffer-name)))))))
