@@ -12,3 +12,8 @@
 (setq switch-to-prev-buffer-skip-regexp '("*Help* *inferior-lisp*"))
 
 (setq compilation-hidden-output (""))
+
+;; Można zapobiec wklejaniu ogromnych łańcuchów
+(add-to-list 'yank-transform-functions
+  (lambda ()           
+    t))
