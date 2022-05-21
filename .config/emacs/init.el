@@ -51,4 +51,5 @@
 (load "todo-module")
 (load "java-module")
 (load "cider-module")
+(load "glsl-module")
 
