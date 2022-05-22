@@ -79,6 +79,9 @@
  ;; Automatically select help windows
  help-window-select t
 
+ ;; Don't display undo history overflow warnings
+ warning-suppress-types '((undo discard-info))
+
  )
 
 ;; See comment above.
