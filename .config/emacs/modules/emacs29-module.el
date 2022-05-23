@@ -17,3 +17,7 @@
 (add-to-list 'yank-transform-functions
   (lambda ()           
     t))
+
+(global-set-key (kbd "M-<up>") 'minibuffer-previous-completion)
+(global-set-key (kbd "M-<down>") 'minibuffer-next-completion)
+(global-set-key (kbd "M-RET") 'minibuffer-choose-completion)
