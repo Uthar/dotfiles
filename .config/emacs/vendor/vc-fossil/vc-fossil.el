@@ -467,6 +467,7 @@ This prompts for a branch to merge from."
 (defvar log-view-per-file-logs)
 
 (define-derived-mode vc-fossil-log-view-mode log-view-mode "Fossil-Log-View"
+  (require 'add-log) ;; We need the faces add-log.
   (setq word-wrap t)
   (set (make-local-variable 'wrap-prefix) "                      ")
   (set (make-local-variable 'log-view-file-re) "\\`a\\`")
@@ -533,9 +534,32 @@ This prompts for a branch to merge from."
       (goto-char (match-end 0))
       (match-string-no-properties 1))))
 
-;; - region-history (file buffer lfrom lto)
+(defun vc-fossil-region-history (file buffer lfrom lto)
+  "Insert into BUFFER the history of FILE for lines LFROM to LTO.
+This requires a custom fossil patched to add the -L command,
+which is not in upstream."
+  (let ((inhibit-read-only t))
+    (with-current-buffer buffer
+      (vc-fossil--command buffer 0 nil "finfo"
+                          "-L"
+                          "-A" (format "%d" (1- lfrom))
+                          "-B" (format "%d" lto)
+                          (format "%s" (file-relative-name file)))
+      (goto-char (point-min)))))
 
-;; - region-history-mode ()
+(require 'diff-mode)
+
+(defvar vc-fossil-region-history-mode-map
+  (let ((map (make-composed-keymap
+              nil (make-composed-keymap
+                   (list diff-mode-map vc-fossil-log-view-mode-map)))))
+    map))
+
+(define-derived-mode vc-fossil-region-history-mode
+    vc-fossil-log-view-mode "Fossil-Region-History"
+  "Major mode to browse Fossil's \"log -L\" output."
+  (font-lock-add-keywords nil diff-font-lock-keywords)
+  (font-lock-add-keywords nil log-view-font-lock-keywords))
 
 ;; - mergebase (rev1 &optional rev2)
 
