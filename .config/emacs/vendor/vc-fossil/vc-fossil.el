@@ -540,6 +540,7 @@ This requires a custom fossil patched to add the -L command,
 which is not in upstream."
   (let ((inhibit-read-only t))
     (with-current-buffer buffer
+      (erase-buffer)
       (vc-fossil--command buffer 0 nil "finfo"
                           "-L"
                           "-A" (format "%d" (1- lfrom))
