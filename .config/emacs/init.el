@@ -19,8 +19,6 @@
 ;; (byte-recompile-directory +vendor-dir+ 0)
 ;; (byte-recompile-directory +module-dir+ 0)
 
-(load-theme 'wombat)
-
 (add-to-list 'load-path +module-dir+)
 
 (load "startup-module")
@@ -54,3 +52,9 @@
 (load "glsl-module")
 (load "ansi-module")
 
+(setq custom-theme-directory (concat user-emacs-directory "themes/"))
+(setq custom-safe-themes t)
+
+(run-at-time "0.5 sec" nil
+  (lambda () 
+    (load-theme 'modus-operandi)))
