@@ -39,3 +39,7 @@
 (defun kaspi/open-init-file ()
   (interactive)
   (find-file user-init-file))
+
+(defun kaspi/reload-init-file ()
+  (interactive)
+  (load-file user-init-file))
