@@ -10,7 +10,7 @@
 
  ;; Default CL. Run 'slime'/'slime-connect' with 'universal-argument'
  ;; to choose a different one.
- inferior-lisp-program "sbcl --lose-on-corruption --disable-ldb --dynamic-space-size 4096"
+ inferior-lisp-program "sbcl --disable-ldb --dynamic-space-size 4096"
 
  ;; Maintain pretty printing in repl even when the window is
  ;; resized. Otherwise things would be always printed at the width of
