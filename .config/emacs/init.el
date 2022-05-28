@@ -19,7 +19,7 @@
 ;; (byte-recompile-directory +vendor-dir+ 0)
 ;; (byte-recompile-directory +module-dir+ 0)
 
-(load-theme 'modus-operandi)
+(load-theme 'wombat)
 
 (add-to-list 'load-path +module-dir+)
 
@@ -52,4 +52,5 @@
 (load "java-module")
 (load "cider-module")
 (load "glsl-module")
+(load "ansi-module")
 
