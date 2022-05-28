@@ -8,8 +8,8 @@
 ;; Match case-insensitively
 (setq company-dabbrev-ignore-case t)
 
-;; Start completing after 2 characters
-(setq company-minimum-prefix-length 2)
+;; Disable automatic completion pop-ups for less distraction
+(setq company-idle-delay nil)
 
 ;; Enable quick match selection with M-{1..9}
 (setq company-show-numbers 'left)
@@ -20,3 +20,5 @@
 (autoload 'global-company-mode "company")
 
 (add-hook 'after-init-hook 'global-company-mode)
+
+(global-set-key (kbd "C-M-<tab>") 'company-complete)
