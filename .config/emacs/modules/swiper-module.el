@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
+;; Disable completion pop ups
+(setq ivy-do-completion-in-region nil)
+
 (add-to-list 'load-path (concat +vendor-dir+ "swiper"))
 
 (autoload 'ivy-mode "ivy")
