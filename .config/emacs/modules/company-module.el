@@ -21,4 +21,5 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
-(global-set-key (kbd "C-M-<tab>") 'company-complete)
+(global-set-key (kbd "C-M-<tab>") 'completion-at-point)
+(global-set-key (kbd "M-<tab>") 'company-complete)
