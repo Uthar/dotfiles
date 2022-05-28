@@ -3,7 +3,7 @@
 (with-eval-after-load 'nix-mode
 
   ;; Copy the hash of the unpacked tarball under point.
-  (defun nix-prefetch-tarball-at-point ()
+  (defun kaspi/nix-prefetch-tarball-at-point ()
     (interactive)
     (let ((hash (shell-command-to-string
                  (concat "nix-prefetch-url --unpack "
@@ -12,7 +12,7 @@
       (kill-new (string-trim hash))
       (message "Copied %s to kill ring" (string-trim hash))))
 
-  (define-key nix-mode-map (kbd "C-x n h") 'nix-prefetch-tarball-at-point))
+  (define-key nix-mode-map (kbd "C-x n h") 'kaspi/nix-prefetch-tarball-at-point))
 
   
 (add-to-list 'load-path (concat +vendor-dir+ "nix-mode"))
