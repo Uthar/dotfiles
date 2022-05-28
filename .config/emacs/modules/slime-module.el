@@ -60,13 +60,9 @@
 
 (with-eval-after-load 'slime-cl-indent
   (define-common-lisp-style "kasper"
-    "Personal style - mostly macro indentation tweaks."
+    "Personal style."
     (:inherit "modern")
-    (:indentation
-     (-> (as if))
-     (->> (as if))
-     (hash-keys-bind (as destructuring-bind))
-     (dovec (as dolist))))
+    (:indentation))
   (setq common-lisp-style-default "kasper"))
 
 (add-to-list 'load-path (concat +vendor-dir+ "slime"))
