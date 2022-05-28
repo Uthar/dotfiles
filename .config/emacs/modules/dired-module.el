@@ -19,8 +19,6 @@
 
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "M-h") 'kaspi/dired-toggle-hidden)
-  (define-key dired-mode-map "N" nil)
-  (define-key dired-mode-map "n" nil)
   (define-key dired-mode-map [mouse-1] 'dired-find-file))
 
 ;; TODO(kasper): Make this persist between directories.
