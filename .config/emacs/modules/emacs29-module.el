@@ -21,3 +21,7 @@
 (global-set-key (kbd "M-<up>") 'minibuffer-previous-completion)
 (global-set-key (kbd "M-<down>") 'minibuffer-next-completion)
 (global-set-key (kbd "M-RET") 'minibuffer-choose-completion)
+
+
+(setq find-sibling-rules
+      '(("\\([^/]+\\)\\.c\\'" "\\1.h")))
