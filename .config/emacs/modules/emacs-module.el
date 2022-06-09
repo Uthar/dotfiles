@@ -84,6 +84,8 @@
 
  )
 
+(setq-default fill-column 80)
+
 ;; See comment above.
 (custom-set-variables
  '(tab-width 4)
@@ -141,3 +143,6 @@
 ;; Only show line numbers in editing-heavy modes, where it's useful.
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'conf-mode-hook 'display-line-numbers-mode)
+
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+(add-hook 'conf-mode-hook 'display-fill-column-indicator-mode)
