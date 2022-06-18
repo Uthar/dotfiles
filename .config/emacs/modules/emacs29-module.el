@@ -25,3 +25,6 @@
 
 (setq find-sibling-rules
       '(("\\([^/]+\\)\\.c\\'" "\\1.h")))
+
+
+;; (global-set-key (kbd "?") 'duplicate-line)
