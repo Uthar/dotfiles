@@ -28,3 +28,5 @@
 
 
 ;; (global-set-key (kbd "?") 'duplicate-line)
+
+(global-set-key (kbd "<f7>") 'recentf-open)
