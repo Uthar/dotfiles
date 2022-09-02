@@ -30,3 +30,6 @@
 ;; (global-set-key (kbd "?") 'duplicate-line)
 
 (global-set-key (kbd "<f7>") 'recentf-open)
+
+;; 'C-x v v' on a diff buffer commits it as a patch.
+;; https://git.savannah.gnu.org/cgit/emacs.git/commit/?id=4803fba487d41f0817feab48b5095ef4b4940ff6
