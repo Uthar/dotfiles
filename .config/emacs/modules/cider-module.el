@@ -25,9 +25,14 @@
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/spinner"))
 
 (autoload 'cider-jack-in-clj "cider" "" t)
-(autoload 'cider-jack-in-cljs "cider" "" t)
 (autoload 'cider-connect-clj "cider" "" t)
+(autoload 'cider-jack-in-cljs "cider" "" t)
 (autoload 'cider-connect-cljs "cider" "" t)
+
+(global-set-key (kbd "C-c M-j") 'cider-jack-in-clj)
+(global-set-key (kbd "C-c M-c") 'cider-connect-clj)
+(global-set-key (kbd "C-c M-J") 'cider-jack-in-cljs)
+(global-set-key (kbd "C-c M-C") 'cider-connect-cljs)
 
 (add-to-list 'auto-mode-alist '("\\.clj\\'" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
@@ -37,3 +42,7 @@
 (autoload 'clojure-mode "clojure-mode" "" t)
 (autoload 'clojurescript-mode "clojure-mode" "" t)
 (autoload 'clojurec-mode "clojure-mode" "" t)
+
+(add-to-list 'load-path (concat +vendor-dir+ "cider-eval-sexp-fu"))
+(with-eval-after-load 'cider
+  (require 'cider-eval-sexp-fu))
