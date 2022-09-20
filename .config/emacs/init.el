@@ -51,6 +51,7 @@
 (load "cider-module")
 (load "glsl-module")
 (load "ansi-module")
+(load "docker-module")
 
 (setq custom-theme-directory (concat user-emacs-directory "themes/"))
 (setq custom-safe-themes t)
