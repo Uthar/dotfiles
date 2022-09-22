@@ -11,3 +11,9 @@
          (key (kbd (format "M-%d" n)))
          (command (intern (format "winum-select-window-%d" n))))
     (global-set-key key command)))
+
+(with-eval-after-load "diff-mode"
+  (dotimes (n 9)
+    (let* ((n (1+ n))
+           (key (kbd (format "M-%d" n))))
+      (define-key diff-mode-map key nil))))
