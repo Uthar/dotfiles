@@ -55,6 +55,7 @@
 (load "winum-module")
 (load "python-module")
 (load "restclient-module")
+(load "lsp-module")
 
 (setq custom-theme-directory (concat user-emacs-directory "themes/"))
 (setq custom-safe-themes t)
