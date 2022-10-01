@@ -33,3 +33,7 @@
 
 ;; 'C-x v v' on a diff buffer commits it as a patch.
 ;; https://git.savannah.gnu.org/cgit/emacs.git/commit/?id=4803fba487d41f0817feab48b5095ef4b4940ff6
+
+;; C-x v b: new vc branch command
+
+;; C-x v !: new vc edit next command
