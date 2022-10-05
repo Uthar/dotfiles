@@ -23,3 +23,17 @@
       (rplacd cell '("")))))
 
 (global-set-key (kbd "C-s") 'swiper)
+
+;; Make the default action of swiper in dired to find the file
+
+(defun kaspi/swiper-dired (&optional initial-input)
+  (interactive)
+  (swiper initial-input))
+
+(defun kaspi/swiper-dired-find-file (&rest _)
+  (with-ivy-window
+    (dired-find-file)))
+
+(with-eval-after-load 'swiper
+  (ivy-set-actions 'kaspi/swiper-dired
+                   '(("o" kaspi/swiper-dired-find-file "find file"))))
