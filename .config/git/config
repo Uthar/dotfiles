@@ -11,13 +11,6 @@
 	rev = restore .
 	sum = status
 
-[init]
-	defaultBranch = trunk
-    
-[merge]
-	ff = no
-	conflictStyle = diff3
-
 [user]
 	email = k@galkowski.xyz
 	name = Kasper Gałkowski
