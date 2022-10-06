@@ -47,7 +47,10 @@
   (evil-global-set-key 'insert (kbd "C-p") nil)
   (evil-global-set-key 'normal (kbd "M-.") nil)
   (evil-global-set-key 'insert (kbd "C-y") nil)
-  (evil-global-set-key 'motion (kbd "C-y") nil))
+  (evil-global-set-key 'motion (kbd "C-y") nil)
+  (evil-global-set-key 'insert (kbd "C-w") nil)
+  (evil-global-set-key 'motion (kbd "C-w") nil)
+  (evil-global-set-key 'replace (kbd "C-w") nil))
 
 (add-to-list 'load-path (concat +vendor-dir+ "evil"))
 (autoload 'evil-mode "evil")
