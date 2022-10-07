@@ -71,6 +71,7 @@
   (evil-set-initial-state 'conf-mode 'normal)
   (evil-set-initial-state 'yaml-mode 'normal)
   (add-to-list 'evil-buffer-regexps '("^\\*slime-macroexpansion\\*" . emacs))
+  (add-to-list 'evil-buffer-regexps '("^\\*cider-macroexpansion\\*" . emacs))
   )
 
 (add-hook 'after-init-hook 'evil-mode)
