@@ -19,4 +19,6 @@
 ;; Disable auto complete
 (add-hook 'elpy-mode-hook
   (lambda ()
-    (setq-local company-idle-delay nil)))
+    (setq-local company-idle-delay nil)
+    (local-set-key (kbd "M-.") 'elpy-goto-definition)))
+
