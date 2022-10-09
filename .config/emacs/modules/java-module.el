@@ -1,6 +1,15 @@
 ;; -*- lexical-binding: t -*-
 
-;; Don't indent things below a top-level Java class
+(defun kaspi/c-lineup-java-toplevel-class (langelem) 
+  (save-excursion
+    (goto-char (c-langelem-pos langelem))
+    (ignore-errors
+      (backward-up-list)
+      c-basic-offset)))
+
 (add-hook 'java-mode-hook
   (lambda ()
-    (c-set-offset 'inclass 0)))
+    ;; Don't indent anonymous classes twice
+    (c-set-offset 'inexpr-class 0)
+    ;; Don't indent members of the top-level class
+    (c-set-offset 'inclass 'kaspi/c-lineup-java-toplevel-class)))
