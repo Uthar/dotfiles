@@ -5,7 +5,8 @@
 (with-eval-after-load 'cider 
   (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
   (add-hook 'cider-connected-hook 'cider-repl-clear-buffer)
-  (require 'cider-macroexpansion))
+  (require 'cider-macroexpansion)
+  (require 'cider-xref))
 (autoload 'slime-random-words-of-encouragement "slime")
 (setq cider-connection-message-fn 'slime-random-words-of-encouragement)
 (setq cider-repl-display-help-banner nil)
