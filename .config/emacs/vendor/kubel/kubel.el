@@ -26,7 +26,7 @@
 ;; Keywords: kubernetes k8s tools processes
 ;; URL: https://github.com/abrochard/kubel
 ;; License: GNU General Public License >= 3
-;; Package-Requires: ((transient "0.1.0") (emacs "25.3") (dash "2.12.0") (s "1.2.0") (yaml-mode "0.0.14"))
+;; Package-Requires: ((transient "0.1.0") (emacs "25.3") (yaml-mode "0.0.14"))
 
 ;;; Commentary:
 
@@ -101,8 +101,6 @@
 ;;; Code:
 
 (require 'transient)
-(require 'dash)
-(require 's)
 (require 'yaml-mode)
 (require 'tramp)
 (require 'subr-x)
@@ -376,12 +374,13 @@ VERSION should be a list of (major-version minor-version patch)."
                  (opt (group (one-or-more digit)) "s")
                  eol)))
     (if (string-match rex age)
-        (-sum (--map-indexed
-               (* (--if-let (match-string (1+ it-index) age)
-                      (string-to-number it)
-                    0)
-                  it)
-               '(86400 3600 60 1)))
+        (cl-do* ((list '(86400 3600 60 1) (seq-rest list))
+                 (it (seq-first list) (seq-first list))
+                 (idx 0 (1+ idx))
+                 (sum 0))
+            ((null it) sum)
+          (when-let ((match (match-string (1+ idx) age)))
+            (cl-incf sum (* it (string-to-number match)))))
       0)))
 
 (defun kubel--make-age-comparator (colnum)
@@ -416,7 +415,7 @@ ENTRYLIST is the output of the parsed body."
   "Check that all selected items still exist.
 
 ENTRIES are all resources."
-  (dolist (i (-difference kubel--selected-items (mapcar #'car entries)))
+  (dolist (i (seq-difference kubel--selected-items (mapcar #'car entries)))
     (setq kubel--selected-items (delete i kubel--selected-items))))
 
 (defun kubel--get-list-entries (entrylist)
@@ -440,7 +439,7 @@ BODY is the raw output of kubectl get resource."
          (starts (cl-loop for start = 0 then (match-end 0)
                           while (string-match (rx (>= 2 whitespace)) header start)
                           collect (match-end 0)))
-         (position (-zip-with 'cons (cons 0 starts) (append starts '("end"))))
+         (position (cl-pairlis (cons 0 starts) (append starts '("end"))))
          (parse-line (lambda (line)
                        (mapcar (lambda (pos)
                                  (kubel--extract-value line (car pos) (cdr pos)))
@@ -490,7 +489,7 @@ If MAX is the end of the line, dynamically adjust."
 STATUS is the pod status string."
   (let ((status-face (cdr (assoc status kubel-status-faces)))
         (match (or (equal kubel-resource-filter "") (string-match-p kubel-resource-filter status)))
-        (selected (and (kubel--items-selected-p) (-contains? kubel--selected-items status))))
+        (selected (and (kubel--items-selected-p) (member status kubel--selected-items))))
     (cond (status-face (propertize status 'face status-face))
           (selected (propertize (concat "*" status) 'face 'dired-marked))
           ((not match) (propertize status 'face 'shadow))
@@ -513,11 +512,13 @@ NAME is the buffer name."
   (let ((process-name (process-name process))
         (exit-status (process-exit-status process)))
     (kubel--append-to-process-buffer (format "[%s]\nexit-code: %s" process-name exit-status))
-    (unless (eq 0 exit-status)
-      (let ((err (with-current-buffer (kubel--process-error-buffer process-name)
-                   (buffer-string))))
-        (kubel--append-to-process-buffer (format "error: %s" err))
-        (error (format "Kubel process %s error: %s" process-name err))))))
+    (if (eq 0 exit-status)
+        (with-current-buffer (process-buffer process)
+          (goto-char (point-min)))
+        (let ((err (with-current-buffer (kubel--process-error-buffer process-name)
+                     (buffer-string))))
+          (kubel--append-to-process-buffer (format "error: %s" err))
+          (error (format "Kubel process %s error: %s" process-name err))))))
 
 (defun kubel--exec (process-name args &optional readonly)
   "Utility function to run commands in the proper context and namespace.
@@ -592,7 +593,7 @@ TYPE is containers or initContainers."
          (splitted (mapcan (lambda (s) (split-string s ","))
                            raw-labels))
          (cleaned (mapcar (lambda (s) (replace-regexp-in-string "[{|\"|}]" "" s)) splitted))
-         (unique (-distinct cleaned)))
+         (unique (seq-uniq cleaned)))
     unique))
 
 (defun kubel--select-resource (name)
@@ -601,7 +602,7 @@ TYPE is containers or initContainers."
 NAME is the string name of the resource."
   (let ((cmd (format "%s get %s -o=jsonpath='{.items[*].metadata.name}'"
                      (kubel--get-command-prefix) name)))
-    (completing-read (concat (s-upper-camel-case name) ": ")
+    (completing-read (concat name ": ")
                      (split-string (kubel--exec-to-string cmd) " "))))
 
 (defun kubel--describe-resource (name &optional describe)
@@ -652,14 +653,14 @@ TYPENAME is the resource type/name."
 
 (defun kubel--is-deployment-view ()
   "Return non-nil if this is the pod view."
-  (-contains? '("Deployments" "deployments" "deployments.apps") kubel-resource))
+  (member kubel-resource '("Deployments" "deployments" "deployments.apps")))
 
 (defun kubel--is-scalable ()
   "Return non-nil if the resource can be scaled."
   (or
    (kubel--is-deployment-view)
-   (-contains? '("ReplicaSets" "replicasets" "replicasets.apps") kubel-resource)
-   (-contains? '("StatefulSets" "statefulsets" "statefulsets.apps") kubel-resource)))
+   (member kubel-resource '("ReplicaSets" "replicasets" "replicasets.apps"))
+   (member kubel-resource '("StatefulSets" "statefulsets" "statefulsets.apps"))))
 
 ;; interactive
 (define-minor-mode kubel-yaml-editing-mode
@@ -1129,20 +1130,24 @@ RESET is to be called if the search is nil after the first attempt."
   "Mark or unmark the item under cursor."
   (interactive)
   (let ((item (kubel--get-resource-under-cursor)))
-    (unless (-contains? kubel--selected-items item)
+    (unless (member item kubel--selected-items)
       (progn
         (push item kubel--selected-items)
+        (setf (aref (tabulated-list-get-entry) 0)
+              (kubel--propertize-status item))
         (forward-line 1)
-        (kubel)))))
+        (tabulated-list-print t t)))))
 
 (defun kubel-unmark-item ()
   "Unmark the item under cursor."
   (interactive)
   (let ((item (kubel--get-resource-under-cursor)))
-    (when (-contains? kubel--selected-items item)
+    (when (member item kubel--selected-items)
       (progn
         (setq kubel--selected-items (delete item kubel--selected-items))
-        (kubel)))))
+        (setf (aref (tabulated-list-get-entry) 0)
+              (substring-no-properties item))
+        (tabulated-list-print t t)))))
 
 (defun kubel-mark-all ()
   "Mark all items."
@@ -1153,13 +1158,19 @@ RESET is to be called if the search is nil after the first attempt."
     (while (not (eobp))
       (push (kubel--get-resource-under-cursor) kubel--selected-items)
       (forward-line 1)))
-  (kubel))
+  (dolist (entry tabulated-list-entries)
+    (cl-destructuring-bind (id descs) entry
+      (setf (aref descs 0) (kubel--propertize-status (aref descs 0)))))
+  (tabulated-list-print t t))
 
 (defun kubel-unmark-all ()
   "Unmark all items."
   (interactive)
   (setq kubel--selected-items '())
-  (kubel))
+  (dolist (entry tabulated-list-entries)
+    (cl-destructuring-bind (id descs) entry
+      (setf (aref descs 0) (string-remove-prefix "*" (substring-no-properties (aref descs 0))))))
+  (tabulated-list-print t t))
 
 ;; popups
 
