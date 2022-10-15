@@ -86,6 +86,7 @@
  )
 
 (setq-default fill-column 80)
+(setq-default cursor-type 'bar)
 
 ;; See comment above.
 (custom-set-variables
