@@ -22,3 +22,5 @@
 (global-unset-key (kbd "C-z"))
 
 (global-set-key (kbd "C-M-z") 'zap-up-to-char)
+
+(global-set-key (kbd "C-M-r") 'raise-sexp)
