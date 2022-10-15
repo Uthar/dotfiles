@@ -136,6 +136,9 @@
     ;; Repeatable undo, other-window etc.
     (repeat-mode)
 
+    ;; Nicer completion
+    (fido-vertical-mode)
+
     ))
 
 ;; Add executable bit when shebang detected.
