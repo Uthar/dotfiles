@@ -18,7 +18,7 @@
     (define-key map "K" 'windmove-swap-states-up)                           
     map))                                                                   
 
-j(global-set-key (kbd "C-c w ,") 'winner-undo)                               
+(global-set-key (kbd "C-c w ,") 'winner-undo)                               
 (global-set-key (kbd "C-c w .") 'winner-redo)                               
 (global-set-key (kbd "C-c w L") 'windmove-swap-states-right)                
 (global-set-key (kbd "C-c w H") 'windmove-swap-states-left)                 
