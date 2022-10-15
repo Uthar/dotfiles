@@ -7,3 +7,22 @@
 ;; Makes mouse scroll more predictable by not accelerating it while
 ;; moving a lot of lines.
 (setq mouse-wheel-progressive-speed nil)
+
+(add-hook 'after-init-hook 'pixel-scroll-precision-mode)
+(setq pixel-scroll-precision-interpolate-page t)
+(setq pixel-scroll-precision-interpolate-mice t)
+
+(defun kaspi/pixel-scroll-up ()
+  (interactive)
+  (pixel-scroll-precision-interpolate
+   (* 0.5 (- (window-text-height nil t)))
+   nil 1))
+
+(defun kaspi/pixel-scroll-down ()
+  (interactive)
+  (pixel-scroll-precision-interpolate
+   (* 0.5 (window-text-height nil t))
+   nil 1))
+
+(global-set-key (kbd "M-v") 'kaspi/pixel-scroll-up)
+(global-set-key (kbd "C-v") 'kaspi/pixel-scroll-down)
