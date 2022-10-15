@@ -43,3 +43,23 @@
 (defun kaspi/reload-init-file ()
   (interactive)
   (load-file user-init-file))
+
+(defun kaspi/copy-line ()
+  (interactive)
+  (kill-ring-save (line-beginning-position) (line-end-position)))
+
+(defvar kaspi/duplicate-line-repeat-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "d" 'duplicate-line)
+    map))
+
+(put 'duplicate-line 'repeat-map 'kaspi/duplicate-line-repeat-map)
+
+(defun kaspi/ignore-arguments (f)
+  (lambda (&rest _)
+    (interactive)
+    (funcall f)))
+
+(advice-add 'duplicate-line :after (kaspi/ignore-arguments 'next-line))
+
+

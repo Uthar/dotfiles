@@ -24,3 +24,6 @@
 (global-set-key (kbd "C-M-z") 'zap-up-to-char)
 
 (global-set-key (kbd "C-M-r") 'raise-sexp)
+
+(global-set-key (kbd "C-c l d") 'duplicate-line)
+(global-set-key (kbd "C-c l l") 'kaspi/copy-line)
