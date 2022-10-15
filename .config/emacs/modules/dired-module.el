@@ -30,5 +30,4 @@
     (local-set-key "j" 'dired-next-line)
     (local-set-key "k" 'dired-previous-line)
     (local-set-key "l" 'dired-find-file)
-    (local-set-key "h" 'dired-up-directory)
-    (local-set-key (kbd "C-s") 'kaspi/swiper-dired)))
+    (local-set-key "h" 'dired-up-directory)))
