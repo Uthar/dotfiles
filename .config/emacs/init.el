@@ -51,6 +51,7 @@
 (load "python-module")
 (load "restclient-module")
 (load "lsp-module")
+(load "window-module")
 
 (run-at-time "0.5 sec" nil
   (lambda () 
