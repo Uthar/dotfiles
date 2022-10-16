@@ -60,3 +60,10 @@
    (t
     (remove-hook 'after-change-functions 'lcr-after-change t)
     (remove-hook 'completion-setup-hook 'minibuffer-next-completion t))))
+
+(defun kaspi/minibuffer-choose-completion ()
+  (interactive)
+  (with-minibuffer-completions-window
+   (choose-completion)))
+
+(define-key completion-in-region-mode-map (kbd "M-RET") 'kaspi/minibuffer-choose-completion)
