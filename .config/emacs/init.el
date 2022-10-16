@@ -52,6 +52,4 @@
 (load "lsp-module")
 (load "window-module")
 
-(run-at-time "0.5 sec" nil
-  (lambda () 
-    (load-theme 'modus-operandi)))
+(load-theme 'modus-operandi)
