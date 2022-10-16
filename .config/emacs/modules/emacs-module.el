@@ -106,9 +106,6 @@
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
 
-    ;; No random pop-up windows.
-    (tooltip-mode -1)
-
     ;; Remember where point was when visiting previous buffers.
     (save-place-mode t)
 
