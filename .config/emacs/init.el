@@ -52,8 +52,9 @@
 (load "lsp-module")
 (load "window-module")
 
-(load-theme 'modus-operandi)
+(load-theme 'modus-vivendi)
 
 ;; notes:
 
 ;; diff a/ b/ in eshell creates a diff-mode buffer
+;; C-x v ~  - visits other revision of file in other window
