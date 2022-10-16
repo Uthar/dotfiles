@@ -53,3 +53,7 @@
 (load "window-module")
 
 (load-theme 'modus-operandi)
+
+;; notes:
+
+;; diff a/ b/ in eshell creates a diff-mode buffer
