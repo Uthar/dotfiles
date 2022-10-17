@@ -77,8 +77,9 @@
  ;; More throughput for subprocesses.
  read-process-output-max (* 1024 1024)
 
- ;; Automatically select help windows
+ ;; Automatically select and reuse help windows
  help-window-select t
+ help-window-keep-selected t
 
  ;; Don't display undo history overflow warnings
  warning-suppress-types '((undo discard-info))
