@@ -58,3 +58,4 @@
 
 ;; diff a/ b/ in eshell creates a diff-mode buffer
 ;; C-x v ~  - visits other revision of file in other window
+;; M-x reverse-region : reverse order of lines in buffer
