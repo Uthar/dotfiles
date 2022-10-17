@@ -64,9 +64,6 @@
  `((".*" ,(concat user-emacs-directory "auto-save/") t))
  create-lockfiles nil
 
- ;; Useful for jumping a number of lines with universal-argument.
- display-line-numbers-type 'relative
-
  ;; Display line and column numbers in the modeline.
  column-number-mode t
  line-number-mode t
@@ -142,10 +139,6 @@
 
 ;; Add executable bit when shebang detected.
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-;; Only show line numbers in editing-heavy modes, where it's useful.
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(add-hook 'conf-mode-hook 'display-line-numbers-mode)
 
 (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
 (add-hook 'conf-mode-hook 'display-fill-column-indicator-mode)
