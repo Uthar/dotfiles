@@ -15,5 +15,8 @@
 	email = k@galkowski.xyz
 	name = Kasper Gałkowski
 
+[merge]
+    conflictStyle = diff3
+
 [push]
 	default = current
