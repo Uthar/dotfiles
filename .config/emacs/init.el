@@ -51,6 +51,7 @@
 (load "restclient-module")
 (load "lsp-module")
 (load "window-module")
+(load "scheme-module")
 
 (load-theme 'modus-operandi)
 
