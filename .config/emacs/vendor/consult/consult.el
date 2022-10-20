@@ -4701,6 +4701,14 @@ See `consult-grep' for more details regarding the asynchronous search."
 
 ;;;;; Command: consult-fd
 
+(defun kaspi/interpose (x list)
+  (seq-reduce (lambda (all el)
+                (if all
+                  (cl-list* el x all)
+                  (list el)))
+              (reverse list)
+              nil))
+
 (defun consult--fd (prompt builder initial)
   (consult--read
    (consult--async-command builder
@@ -4722,7 +4730,7 @@ See `consult-grep' for more details regarding the asynchronous search."
                (`(,arg . ,opts) (consult--command-split input))
                (`(,re . ,hl) (funcall consult--regexp-compiler arg 'basic t)))
     (when re
-      (list :command (append cmd re opts '("."))
+      (list :command (append cmd (kaspi/interpose "--and" re) opts)
             :highlight hl))))
 
 ;;;###autoload
