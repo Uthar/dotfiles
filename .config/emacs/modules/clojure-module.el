@@ -20,6 +20,7 @@
 
 (add-to-list 'load-path (concat +vendor-dir+ "cider"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/clojure-mode"))
+(add-to-list 'load-path (concat +vendor-dir+ "cider/lib/cider-eval-sexp-fu"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/parseclj"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/parseedn"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/queue"))
