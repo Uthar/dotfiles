@@ -6,7 +6,7 @@
 ;; (global-set-key (kbd "<f1>") 'toggle-repl-window)
 (global-set-key (kbd "<f1>") 'eshell)
 (global-set-key (kbd "<f2>") 'dired-jump)
-(global-set-key (kbd "<f3>") 'consult-find)
+(global-set-key (kbd "<f3>") 'consult-fd)
 (global-set-key (kbd "<f4>") 'consult-ripgrep)
 (global-set-key (kbd "<f5>") 'previous-buffer)
 (global-set-key (kbd "<f6>") 'next-buffer)
