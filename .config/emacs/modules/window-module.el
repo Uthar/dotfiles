@@ -29,8 +29,8 @@
 (global-set-key (kbd "C-c w j") 'windmove-down)                             
 (global-set-key (kbd "C-c w k") 'windmove-up)                               
 
-(put 'winner-undo 'repeat-map 'kaspi/window-repeat-map)                     
-(put 'winner-redo 'repeat-map 'kaspi/window-repeat-map)                     
+(put 'winner-undo 'repeat-map 'kaspi/winner-repeat-map)                     
+(put 'winner-redo 'repeat-map 'kaspi/winner-repeat-map)                     
 (put 'windmove-swap-states-right 'repeat-map 'kaspi/window-repeat-map)      
 (put 'windmove-swap-states-left 'repeat-map 'kaspi/window-repeat-map)       
 (put 'windmove-swap-states-down 'repeat-map 'kaspi/window-repeat-map)       
