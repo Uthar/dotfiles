@@ -52,7 +52,7 @@
 (load "window-module")
 (load "scheme-module")
 
-(load-theme 'modus-operandi)
+(load-theme 'modus-vivendi)
 
 ;; notes:
 
@@ -60,3 +60,4 @@
 ;; C-x v ~  - visits other revision of file in other window
 ;; M-x reverse-region : reverse order of lines in buffer
 ;; C-x v M D - best vc command, show changes in one branch relative to another
+;; aggressive-completion : autorefreshing in completions buffer
