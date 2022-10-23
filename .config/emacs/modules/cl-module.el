@@ -69,6 +69,3 @@
 (autoload 'slime "slime" "" t)
 (autoload 'slime-connect "slime" "" t)
 (autoload 'slime-selector "slime" "" t)
-
-(add-to-list 'load-path (concat +vendor-dir+ "slime-company"))
-(autoload 'slime-company "slime-company" "" t)
