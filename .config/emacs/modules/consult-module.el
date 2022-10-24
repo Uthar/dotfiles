@@ -5,6 +5,7 @@
 (autoload 'consult-line "consult" "" t)
 (autoload 'consult-ripgrep "consult" "" t)
 (autoload 'consult-find "consult" "" t)
+(autoload 'consult-fd "consult" "" t)
 (autoload 'consult-mark "consult" "" t)
 
 (global-set-key (kbd "C-c c l") 'consult-line)
