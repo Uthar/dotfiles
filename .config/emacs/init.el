@@ -52,7 +52,7 @@
 (load "window-module")
 (load "scheme-module")
 
-(load-theme 'modus-vivendi)
+(load-theme 'modus-operandi)
 
 ;; notes:
 
@@ -61,3 +61,4 @@
 ;; M-x reverse-region : reverse order of lines in buffer
 ;; C-x v M D - best vc command, show changes in one branch relative to another
 ;; aggressive-completion : autorefreshing in completions buffer
+;; (global-)prettify-symbols-mode, makes it easy to have ligatures
