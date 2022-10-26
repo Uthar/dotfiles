@@ -5,8 +5,9 @@
  ;; Prevent creating stray buffers when mass-walking directories.
  dired-kill-when-opening-new-dired-buffer t
 
- ;; Makes it show directories first like the ranger program.
- dired-listing-switches "--group-directories-first -lh"
+ ;; Makes it show directories first
+ ;; Also show dotfiles before normal files with -v
+ dired-listing-switches "--group-directories-first -vlh"
 
  )
 
