@@ -62,3 +62,4 @@
 ;; C-x v M D - best vc command, show changes in one branch relative to another
 ;; aggressive-completion : autorefreshing in completions buffer
 ;; (global-)prettify-symbols-mode, makes it easy to have ligatures
+;; M-x scratch-buffer - recreate *scratch*
