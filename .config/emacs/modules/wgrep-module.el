@@ -6,6 +6,8 @@
 (setq wgrep-change-readonly-file t)
 (setq wgrep-auto-save-buffer t)
 
+(setopt rg-command-line-flags '("--follow"))
+
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode))
 
