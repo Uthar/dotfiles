@@ -36,11 +36,6 @@
  ;; Text editing sane defaults.
  require-final-newline t
 
- ;; For some reason, these don't set with 'setq'. Works witn
- ;; 'custom-set-variable' instead.
- ;; indent-tabs-mode nil
- ;; tab-width 4
-
  ;; Less jumpy scroll.
  scroll-margin 4
  scroll-conservatively 1000
@@ -83,13 +78,12 @@
 
  )
 
+;; Space indentation
+(setopt indent-tabs-mode nil)
+(setopt tab-width 2)
+
 (setq-default fill-column 80)
 (setq-default cursor-type 'bar)
-
-;; See comment above.
-(custom-set-variables
- '(tab-width 4)
- '(indent-tabs-mode nil))
 
 (add-hook 'after-init-hook
   (lambda ()
