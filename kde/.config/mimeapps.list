@@ -1,0 +1,20 @@
+[Added Associations]
+inode/directory=org.kde.dolphin.desktop;
+text/plain=emacs.desktop;
+x-scheme-handler/geo=google-maps-geo-handler.desktop;
+x-scheme-handler/http=firefox_firefox.desktop;
+x-scheme-handler/https=firefox_firefox.desktop;
+x-scheme-handler/mailto=emacs-mail.desktop;
+x-scheme-handler/tel=Zoom.desktop;
+
+[Default Applications]
+inode/directory=org.kde.dolphin.desktop;
+text/plain=emacs.desktop;
+x-scheme-handler/geo=google-maps-geo-handler.desktop;
+x-scheme-handler/http=firefox_firefox.desktop;
+x-scheme-handler/https=firefox_firefox.desktop;
+x-scheme-handler/lens=lens.desktop
+x-scheme-handler/mailto=emacs-mail.desktop;
+x-scheme-handler/slack=slack.desktop
+x-scheme-handler/tel=Zoom.desktop;
+x-scheme-handler/eclipse+command=_nix_store_qf6pq490nxcds3xz5pf10748z5i4hwkc-dbeaver-22.2.0_dbeaver_.desktop
