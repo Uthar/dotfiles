@@ -62,4 +62,19 @@
 
 (advice-add 'duplicate-line :after (kaspi/ignore-arguments 'next-line))
 
+(defun kaspi/delete-indentation* ()
+  (interactive)
+  (forward-line)
+  (delete-indentation))
 
+(global-set-key (kbd "C-c l ^") 'kaspi/delete-indentation*)
+(global-set-key (kbd "C-M-^") 'kaspi/delete-indentation*)
+  
+(defun kaspi/back-to-indentation* ()
+  (interactive)
+  (kill-region (point) (save-excursion
+                         (back-to-indentation)
+                         (point))))
+
+(global-set-key (kbd "C-c l m") 'kaspi/back-to-indentation*)
+(global-set-key (kbd "M-M") 'kaspi/back-to-indentation*)
