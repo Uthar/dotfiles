@@ -22,41 +22,41 @@
 (add-to-list 'load-path +module-dir+)
 
 (defvar +modules+
-  (list "startup-module"
-        "mouse-module"
-        "games-module"
-        "emacs-module"
-        "disabled-commands-module"
-        "consult-module"
-        "lisp-module"
-        "keys-module"
-        "cl-module"
-        "nix-module"
-        "yaml-module"
-        "direnv-module"
-        "vc-module"
-        "dired-module"
-        "diff-module"
-        "recentf-module"
-        "utility-module"
-        "company-module"
-        "markdown-module"
-        "wgrep-module"
-        "todo-module"
-        "java-module"
-        "clojure-module"
-        "glsl-module"
-        "ansi-module"
-        "docker-module"
-        "python-module"
-        "restclient-module"
-        "window-module"
-        "scheme-module"))
+  (list "startup"
+        "mouse"
+        "games"
+        "emacs"
+        "disabled-commands"
+        "consult"
+        "lisp"
+        "keys"
+        "cl"
+        "nix"
+        "yaml"
+        "direnv"
+        "vc"
+        "dired"
+        "diff"
+        "recentf"
+        "utility"
+        "company"
+        "markdown"
+        "wgrep"
+        "todo"
+        "java"
+        "clojure"
+        "glsl"
+        "ansi"
+        "docker"
+        "python"
+        "restclient"
+        "window"
+        "scheme"))
 
 (defun amalgamate ()
   (with-temp-buffer
     (dolist (module +modules+)
-      (insert-file-contents (concat +module-dir+ module ".el"))
+      (insert-file-contents (concat +module-dir+ module "-module.el"))
       (goto-char (point-max)))
     (write-file "amalgamation.el")))
 
