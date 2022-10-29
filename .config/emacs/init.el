@@ -21,38 +21,49 @@
 
 (add-to-list 'load-path +module-dir+)
 
-(load "startup-module")
-(load "mouse-module")
-(load "games-module")
-(load "emacs-module")
-(load "disabled-commands-module")
-(load "consult-module")
-(load "lisp-module")
-(load "keys-module")
-(load "cl-module")
-(load "nix-module")
-(load "yaml-module")
-(load "direnv-module")
-(load "vc-module")
-(load "dired-module")
-(load "diff-module")
-(load "recentf-module")
-(load "utility-module")
-(load "company-module")
-(load "markdown-module")
-(load "wgrep-module")
-(load "todo-module")
-(load "java-module")
-(load "clojure-module")
-(load "glsl-module")
-(load "ansi-module")
-(load "docker-module")
-(load "python-module")
-(load "restclient-module")
-(load "window-module")
-(load "scheme-module")
+(defvar +modules+
+  (list "startup-module"
+        "mouse-module"
+        "games-module"
+        "emacs-module"
+        "disabled-commands-module"
+        "consult-module"
+        "lisp-module"
+        "keys-module"
+        "cl-module"
+        "nix-module"
+        "yaml-module"
+        "direnv-module"
+        "vc-module"
+        "dired-module"
+        "diff-module"
+        "recentf-module"
+        "utility-module"
+        "company-module"
+        "markdown-module"
+        "wgrep-module"
+        "todo-module"
+        "java-module"
+        "clojure-module"
+        "glsl-module"
+        "ansi-module"
+        "docker-module"
+        "python-module"
+        "restclient-module"
+        "window-module"
+        "scheme-module"))
 
-(load-theme 'modus-operandi)
+(defun amalgamate ()
+  (with-temp-buffer
+    (dolist (module +modules+)
+      (insert-file-contents (concat +module-dir+ module ".el"))
+      (goto-char (point-max)))
+    (write-file "amalgamation.el")))
+
+(amalgamate)
+
+(load-file "amalgamation.el")
+;; (load-theme 'modus-operandi)
 
 ;; notes:
 
