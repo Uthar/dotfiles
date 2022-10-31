@@ -51,6 +51,7 @@
 (load "restclient-module")
 (load "window-module")
 (load "scheme-module")
+(load "org-module")
 
 (load-theme 'modus-operandi)
 
