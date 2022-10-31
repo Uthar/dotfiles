@@ -474,3 +474,6 @@ knownItems=org.kde.plasma.clipboard,org.kde.plasma.vault,org.kde.kupapplet,org.k
 [ScreenMapping]
 itemsOnDisabledScreens=
 screenMapping=desktop:/meme.jpg,0,desktop:/temporary_workarounds.jpg,0
+
+[Containments][29][Applets][31][Configuration][General]
+showWindowIcons=true
