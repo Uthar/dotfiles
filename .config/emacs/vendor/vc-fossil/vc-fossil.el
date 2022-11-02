@@ -451,7 +451,7 @@ This prompts for a branch to merge from."
 	    (apply #'vc-fossil--command buffer 0 nil "timeline"
 	           (nconc
 		        (when start-revision (list "before" start-revision))
-		        (when limit (list "-n" (number-to-string limit)))
+		        (when (numberp limit) (list "-n" (number-to-string limit)))
 		        (list "-p" (file-relative-name (expand-file-name file))))))
       (goto-char (point-min)))))
 
@@ -562,7 +562,14 @@ which is not in upstream."
   (font-lock-add-keywords nil diff-font-lock-keywords)
   (font-lock-add-keywords nil log-view-font-lock-keywords))
 
-;; - mergebase (rev1 &optional rev2)
+(defun vc-fossil-mergebase (rev1 &optional rev2)
+  (unless rev2 (setq rev2 "trunk"))
+  (let* ((pivot (vc-fossil--run "test-find-pivot" rev1 rev2))
+         (_pos (string-match "pivot=\\([0-9a-fA-F]+\\)" pivot))
+         (base (match-string 1 pivot)))
+    (if base
+        base
+      (error "No common ancestor for merge base"))))
 
 ;; TAG SYSTEM
 
