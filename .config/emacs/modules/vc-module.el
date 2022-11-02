@@ -67,3 +67,17 @@
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode-unless-remote)
+
+(defun kaspi/vc-filter-command-function (command file-or-list flags)
+  (let ((flags (cond
+                ((and (string= command "git")
+                      (or (string= (cl-first flags) "merge")
+                          (string= (cl-first flags) "pull")))
+                 (cl-list* (cl-first flags)
+                           "--no-ff" "--no-commit"
+                           (cl-rest flags)))
+                (t flags))))
+    (list command file-or-list flags)))
+
+;; Ogranicz destrukcyjne działanie gita
+(setq vc-filter-command-function 'kaspi/vc-filter-command-function)

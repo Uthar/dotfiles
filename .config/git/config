@@ -1,22 +1,22 @@
 
 [core]
-    autocrlf = false
+  autocrlf = false
 
 [alias]
-	tim = log --all --color --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	l = log --all --color --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	up = checkout
-	ci = commit -a
-	me = merge --no-ff --no-commit
-	cle = clean -d -f
-	rev = restore .
-	sum = status
+	ci = commit
+	m = merge --no-ff --no-commit
+  p = pull --no-ff --no-commit
+	r = restore --staged --worktree .
+	s = status
 
 [user]
 	email = k@galkowski.xyz
 	name = Kasper Gałkowski
 
 [merge]
-    conflictStyle = diff3
+  conflictStyle = diff3
 
 [push]
 	default = current
