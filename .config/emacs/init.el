@@ -52,6 +52,7 @@
 (load "window-module")
 (load "scheme-module")
 (load "org-module")
+(load "rust-module")
 
 (load-theme 'modus-operandi)
 
