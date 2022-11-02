@@ -60,7 +60,8 @@
 ;; diff a/ b/ in eshell creates a diff-mode buffer
 ;; C-x v ~  - visits other revision of file in other window
 ;; M-x reverse-region : reverse order of lines in buffer
-;; C-x v M D - best vc command, show changes in one branch relative to another
+;; C-x v M D - best vc command, show CHANGES in one branch relative to another
+;; C-x v M L - best vc command, show COMMITS in one branch relative to another
 ;; aggressive-completion : autorefreshing in completions buffer
 ;; (global-)prettify-symbols-mode, makes it easy to have ligatures
 ;; M-x scratch-buffer - recreate *scratch*
