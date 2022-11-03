@@ -79,3 +79,20 @@
 
 (global-set-key (kbd "C-c l m") 'kaspi/back-to-indentation*)
 (global-set-key (kbd "M-M") 'kaspi/back-to-indentation*)
+
+(defun kaspi/kill-line* ()
+  (interactive)
+  (save-excursion
+    (goto-char (line-beginning-position))
+    (let ((kill-whole-line t))
+      (kill-line))))
+
+(global-set-key (kbd "C-c l k") 'kaspi/kill-line*)
+(global-set-key (kbd "C-S-k") 'kaspi/kill-line*)
+
+(defvar kaspi/kill-line-repeat-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "k" 'kaspi/kill-line*)
+    map))
+
+(put 'kaspi/kill-line* 'repeat-map 'kaspi/kill-line-repeat-map)
