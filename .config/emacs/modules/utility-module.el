@@ -74,7 +74,7 @@
 (defun kaspi/back-to-indentation* ()
   (interactive)
   (kill-region (point) (save-excursion
-                         (back-to-indentation)
+                         (search-forward-regexp "[ ]*")
                          (point))))
 
 (global-set-key (kbd "C-c l m") 'kaspi/back-to-indentation*)
