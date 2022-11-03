@@ -46,7 +46,8 @@
 
 (defun kaspi/copy-line ()
   (interactive)
-  (kill-ring-save (line-beginning-position) (line-end-position)))
+  (prog1 (kill-ring-save (line-beginning-position) (line-end-position))
+    (pulse-momentary-highlight-one-line)))
 
 (defvar kaspi/duplicate-line-repeat-map
   (let ((map (make-sparse-keymap)))
