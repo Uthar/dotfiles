@@ -19,6 +19,10 @@
 ;; (byte-recompile-directory +vendor-dir+ 0)
 ;; (byte-recompile-directory +module-dir+ 0)
 
+(defun kaspi/recompile-vendor-dir ()
+  (interactive)
+  (byte-recompile-directory +vendor-dir+ 0))
+
 (add-to-list 'load-path +module-dir+)
 
 (load "startup-module")
