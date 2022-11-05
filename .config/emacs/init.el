@@ -66,3 +66,4 @@
 ;; aggressive-completion : autorefreshing in completions buffer
 ;; (global-)prettify-symbols-mode, makes it easy to have ligatures
 ;; M-x scratch-buffer - recreate *scratch*
+;; C-x e  call kb macro
