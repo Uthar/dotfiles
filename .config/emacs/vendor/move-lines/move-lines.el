@@ -65,9 +65,6 @@ region, of N lines. Down if N is positive, up if is negative"
          swap-point-mark
          delete-latest-newline)
 
-    (when (eq ?\n (char-before))
-      (backward-char 1))
-
     ;; STEP 1: identifying the text to cut.
     (when (region-active-p)
       (if (> (point) (mark))
