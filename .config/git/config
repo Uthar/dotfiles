@@ -7,7 +7,7 @@
 	up = checkout
 	ci = commit
 	m = merge --no-ff --no-commit
-  p = pull --no-ff --no-commit
+  p = pull --no-commit
 	r = restore --staged --worktree .
 	s = status
 
