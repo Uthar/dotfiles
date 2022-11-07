@@ -15,6 +15,8 @@
 ;; which constantly calls VC commands.
 (setq vc-command-messages nil)
 
+(setq vc-annotate-background-mode nil)
+
 (with-eval-after-load 'vc-annotate
   ;; Make the v key in 'vc-annotation-mode' persist between revision
   ;; changes. Useful for "time machine" functionality, because there's
