@@ -71,10 +71,14 @@
 (defun kaspi/vc-filter-command-function (command file-or-list flags)
   (let ((flags (cond
                 ((and (string= command "git")
-                      (or (string= (cl-first flags) "merge")
-                          (string= (cl-first flags) "pull")))
+                      (string= (cl-first flags) "merge"))
                  (cl-list* (cl-first flags)
                            "--no-ff" "--no-commit"
+                           (cl-rest flags)))
+                ((and (string= command "git")
+                      (string= (cl-first flags) "pull"))
+                 (cl-list* (cl-first flags)
+                           "--no-commit"
                            (cl-rest flags)))
                 (t flags))))
     (list command file-or-list flags)))
