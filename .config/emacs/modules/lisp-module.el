@@ -16,4 +16,6 @@
 (setq eval-sexp-fu-flash-duration 0.2)
 (setq eval-sexp-fu-flash-face 'secondary-selection)
 
-
+;; CL-style indentation
+(put 'if 'lisp-indent-function 4)
+(put 'if-let 'lisp-indent-function 4)
