@@ -1099,24 +1099,7 @@ LIST is destructively modified."
     (reduce #'lcons list :initial-value llist :from-end t)))
 
 (defmethod emacs-inspect ((string string))
-  (%%prepend-list-to-llist
-   (list 
-    '(:label "Value: ")  `(:value ,string ,(concatenate 'string "\"" string "\""))  '(:newline)
-    (if (ignore-errors (jclass string))
-        `(:line "Names java class" ,(jclass string))
-        "")
-    #+abcl-introspect
-    (if (and (jss-p) 
-             (stringp (%%lookup-class-name string :return-ambiguous t :muffle-warning t)))
-        `(:line
-           "Abbreviates java class"
-           ,(let ((it (%%lookup-class-name string :return-ambiguous t :muffle-warning t)))
-              (jclass it)))
-        "")
-    (if (ignore-errors (find-package (string-upcase string)))
-        `(:line "Names package" ,(find-package (string-upcase string)))
-        ""))
-   (call-next-method)))
+  (call-next-method))
 
 #+#.(slynk-backend:with-symbol 'java-exception 'java)
 (defmethod emacs-inspect ((o java:java-exception))
