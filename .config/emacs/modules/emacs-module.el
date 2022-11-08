@@ -76,6 +76,9 @@
  ;; Don't display undo history overflow warnings
  warning-suppress-types '((undo discard-info))
 
+ ;; Auto open dired when switching projects
+ project-switch-commands 'project-dired)
+
  )
 
 ;; Space indentation
