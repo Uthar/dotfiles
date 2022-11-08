@@ -77,7 +77,7 @@
  warning-suppress-types '((undo discard-info))
 
  ;; Auto open dired when switching projects
- project-switch-commands 'project-dired)
+ project-switch-commands 'project-dired
 
  )
 
