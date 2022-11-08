@@ -18,5 +18,8 @@
 [merge]
   conflictStyle = diff3
 
+[init]
+  defaultBranch = trunk
+
 [push]
 	default = current
