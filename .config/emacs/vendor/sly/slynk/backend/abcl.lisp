@@ -1359,7 +1359,7 @@ LIST is destructively modified."
         `("No slots available for inspection."))))
 
 (defmethod emacs-inspect ((object sys::structure-class))
-  (let* ((name (jss::get-java-field object "name" t))
+  (let* ((name (class-name object))
          (def (get name  'system::structure-definition)))
     `((:label "Class: ") (:value ,object) (:newline)
       (:label "Raw defstruct definition: ") (:value ,def  ,(let ((*print-array* nil)) (prin1-to-string def))) (:newline)
@@ -1384,7 +1384,9 @@ LIST is destructively modified."
                   collect '(:newline)))))))
 
 (defun parts-for-structure-def-slot (def)
-  `((:label ,(string-downcase (sys::dsd-name def))) " reader: " (:value ,(sys::dsd-reader def) ,(string-downcase (string (sys::dsdreader def))))
+  `((:label ,(string-downcase (sys::dsd-name def))) 
+    " reader: " (:value ,(sys::dsd-reader def) 
+                         ,(string-downcase (string (sys::dsd-reader def))))
     ", index: " (:value ,(sys::dsd-index def))
     ,@(if (sys::dsd-initform def)
           `(", initform: " (:value ,(sys::dsd-initform def))))
