@@ -15,9 +15,9 @@
 ;; run much faster when compiled.
 ;;
 ;; For the smaller modules, this does not matter so much.
-;;
-;; (byte-recompile-directory +vendor-dir+ 0)
-;; (byte-recompile-directory +module-dir+ 0)
+(defun kaspi/recompile-vendor-dir ()
+  (interactive)
+  (byte-recompile-directory +vendor-dir+ 0))
 
 (add-to-list 'load-path +module-dir+)
 
@@ -52,15 +52,21 @@
 (load "window-module")
 (load "scheme-module")
 (load "org-module")
+(load "rust-module")
 
-(load-theme 'modus-operandi)
+(let ((hour (cl-nth-value 2 (decode-time))))
+  (if (<= 7 hour 20)
+      (load-theme 'modus-operandi)
+      (load-theme 'modus-vivendi)))
 
 ;; notes:
 
 ;; diff a/ b/ in eshell creates a diff-mode buffer
 ;; C-x v ~  - visits other revision of file in other window
 ;; M-x reverse-region : reverse order of lines in buffer
-;; C-x v M D - best vc command, show changes in one branch relative to another
+;; C-x v M D - best vc command, show CHANGES in one branch relative to another
+;; C-x v M L - best vc command, show COMMITS in one branch relative to another
 ;; aggressive-completion : autorefreshing in completions buffer
 ;; (global-)prettify-symbols-mode, makes it easy to have ligatures
 ;; M-x scratch-buffer - recreate *scratch*
+;; C-x e  call kb macro

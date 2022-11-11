@@ -46,7 +46,8 @@
 
 (defun kaspi/copy-line ()
   (interactive)
-  (kill-ring-save (line-beginning-position) (line-end-position)))
+  (prog1 (kill-ring-save (line-beginning-position) (line-end-position))
+    (pulse-momentary-highlight-one-line)))
 
 (defvar kaspi/duplicate-line-repeat-map
   (let ((map (make-sparse-keymap)))
@@ -73,8 +74,44 @@
 (defun kaspi/back-to-indentation* ()
   (interactive)
   (kill-region (point) (save-excursion
-                         (back-to-indentation)
+                         (search-forward-regexp "[ ]*")
                          (point))))
 
 (global-set-key (kbd "C-c l m") 'kaspi/back-to-indentation*)
 (global-set-key (kbd "M-M") 'kaspi/back-to-indentation*)
+
+(defun kaspi/kill-line* ()
+  (interactive)
+  (save-excursion
+    (goto-char (line-beginning-position))
+    (let ((kill-whole-line t))
+      (kill-line))))
+
+(global-set-key (kbd "C-c l k") 'kaspi/kill-line*)
+(global-set-key (kbd "C-S-k") 'kaspi/kill-line*)
+
+(defvar kaspi/kill-line-repeat-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "k" 'kaspi/kill-line*)
+    map))
+
+(put 'kaspi/kill-line* 'repeat-map 'kaspi/kill-line-repeat-map)
+
+(add-to-list 'load-path (concat +vendor-dir+ "move-lines"))
+(autoload 'move-lines-up "move-lines")
+(autoload 'move-lines-down "move-lines")
+
+(defvar kaspi/move-lines-repeat-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "p" 'move-lines-up)
+    (define-key map "n" 'move-lines-down)
+    map))
+
+(global-set-key (kbd "C-c l p") 'move-lines-up)
+(global-set-key (kbd "C-c l n") 'move-lines-down)
+
+(put 'move-lines-up 'repeat-map 'kaspi/move-lines-repeat-map)
+(put 'move-lines-down 'repeat-map 'kaspi/move-lines-repeat-map)
+
+
+  

@@ -15,6 +15,8 @@
 ;; which constantly calls VC commands.
 (setq vc-command-messages nil)
 
+(setq vc-annotate-background-mode nil)
+
 (with-eval-after-load 'vc-annotate
   ;; Make the v key in 'vc-annotation-mode' persist between revision
   ;; changes. Useful for "time machine" functionality, because there's
@@ -67,3 +69,21 @@
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode-unless-remote)
+
+(defun kaspi/vc-filter-command-function (command file-or-list flags)
+  (let ((flags (cond
+                ((and (string= command "git")
+                      (string= (cl-first flags) "merge"))
+                 (cl-list* (cl-first flags)
+                           "--no-ff" "--no-commit"
+                           (cl-rest flags)))
+                ((and (string= command "git")
+                      (string= (cl-first flags) "pull"))
+                 (cl-list* (cl-first flags)
+                           "--no-commit"
+                           (cl-rest flags)))
+                (t flags))))
+    (list command file-or-list flags)))
+
+;; Ogranicz destrukcyjne działanie gita
+(setq vc-filter-command-function 'kaspi/vc-filter-command-function)
