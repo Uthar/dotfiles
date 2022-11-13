@@ -27,8 +27,9 @@ make_ps1() {
   echo -n '\u@\h:\w '
   echo -n '$(git_branch)$(fossil_branch) '
   echo    '$(kube_ns)'
-  echo -n '$(nix_shell)\$ '
+  echo -n '$(nix_shell)'
   echo -n '\[\033[00m\]'
+  echo -n '\$ '
 }
 
 export PS1="$(make_ps1)"
