@@ -22,12 +22,10 @@ nix_shell() {
 }
 
 make_ps1() {
-    echo -n '\[\033[01m\]'
-    echo -n '\u@\h:\w '
-    echo -n '$(git_branch)$(fossil_branch) '
-    echo    '$(kube_ns)'
-    echo -n '$(nix_shell)\$ '
-    echo -n '\[\033[00m\]'
+  echo -n '\u@\h:\w '
+  echo -n '$(git_branch)$(fossil_branch) '
+  echo    '$(kube_ns)'
+  echo -n '$(nix_shell)\[\033[01m\]\$\[\033[00m\] '
 }
 
 export PS1="$(make_ps1)"
