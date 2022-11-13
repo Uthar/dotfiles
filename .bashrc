@@ -13,6 +13,7 @@ fossil_branch() {
 }
 
 kube_ns() {
+  [ -e ~/.kube/config ] || return;
   wrap_parens \
     kubectl config view --minify -o jsonpath='{..namespace}' 2> /dev/null
 }
