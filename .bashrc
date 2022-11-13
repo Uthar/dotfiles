@@ -43,12 +43,12 @@ alias f=fossil
 alias g=git
 alias x=exit
 alias l="ls -lah"
-alias ".."="cd .."
 alias e="emacs ."
 alias h=htop
 
 shopt -s checkwinsize
 shopt -s histappend
+shopt -s autocd
 stty -ixon -ixoff
 eval "$(direnv hook bash)"
 
