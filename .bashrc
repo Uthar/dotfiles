@@ -1,15 +1,20 @@
-
+wrap_parens () {
+  local text=`eval $@`
+  [ "$text" ] && echo -n "($text)"
+}
 
 git_branch() {
-  git branch --show-current 2> /dev/null
+  wrap_parens git branch --show-current 2> /dev/null
 }
 
 fossil_branch() {
-  fossil json branch list | jq -r '.payload.current | values'
+  wrap_parens \
+    "fossil json branch list | jq -r '.payload.current | values' 2> /dev/null"
 }
 
 kube_ns() {
-  kubectl config view --minify -o jsonpath='{..namespace}' 2> /dev/null
+  wrap_parens \
+    kubectl config view --minify -o jsonpath='{..namespace}' 2> /dev/null
 }
 
 nix_shell() {
@@ -17,7 +22,12 @@ nix_shell() {
 }
 
 make_ps1() {
-  echo '\u@\h:\w ($(git_branch)$(fossil_branch)) ($(kube_ns))\n$(nix_shell)\$ '
+    echo -n '\[\033[01m\]'
+    echo -n '\u@\h:\w '
+    echo -n '$(git_branch)$(fossil_branch) '
+    echo    '$(kube_ns)'
+    echo -n '$(nix_shell)\$ '
+    echo -n '\[\033[00m\]'
 }
 
 export PS1="$(make_ps1)"
