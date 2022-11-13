@@ -1,19 +1,23 @@
 
 
 git_branch() {
-    git branch --show-current 2> /dev/null
+  git branch --show-current 2> /dev/null
 }
 
 fossil_branch() {
-    fossil json branch list | jq -r '.payload.current | values'
+  fossil json branch list | jq -r '.payload.current | values'
 }
 
 kube_ns() {
-    kubectl config view --minify -o jsonpath='{..namespace}'
+  kubectl config view --minify -o jsonpath='{..namespace}' 2> /dev/null
+}
+
+nix_shell() {
+  [ $IN_NIX_SHELL ] && echo "(nix-shell)"
 }
 
 make_ps1() {
-    echo '\u@\h:\w ($(git_branch)$(fossil_branch)) ($(kube_ns))\n\$ '
+  echo '\u@\h:\w ($(git_branch)$(fossil_branch)) ($(kube_ns))\n$(nix_shell)\$ '
 }
 
 export PS1="$(make_ps1)"
