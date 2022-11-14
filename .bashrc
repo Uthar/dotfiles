@@ -26,9 +26,8 @@ make_ps1() {
   echo -n '\[\033[01;038;2;0;211;208m\]\u@\h\[\033[00m\]'
   echo -n '\[\033[01m\]:\[\033[00m\]'
   echo -n '\[\033[01;038;2;0;211;208m\]\w\[\033[00m\]'
-  echo -n '$(git_branch) '
-  echo -n '$(fossil_branch) '
-  echo -n '$(kube_ns)'
+  echo -n ' $(git_branch)$(fossil_branch)'
+  echo -n ' $(kube_ns)'
   echo
   echo -n '$(nix_shell)'
   echo -n '\[\033[01m\]\$\[\033[00m\] '
