@@ -1,19 +1,19 @@
 * Install
 
 #+BEGIN_SRC sh :results silent verbatim
-stow -v -d . -t ~/ gnu
+  stow gnu
 #+END_SRC
 
 #+BEGIN_SRC sh :results silent verbatim
-stow -v -d . -t ~/ kde
+  stow kde
 #+END_SRC
 
 * Uninstall
 
 #+BEGIN_SRC sh :results silent verbatim
-stow -D -v -d . -t ~/ gnu
+  stow -D gnu
 #+END_SRC
 
 #+BEGIN_SRC sh :results silent verbatim
-stow -D -v -d . -t ~/ kde
+  stow -D kde
 #+END_SRC
