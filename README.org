@@ -2,6 +2,9 @@
 
 #+BEGIN_SRC sh :results silent verbatim
 stow -v -d . -t ~/ gnu
+#+END_SRC
+
+#+BEGIN_SRC sh :results silent verbatim
 stow -v -d . -t ~/ kde
 #+END_SRC
 
@@ -9,5 +12,8 @@ stow -v -d . -t ~/ kde
 
 #+BEGIN_SRC sh :results silent verbatim
 stow -D -v -d . -t ~/ gnu
+#+END_SRC
+
+#+BEGIN_SRC sh :results silent verbatim
 stow -D -v -d . -t ~/ kde
 #+END_SRC
