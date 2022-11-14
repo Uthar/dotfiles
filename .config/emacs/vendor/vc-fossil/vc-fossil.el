@@ -510,7 +510,8 @@ This prompts for a branch to merge from."
 	     (rev1 (list "--from" rev1)))
 	    (vc-switches 'Fossil 'diff)))))
 
-;; - revision-completion-table (files)
+(defun vc-fossil-revision-completion-table (files)
+  (vc-fossil-branches))
 
 (defconst vc-fossil-annotate-re
   "\\([[:word:]]+\\)\\s-+\\([-0-9]+\\)\\s-+[0-9]+: ")
