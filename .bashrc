@@ -23,13 +23,13 @@ nix_shell() {
 }
 
 make_ps1() {
-  echo -n '\[\033[01;038;2;0;211;208m\]\u@\h\[\033[00m\]'
+  echo -n '\[\033[01;32m\]\u@\h\[\033[00m\]'
   echo -n '\[\033[01m\]:\[\033[00m\]'
-  echo -n '\[\033[01;038;2;0;211;208m\]\w\[\033[00m\]'
-  echo -n ' $(git_branch)$(fossil_branch)'
-  echo -n ' $(kube_ns)'
-  echo
-  echo -n '$(nix_shell)'
+  echo -n '\[\033[01;34m\]\w\[\033[00m\]'
+  echo -n ' \[\033[38;5;214m\]$(git_branch)$(fossil_branch)\[\033[00m\]'
+  echo -n ' \[\033[38;5;75m\]$(kube_ns)\[\033[00m\]'
+  echo -n '\n'
+  echo -n '\[\033[01;34m\]$(nix_shell)\[\033[00m\]'
   echo -n '\[\033[01m\]\$\[\033[00m\] '
 }
 
