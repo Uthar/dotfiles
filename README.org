@@ -1,0 +1,13 @@
+* Install
+
+#+BEGIN_SRC sh :results silent verbatim
+stow -v -d . -t ~/ gnu 2>&1
+stow -v -d . -t ~/ kde 2>&1
+#+END_SRC
+
+* Uninstall
+
+#+BEGIN_SRC sh :results silent verbatim
+stow -D -v -d . -t ~/ gnu 2>&1
+stow -D -v -d . -t ~/ kde 2>&1
+#+END_SRC
