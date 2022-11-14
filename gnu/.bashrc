@@ -48,6 +48,7 @@ alias f=fossil
 alias g=git
 alias x=exit
 alias l="ls -vlah --color=auto --group-directories-first"
+alias ls="ls --color=auto"
 alias e="emacs ."
 alias h=htop
 
