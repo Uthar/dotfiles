@@ -47,7 +47,7 @@ alias d=docker
 alias f=fossil
 alias g=git
 alias x=exit
-alias l="ls -lah"
+alias l="ls -lah --color=auto"
 alias e="emacs ."
 alias h=htop
 
