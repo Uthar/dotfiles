@@ -17,6 +17,10 @@
 (setq temp-buffer-max-height 15)
 (temp-buffer-resize-mode)
 
+;;;;;;;; Complete filenames with C-M-i
+
+(add-to-list 'completion-at-point-functions 'comint--complete-file-name-data)
+
 ;;;;;;;; Fix to screen jump in emacs 29-trunk
 
 (defun kaspi/minibuffer-choose-completion ()
