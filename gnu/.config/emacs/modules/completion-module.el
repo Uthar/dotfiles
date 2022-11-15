@@ -74,6 +74,11 @@
         'backward-delete-char-untabify)
   "Commands to trigger completion help after, whether in region or minibuffer")
 
+(defvar lcr-minibuffer-disabled-commands
+  (list 'query-replace
+        'query-replace-regexp)
+  "Minibuffer commands to not refresh completions for")
+
 (defun lcr-refresh ()
   (cond
    ((and (minibufferp)
