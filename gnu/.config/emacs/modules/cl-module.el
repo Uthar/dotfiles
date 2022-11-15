@@ -24,10 +24,7 @@
  ;; common-lisp-hyperspec-root "@clhs@/HyperSpec/"
  ;; common-lisp-hyperspec-symbol-table "@clhs@/HyperSpec/Data/Map_Sym.txt"
 
- ;; Company integration
- slime-company-completion 'fuzzy
- slime-company-major-modes '(lisp-mode slime-repl-mode)
- slime-contribs '(slime-asdf slime-company slime-quicklisp slime-fancy)
+ slime-contribs '(slime-asdf slime-quicklisp slime-fancy)
 
  )
 

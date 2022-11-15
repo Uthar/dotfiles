@@ -55,7 +55,6 @@
 (load "rust-module")
 (load "search-module")
 
-
 (let ((hour (cl-nth-value 2 (decode-time))))
   (if (<= 7 hour 20)
       (load-theme 'modus-operandi)
