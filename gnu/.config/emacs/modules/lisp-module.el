@@ -8,13 +8,30 @@
   (modify-syntax-entry ?\{ "(}" lisp-mode-syntax-table)
   (modify-syntax-entry ?\} "){" lisp-mode-syntax-table))
 
-;; Adds sexp flashing, a'la SLIME's C-c C-c, to other sexp evaluation commands
-(add-to-list 'load-path (concat +vendor-dir+ "eval-sexp-fu"))
-(autoload 'turn-on-eval-sexp-fu-flash-mode "eval-sexp-fu")
-(add-hook 'lisp-mode-hook 'turn-on-eval-sexp-fu-flash-mode)
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eval-sexp-fu-flash-mode)
-(setq eval-sexp-fu-flash-duration 0.2)
-(setq eval-sexp-fu-flash-face 'secondary-selection)
+;;;; Adds sexp flashing, a'la SLIME's C-c C-c, to other sexp evaluation commands
+
+(defun kaspi/flash-defun (&rest _)
+  (let ((beginning
+         (save-excursion
+           (unless (eql (char-after) ?\()
+             (beginning-of-defun))
+           (point))))
+    (pulse-momentary-highlight-region
+     beginning
+     (save-excursion
+       (goto-char beginning)
+       (forward-sexp)
+       (point)))))
+
+(defun kaspi/flash-last-sexp (&rest _)
+  (pulse-momentary-highlight-region
+   (save-excursion
+     (backward-sexp)
+     (point))
+   (point)))
+
+(advice-add 'eval-last-sexp :after 'kaspi/flash-last-sexp)
+(advice-add 'eval-defun :after 'kaspi/flash-defun)
 
 ;; CL-style indentation
 (put 'if 'lisp-indent-function 4)
