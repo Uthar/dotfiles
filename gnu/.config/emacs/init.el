@@ -38,7 +38,7 @@
 (load "diff-module")
 (load "recentf-module")
 (load "utility-module")
-(load "company-module")
+(load "completion-module")
 (load "markdown-module")
 (load "wgrep-module")
 (load "todo-module")
