@@ -27,7 +27,7 @@
     (completion-in-region-mode -1)))
 
 (define-key completion-in-region-mode-map
-            (kbd "M-RET")
+            (kbd "RET")
             'kaspi/minibuffer-choose-completion)
 
 ;;;;;;;; Add file CAPF
@@ -41,7 +41,7 @@
 (defun kaspi/minibuffer-end-completion ()
   (interactive)
   ;; Now really insert the completion into the minibuffer
-  ;; Previously I just select it for the visual aspect
+  ;; Previously I just "select" it for the visual aspect
   (when (get-buffer-window (get-buffer "*Completions*"))
     (minibuffer-previous-completion)
     (minibuffer-next-completion))
@@ -51,11 +51,12 @@
             (kbd "RET")
             'kaspi/minibuffer-end-completion)
 
-;;;;;;;; Force select current text and exit
+;;;;;;;; Same for in-buffer completion
 
-;; (define-key minibuffer-local-must-match-map
-;;             (kbd "M-j")
-;;             'minibuffer-complete-and-exit)
+(advice-add 'completion-at-point
+            :after
+            (lambda (&rest _) (minibuffer-next-completion))
+            '((name . next-completion)))
 
 ;;;;;;;; Switch to completions shortcut
 
@@ -66,23 +67,6 @@
 
 (defvar lcr-timer nil)
 (defvar lcr-delay 0.01)
-
-;; (defvar lcr-minibuffer-commands
-;;   (list 'execute-extended-command
-;;         'switch-to-buffer
-;;         'find-file
-;;         'hexl-find-file
-;;         'describe-function
-;;         'describe-variable
-;;         'recentf
-;;         'recentf-open
-;;         'rename-file)
-;;   "Commands to allow refreshing completions after when in the minibuffer")
-
-(defvar lcr-minibuffer-disabled-commands
-  (list 'query-replace
-        'query-replace-regexp)
-  "Minibuffer commands to not refresh completions for")
 
 (defvar lcr-commands
   (list 'self-insert-command
@@ -103,14 +87,11 @@
     (minibuffer-next-completion))))
 
 (defun lcr-after-change (&rest _)
-  ;; (message "minibuffer entered from %s" current-minibuffer-command)
   (when lcr-timer
     (cancel-timer lcr-timer))
-  ;; (message "this-command %s" this-command)
   (when (and (memq this-command lcr-commands)
              (or completion-in-region-mode
                  (minibufferp)))
-    ;; (message "going after %s" this-command)
     (setf lcr-timer (run-at-time lcr-delay nil 'lcr-refresh))))
 
 (define-minor-mode global-lcr-mode
@@ -122,26 +103,10 @@
    (t
     (remove-hook 'post-command-hook 'lcr-after-change))))
 
-;; (advice-add 'completion-at-point
-;;             :after
-;;             (lambda (&rest _) (minibuffer-next-completion))
-;;             '((name . next-completion)))
+(add-hook 'after-init-hook 'global-lcr-mode)
 
-;;             
-;; (advice-remove 'completion-at-point 'next-completion)
+(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
 
-;; (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;; (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-
-
-
-;; (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;; (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;; (define-key minibuffer-mode-map (kbd "M-c") 'switch-to-completions)
-
-;; (define-key minibuffer-local-must-match-map (kbd "RET") 'kaspi/minibuffer-choose-completion)
-
-
-
-
-;; (add-hook 'after-init-hook 'global-lcr-mode)
+(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
