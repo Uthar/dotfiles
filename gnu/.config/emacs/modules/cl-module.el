@@ -71,5 +71,7 @@
 (autoload 'sly "sly" "" t)
 (setq sly-symbol-completion-mode nil)
 (setq sly-complete-symbol-function 'sly-simple-completions)
-(add-to-list 'sly-contribs 'sly-asdf)
+(with-eval-after-load 'sly
+  (add-to-list 'sly-contribs 'sly-asdf)
+  (add-to-list 'sly-contribs 'sly-stepper))
 
