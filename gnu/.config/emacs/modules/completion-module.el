@@ -11,6 +11,7 @@
 (setopt read-file-name-completion-ignore-case t)
 
 (add-to-list 'completion-styles 'flex)
+(setq completion-category-overrides '((file (styles basic partial-completion))))
 
 ;;;;;;;; Limit completions buffer size
 
