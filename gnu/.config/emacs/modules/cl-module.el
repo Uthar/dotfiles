@@ -70,4 +70,5 @@
 (add-to-list 'load-path (concat +vendor-dir+ "sly"))
 (autoload 'sly "sly" "" t)
 (setq sly-symbol-completion-mode nil)
+(setq sly-complete-symbol-function 'sly-simple-completions)
 
