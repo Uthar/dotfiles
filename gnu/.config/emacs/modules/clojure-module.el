@@ -7,8 +7,7 @@
   (add-hook 'cider-connected-hook 'cider-repl-clear-buffer)
   (require 'cider-macroexpansion)
   (require 'cider-xref))
-(autoload 'slime-random-words-of-encouragement "slime")
-(setq cider-connection-message-fn 'slime-random-words-of-encouragement)
+(setq cider-connection-message-fn (cl-constantly '("Are we consing yet?")))
 (setq cider-repl-display-help-banner nil)
 (setq cider-offer-to-open-cljs-app-in-browser nil)
 (setq cider-show-error-buffer 'except-in-repl)
@@ -22,7 +21,6 @@
 
 (add-to-list 'load-path (concat +vendor-dir+ "cider"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/clojure-mode"))
-(add-to-list 'load-path (concat +vendor-dir+ "cider/lib/cider-eval-sexp-fu"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/parseclj"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/parseedn"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/queue"))
@@ -48,6 +46,3 @@
 (autoload 'clojurescript-mode "clojure-mode" "" t)
 (autoload 'clojurec-mode "clojure-mode" "" t)
 
-(add-to-list 'load-path (concat +vendor-dir+ "cider-eval-sexp-fu"))
-(with-eval-after-load 'cider
-  (require 'cider-eval-sexp-fu))

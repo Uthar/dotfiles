@@ -13,8 +13,8 @@
 (defun kaspi/flash-defun (&rest _)
   (let ((beginning
          (save-excursion
-           (unless (eql (char-after) ?\()
-             (beginning-of-defun))
+           (end-of-defun)
+           (beginning-of-defun)
            (point))))
     (pulse-momentary-highlight-region
      beginning
