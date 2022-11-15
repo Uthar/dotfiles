@@ -45,7 +45,7 @@
   (when (get-buffer-window (get-buffer "*Completions*"))
     (minibuffer-previous-completion)
     (minibuffer-next-completion))
-  (minibuffer-complete-and-exit))
+  (exit-minibuffer))
 
 (define-key minibuffer-local-must-match-map
             (kbd "RET")
@@ -81,10 +81,14 @@
 (defvar lcr-minibuffer-disabled-commands
   (list 'query-replace
         'query-replace-regexp
-        'shell-command)
+        'shell-command
+        'dired-create-directory
+        'make-empty-file
+        nil)
   "Minibuffer commands to not refresh completions for")
 
 (defun lcr-refresh ()
+  ;; (message "lcr-refresh in %s" current-minibuffer-command)
   (cond
    ((and (minibufferp)
          (not (memq current-minibuffer-command
