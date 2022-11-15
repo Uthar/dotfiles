@@ -22,7 +22,6 @@
 
 (add-to-list 'load-path (concat +vendor-dir+ "cider"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/clojure-mode"))
-(add-to-list 'load-path (concat +vendor-dir+ "cider/lib/cider-eval-sexp-fu"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/parseclj"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/parseedn"))
 (add-to-list 'load-path (concat +vendor-dir+ "cider/lib/queue"))
@@ -48,6 +47,3 @@
 (autoload 'clojurescript-mode "clojure-mode" "" t)
 (autoload 'clojurec-mode "clojure-mode" "" t)
 
-(add-to-list 'load-path (concat +vendor-dir+ "cider-eval-sexp-fu"))
-(with-eval-after-load 'cider
-  (require 'cider-eval-sexp-fu))
