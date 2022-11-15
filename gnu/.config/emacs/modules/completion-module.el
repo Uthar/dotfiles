@@ -51,6 +51,10 @@
             (kbd "RET")
             'kaspi/minibuffer-end-completion)
 
+(define-key minibuffer-local-completion-map
+            (kbd "RET")
+            'kaspi/minibuffer-end-completion)
+
 ;;;;;;;; Same for in-buffer completion
 
 (advice-add 'completion-at-point
@@ -76,7 +80,8 @@
 
 (defvar lcr-minibuffer-disabled-commands
   (list 'query-replace
-        'query-replace-regexp)
+        'query-replace-regexp
+        'shell-command)
   "Minibuffer commands to not refresh completions for")
 
 (defun lcr-refresh ()
