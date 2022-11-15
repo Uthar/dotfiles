@@ -66,3 +66,8 @@
 (autoload 'slime "slime" "" t)
 (autoload 'slime-connect "slime" "" t)
 (autoload 'slime-selector "slime" "" t)
+
+(add-to-list 'load-path (concat +vendor-dir+ "sly"))
+(autoload 'sly "sly" "" t)
+(setq sly-symbol-completion-mode nil)
+

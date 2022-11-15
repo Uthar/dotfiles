@@ -205,7 +205,7 @@ COMPLETIONS is a list of propertized strings."
            (add-text-properties 0
                                 (length completion)
                                 `(sly--annotation
-                                  ,(format "%s %5.2f%%"
+                                  ,(format "\t\t\t\t\t%s %5.2f%%"
                                            classification
                                            (* score 100))
                                   sly--suggestion
