@@ -15,7 +15,7 @@
 
 ;;;;;;;; Limit completions buffer size
 
-(setq temp-buffer-max-height 15)
+(setq temp-buffer-max-height 12)
 (temp-buffer-resize-mode)
 
 ;;;;;;;; Complete filenames with C-M-i
