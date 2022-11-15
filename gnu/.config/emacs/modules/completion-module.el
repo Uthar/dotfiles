@@ -19,8 +19,8 @@
 
 ;;;;;;;; Complete filenames with C-M-i
 
-(autoload 'comint--complete-file-name-data "comint")
-(add-to-list 'completion-at-point-functions 'comint--complete-file-name-data)
+(autoload 'comint-filename-completion "comint")
+(add-to-list 'completion-at-point-functions 'comint-filename-completion)
 
 ;;;;;;;; Fix to screen jump in emacs 29-trunk
 
