@@ -53,6 +53,8 @@
 (load "scheme-module")
 (load "org-module")
 (load "rust-module")
+(load "search-module")
+
 
 (let ((hour (cl-nth-value 2 (decode-time))))
   (if (<= 7 hour 20)

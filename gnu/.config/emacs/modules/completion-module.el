@@ -19,6 +19,7 @@
 
 ;;;;;;;; Complete filenames with C-M-i
 
+(autoload 'comint--complete-file-name-data "comint")
 (add-to-list 'completion-at-point-functions 'comint--complete-file-name-data)
 
 ;;;;;;;; Fix to screen jump in emacs 29-trunk
@@ -33,12 +34,6 @@
 (define-key completion-in-region-mode-map
             (kbd "RET")
             'kaspi/minibuffer-choose-completion)
-
-;;;;;;;; Add file CAPF
-
-(add-to-list 'load-path (concat +vendor-dir+ "cape"))
-(autoload 'cape-file "cape")
-(add-to-list 'completion-at-point-functions 'cape-file)
 
 ;;;;;;;; Select first candidate or minibuffer contents in minibuffer completion
 
