@@ -61,3 +61,14 @@
   (interactive)
   (kaspi/with-sensible-directory
    (kaspi/%live-compile 'kaspi/rg)))
+
+;; Writeable grep
+(add-to-list 'load-path (concat +vendor-dir+ "wgrep"))
+
+(setq wgrep-change-readonly-file t)
+(setq wgrep-auto-save-buffer t)
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode))
+
+(autoload 'wgrep-change-to-wgrep-mode "wgrep" "" t)
