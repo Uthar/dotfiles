@@ -55,10 +55,10 @@
         ("rss"
          :base-directory "~/blog/posts/"
          :base-extension "org"
-         :html-link-home "https://blog.galkowski.xyz/"
+         :html-link-home "https://galkowski.dev/"
          :html-link-use-abs-url t
          :rss-extension "xml"
-         :rss-image-url "https://blog.galkowski.xyz/images/alien.png"
+         :rss-image-url "https://galkowski.dev/images/alien.png"
          :publishing-directory "/ssh:jazajuk:/srv/blog/"
          :publishing-function (org-rss-publish-to-rss)
          :section-numbers nil
