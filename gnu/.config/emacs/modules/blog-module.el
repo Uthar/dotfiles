@@ -2,6 +2,7 @@
 
 (add-to-list 'load-path (concat +vendor-dir+ "org"))
 (autoload 'org-rss-publish-to-rss "ox-rss")
+(autoload 'org-publish-all "org"  "" t)
 
 (defun kaspi/format-rss-feed (title list)
   (concat "#+TITLE: " title "\n\n"
