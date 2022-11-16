@@ -26,7 +26,6 @@
 (load "games-module")
 (load "emacs-module")
 (load "disabled-commands-module")
-(load "consult-module")
 (load "lisp-module")
 (load "keys-module")
 (load "cl-module")
