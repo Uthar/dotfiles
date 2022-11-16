@@ -8,10 +8,16 @@
   (concat "#+TITLE: " title "\n\n"
           (org-list-to-subtree list nil '(:istart ""))))
 
+(defun kaspi/org-find-property (file property project)
+  (thread-last
+    (org-publish-find-property file property project)
+    (org-element-interpret-data)
+    (org-no-properties)))
+
 (defun kaspi/format-rss-entry (entry style project)
-  (let ((title (org-publish-find-title entry project))
-        (date (cl-first (org-publish-find-property entry :date project)))
-        (author (cl-first (org-publish-find-property entry :author project)))
+  (let ((title (kaspi/org-find-property entry :title project))
+        (date (kaspi/org-find-property entry :date project))
+        (author (kaspi/org-find-property entry :author project))
         (link (concat (file-name-sans-extension entry) ".html")))
     (with-temp-buffer
       (insert (format "* [[file:%s][%s]]\n" entry title))
