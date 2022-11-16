@@ -52,7 +52,7 @@
                      (postamble "footer" "postamble"))
          :html-doctype "html5"
          :html-html5-fancy t
-         :html-self-link-headlines t
+         :html-self-link-headlines nil
          :html-validation-link nil)
         ("rss"
          :base-directory "~/blog/posts/"
