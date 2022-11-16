@@ -39,3 +39,17 @@
 (put 'windmove-left 'repeat-map 'kaspi/window-repeat-map)                   
 (put 'windmove-down 'repeat-map 'kaspi/window-repeat-map)                   
 (put 'windmove-up 'repeat-map 'kaspi/window-repeat-map)                     
+
+
+(defvar kaspi/*saved-window-configuration* nil)
+
+(defun kaspi/save-window-configuration ()
+  (interactive)
+  (setq kaspi/*saved-window-configuration* (current-window-configuration)))
+
+(defun kaspi/restore-window-configuration ()
+  (interactive)
+  (set-window-configuration kaspi/*saved-window-configuration*))
+
+(global-set-key (kbd "C-c w s") 'kaspi/save-window-configuration)
+(global-set-key (kbd "C-c w r") 'kaspi/restore-window-configuration)
