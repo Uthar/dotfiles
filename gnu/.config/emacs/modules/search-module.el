@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(defun kaspi/call-for-live-compile (fn)
+(defun kaspi/%call-for-live-compile (fn)
   (lambda ()
     (let ((contents (minibuffer-contents)))
       (when (and (minibufferp)
@@ -8,48 +8,56 @@
                  (memq this-command lcr-commands))
         (funcall fn contents)))))
 
-(defun kaspi/live-compile (query fn)
-  (interactive)
-  (let ((hook (kaspi/call-for-live-compile fn)))
+(defun kaspi/%live-compile (fn)
+  (let* ((input-hook (kaspi/%call-for-live-compile fn))
+         (buffer-name (format "*%s*" (symbol-name fn)))
+         (query (format "%s for: " (symbol-name fn))))
     ;; compile mode has hard coded sleep after command termination
     (advice-add 'sit-for :override (cl-constantly nil) '((name . noop)))
     (setopt compilation-always-kill t)
-    (add-hook 'post-command-hook hook)
+    (add-hook 'post-command-hook input-hook)
     (unwind-protect
-        (let ((inhibit-message t))
-          (read-string query))
-      (remove-hook 'post-command-hook hook)
+        (let* ((inhibit-message t))
+          (read-string query)
+          (select-window (get-buffer-window buffer-name)))
+      (remove-hook 'post-command-hook input-hook)
       (setopt compilation-always-kill nil)
       (advice-remove 'sit-for 'noop))))
 
-(defvar fd-last-buffer nil)
-
-(defvar fd-regexp-alist
+(defvar kaspi/fd-regexp-alist
   '(("^\\(.+\\)$" 1)))
 
-(require 'compile)
-(require 'dired)
-
-(define-compilation-mode fd-mode "fd"
+(define-derived-mode kaspi/fd-mode grep-mode "Fd"
   "Mode to find files with the fd program"
-  (setq fd-last-buffer (current-buffer))
-  (setq-local compilation-error-regexp-alist
-              fd-regexp-alist)
-  (setq-local compilation-error-face
-              dired-symlink-face))
+  (setq-local compilation-error-regexp-alist kaspi/fd-regexp-alist))
+
+(define-derived-mode kaspi/rg-mode grep-mode "Rg"
+  "Mode to search files with the rg program")
 
 (defun kaspi/fd (regex)
-  (interactive)
-  (compilation-start (format "fd --color=never %s" regex) #'fd-mode))
-
-(defun kaspi/fd2 ()
-  (interactive)
-  (kaspi/live-compile "find file: " 'kaspi/fd))
+  (compilation-start (format "fd -H -c never %s" regex) #'kaspi/fd-mode))
 
 (defun kaspi/rg (regex)
-  (interactive)
-  (rg regex "all" default-directory))
+  (compilation-start (format "rg --no-heading -nH %s" regex) #'kaspi/rg-mode))
 
-(defun kaspi/rg2 ()
+(defun kaspi/sensible-directory ()
+  (cond (current-prefix-arg (read-directory-name "Dir: "))
+        ((project-current) (project-root (project-current)))
+        (t default-directory)))
+
+(defun kaspi/call-with-sensible-directory (fn &rest args)
+  (let ((default-directory (kaspi/sensible-directory)))
+    (apply fn args)))
+
+(cl-defmacro kaspi/with-sensible-directory (&body body)
+  `(kaspi/call-with-sensible-directory (lambda () ,@body)))
+  
+(defun kaspi/live-fd ()
   (interactive)
-  (kaspi/live-compile "grep for: " 'kaspi/rg))
+  (kaspi/with-sensible-directory
+   (kaspi/%live-compile 'kaspi/fd)))
+
+(defun kaspi/live-rg ()
+  (interactive)
+  (kaspi/with-sensible-directory
+   (kaspi/%live-compile 'kaspi/rg)))
