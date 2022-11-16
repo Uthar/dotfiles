@@ -41,7 +41,8 @@
          :html-head-include-default-style nil
          :html-head-extra "
            <link rel=\"stylesheet\" href=\"files/blog.css\">
-           <link rel=\"icon\" type=\"image/svg+xml\" href=\"images/alien.svg\"/>
+           <link rel=\"icon\" type=\"image/svg+xml\" href=\"images/alien.svg\">
+           <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS feed\" href=\"index.xml\">
          "
          :html-link-up "/index.html"
          :html-link-home "/index.html"
