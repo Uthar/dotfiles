@@ -230,7 +230,7 @@ communication channel."
 	      ;; Only consider first-level headlines
 	      (> (org-export-get-relative-level headline info) 1))
     (let* ((author (and (plist-get info :with-author)
-			(let ((auth (plist-get info :author)))
+			(let ((auth (org-element-property :AUTHOR headline)))
 			  (and auth (org-export-data auth info)))))
 	   (htmlext (plist-get info :html-extension))
 	   (hl-number (org-export-get-headline-number headline info))
@@ -272,7 +272,7 @@ communication channel."
 	  "<item>\n"
 	  "<title>%s</title>\n"
 	  "<link>%s</link>\n"
-	  "<author>%s</author>\n"
+	  "<dc:creator>%s</dc:creator>\n"
 	  "<guid isPermaLink=\"false\">%s</guid>\n"
 	  "<pubDate>%s</pubDate>\n"
 	  (org-rss-build-categories headline info) "\n"
@@ -344,7 +344,6 @@ as a communication channel."
 <pubDate>%s</pubDate>
 <lastBuildDate>%s</lastBuildDate>
 <generator>%s</generator>
-<webMaster>%s (%s)</webMaster>
 <image>
 <url>%s</url>
 <title>%s</title>
@@ -356,7 +355,7 @@ as a communication channel."
 		     emacs-major-version
 		     emacs-minor-version)
 	     " Org-mode " (org-version))
-     email author image title blogurl)))
+      image title blogurl)))
 
 (defun org-rss-section (section contents info)
   "Transcode SECTION element into RSS format.

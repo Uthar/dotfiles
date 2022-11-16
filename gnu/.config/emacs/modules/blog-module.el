@@ -11,15 +11,17 @@
 (defun kaspi/format-rss-entry (entry style project)
   (let ((title (org-publish-find-title entry project))
         (date (cl-first (org-publish-find-property entry :date project)))
+        (author (cl-first (org-publish-find-property entry :author project)))
         (link (concat (file-name-sans-extension entry) ".html")))
     (with-temp-buffer
       (insert (format "* [[file:%s][%s]]\n" entry title))
       (org-set-property "CUSTOM_ID" (string-replace " " "_" title))
-      (org-set-property "RSS_PERMALINK" link)
+      (org-set-property "RSS_PERMALINK" (url-encode-url link))
       (org-set-property "RSS_TITLE" title)
       (org-set-property "PUBDATE" date)
+      (org-set-property "AUTHOR" author)
       (buffer-string))))
-       
+
 (setq org-publish-project-alist
       '(("posts"
          :base-directory "~/blog/posts/"
@@ -60,7 +62,7 @@
          :rss-extension "xml"
          :rss-image-url "https://galkowski.dev/images/alien.png"
          :publishing-directory "/ssh:jazajuk:/srv/blog/"
-         :publishing-function (org-rss-publish-to-rss)
+         :publishing-function org-rss-publish-to-rss
          :section-numbers nil
          :exclude ".*"            ;; To exclude all files...
          :include ("index.org")   ;; ... except index.org.
@@ -75,4 +77,4 @@
          :base-extension "css"
          :publishing-directory "/ssh:jazajuk:/srv/blog/files/"
          :publishing-function org-publish-attachment)
-        ("blog" :components ("posts" "images" "files"))))
+        ("blog" :components ("posts" "rss" "images" "files"))))
