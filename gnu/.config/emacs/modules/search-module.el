@@ -4,6 +4,7 @@
   (lambda ()
     (let ((contents (minibuffer-contents)))
       (when (and (minibufferp)
+                 (= 1 (minibuffer-depth))
                  (not (string-empty-p contents))
                  (memq this-command lcr-commands))
         (funcall fn contents)))))
