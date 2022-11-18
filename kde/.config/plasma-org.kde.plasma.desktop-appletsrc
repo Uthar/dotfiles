@@ -27,6 +27,7 @@ ToolBoxButtonX=559
 Image=file:///usr/share/wallpapers/Next/contents/images/1920x1080.jpg
 
 [Containments][26]
+ItemGeometriesHorizontal=
 activityId=2dba67e6-08a6-42e9-b6f9-008aeabbc3aa
 formfactor=0
 immutability=1
@@ -42,6 +43,8 @@ PreloadWeight=10
 Image=file:///usr/share/wallpapers/Next/contents/images/1920x1080.jpg
 
 [Containments][27]
+ItemGeometries-1920x1080=
+ItemGeometriesHorizontal=
 activityId=2dba67e6-08a6-42e9-b6f9-008aeabbc3aa
 formfactor=0
 immutability=1
@@ -73,6 +76,7 @@ plugin=org.kde.plasma.kickoff
 PreloadWeight=100
 
 [Containments][29][Applets][30][Configuration][General]
+favorites=preferred://browser,org.kde.discover.desktop,org.kde.kontact.desktop,org.kde.kate.desktop,libreoffice-startcenter.desktop,org.kde.dolphin.desktop,org.kde.plasma-systemmonitor.desktop,systemsettings.desktop,org.kde.konsole.desktop
 favoritesPortedToKAstats=true
 
 [Containments][29][Applets][30][Configuration][Shortcuts]
@@ -88,6 +92,9 @@ plugin=org.kde.plasma.pager
 [Containments][29][Applets][31][Configuration]
 PreloadWeight=34
 
+[Containments][29][Applets][31][Configuration][General]
+showWindowIcons=true
+
 [Containments][29][Applets][33]
 immutability=1
 plugin=org.kde.plasma.marginsseparator
@@ -100,7 +107,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][29][Applets][34][Configuration]
-PreloadWeight=39
+PreloadWeight=100
 SystrayContainmentId=35
 
 [Containments][29][Applets][47]
@@ -108,7 +115,7 @@ immutability=1
 plugin=org.kde.plasma.digitalclock
 
 [Containments][29][Applets][47][Configuration]
-PreloadWeight=34
+PreloadWeight=49
 
 [Containments][29][Applets][48]
 immutability=1
@@ -163,7 +170,7 @@ immutability=1
 plugin=org.kde.plasma.kickoff
 
 [Containments][3][Applets][4][Configuration]
-PreloadWeight=84
+PreloadWeight=92
 
 [Containments][3][Applets][4][Configuration][ConfigDialog]
 DialogHeight=540
@@ -222,7 +229,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][3][Applets][8][Configuration]
-PreloadWeight=76
+PreloadWeight=73
 SystrayContainmentId=9
 
 [Containments][3][ConfigDialog]
@@ -277,7 +284,7 @@ immutability=1
 plugin=org.kde.plasma.volume
 
 [Containments][35][Applets][40][Configuration]
-PreloadWeight=34
+PreloadWeight=44
 
 [Containments][35][Applets][41]
 immutability=1
@@ -333,7 +340,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][35][Applets][50][Configuration]
-PreloadWeight=34
+PreloadWeight=89
 
 [Containments][35][Applets][51]
 immutability=1
@@ -341,6 +348,13 @@ plugin=org.kde.plasma.bluetooth
 
 [Containments][35][Applets][51][Configuration]
 PreloadWeight=34
+
+[Containments][35][Applets][56]
+immutability=1
+plugin=org.kde.plasma.mediacontroller
+
+[Containments][35][Applets][56][Configuration]
+PreloadWeight=10
 
 [Containments][35][Configuration]
 PreloadWeight=34
@@ -443,14 +457,14 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][9][Applets][24][Configuration]
-PreloadWeight=76
+PreloadWeight=18
 
 [Containments][9][Applets][25]
 immutability=1
 plugin=org.kde.plasma.bluetooth
 
 [Containments][9][Applets][25][Configuration]
-PreloadWeight=55
+PreloadWeight=0
 
 [Containments][9][Applets][26]
 immutability=1
@@ -473,7 +487,4 @@ knownItems=org.kde.plasma.clipboard,org.kde.plasma.vault,org.kde.kupapplet,org.k
 
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=desktop:/meme.jpg,0,desktop:/temporary_workarounds.jpg,0
-
-[Containments][29][Applets][31][Configuration][General]
-showWindowIcons=true
+screenMapping=desktop:/temporary_workarounds.jpg,0,desktop:/meme.jpg,0
