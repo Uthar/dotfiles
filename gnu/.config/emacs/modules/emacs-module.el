@@ -129,6 +129,9 @@
     ;; Repeatable undo, other-window etc.
     (repeat-mode)
 
+    ;; Override selected text on yank and insert
+    (delete-selection-mode)
+
     ))
 
 ;; Add executable bit when shebang detected.
