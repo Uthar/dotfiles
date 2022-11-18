@@ -39,7 +39,7 @@
   (compilation-start (format "fd -H -c never %s" regex) #'kaspi/fd-mode))
 
 (defun kaspi/rg (regex)
-  (compilation-start (format "rg --no-heading -nH %s" regex) #'kaspi/rg-mode))
+  (compilation-start (format "rg --hidden --no-heading -nH %s" regex) #'kaspi/rg-mode))
 
 (defun kaspi/sensible-directory ()
   (cond (current-prefix-arg (read-directory-name "Dir: "))
