@@ -24,7 +24,31 @@
  ;; common-lisp-hyperspec-root "@clhs@/HyperSpec/"
  ;; common-lisp-hyperspec-symbol-table "@clhs@/HyperSpec/Data/Map_Sym.txt"
 
- slime-contribs '(slime-asdf slime-quicklisp slime-fancy)
+ slime-contribs
+ '(
+   slime-asdf
+   slime-autodoc
+   slime-banner
+   slime-compiler-notes-tree
+   slime-editing-commands
+   slime-fancy-inspector
+   slime-fancy-trace
+   slime-fontifying-fu
+   slime-indentation
+   slime-macrostep
+   slime-mdot-fu
+   slime-mrepl
+   slime-package-fu
+   slime-presentations
+   slime-quicklisp
+   slime-references
+   slime-repl
+   slime-scratch
+   slime-sprof
+   slime-trace-dialog
+   slime-tramp
+   slime-xref-browser
+   )
 
  )
 

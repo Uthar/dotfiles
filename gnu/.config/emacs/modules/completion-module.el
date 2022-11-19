@@ -36,6 +36,10 @@
             (kbd "RET")
             'kaspi/minibuffer-choose-completion)
 
+(define-key completion-in-region-mode-map
+            (kbd "M-RET")
+            'kaspi/minibuffer-choose-completion)
+
 ;;;;;;;; Select first candidate or minibuffer contents in minibuffer completion
 
 (defun kaspi/minibuffer-end-completion ()
