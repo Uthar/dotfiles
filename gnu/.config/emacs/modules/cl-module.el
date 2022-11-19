@@ -54,15 +54,17 @@
 
 (global-set-key (kbd "C-c s") 'slime-selector)
 
+(defun kaspi/slime-capf ()
+  (let* ((end (move-marker (make-marker) (slime-symbol-end-pos)))
+         (beg (move-marker (make-marker) (slime-symbol-start-pos)))
+         (completion-result (slime-contextual-completions beg end))
+         (completion-set (cl-first completion-result)))
+    (list beg (max (point) end) completion-set)))
+
 (with-eval-after-load 'slime
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
-  (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup))
-
-;; Disable annoying tab completion buffers. (I prefer to explicitly C-M-I)
-;; Careful: both 'slime-repl' and 'inferior-slime' set this.
-;; With M-x 'slime' this is enough because only 'slime-repl' is loaded.
-;; Probably wouldn't work if using comint (but who would want to?).
-(add-hook 'slime-repl-mode-hook (lambda () (setq-local tab-always-indent t)))
+  (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
+  (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf))
 
 (with-eval-after-load 'slime-repl
   (defslime-repl-shortcut nil ("delete-package" "dp")
