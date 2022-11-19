@@ -79,6 +79,10 @@
  ;; Auto open dired when switching projects
  project-switch-commands 'project-dired
 
+ ;; Don't visit uninteresting buffers when switching
+ switch-to-prev-buffer-skip-regexp
+ (regexp-opt '("*inferior-lisp*"))
+
  )
 
 ;; Space indentation
