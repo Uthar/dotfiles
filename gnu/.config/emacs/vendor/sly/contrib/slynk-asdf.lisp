@@ -95,9 +95,7 @@ Record compiler notes signalled as `compiler-condition's."
   "Returns a list of all systems in ASDF's central registry
 AND in its source-registry. (legacy name)"
   (unique-string-list
-   (mapcar
-    #'pathname-name
-    (while-collecting (c)
+   (while-collecting (c)
                       (loop for dir in asdf:*central-registry*
                          for defaults = (eval dir)
                          when defaults
@@ -112,7 +110,7 @@ AND in its source-registry. (legacy name)"
                             (destructuring-bind (directory &key recurse exclude) entry
                               (register-asd-directory
                                directory
-                               :recurse recurse :exclude exclude :collect #'c))))))))
+                               :recurse recurse :exclude exclude :collect #'c)))))))
 
 
 (defslyfun list-all-systems-known-to-asdf ()
