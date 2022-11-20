@@ -89,6 +89,7 @@
         'dired-create-directory
         'make-empty-file
         'eval-expression
+        'replace-string
         nil)
   "Minibuffer commands to not refresh completions for")
 
