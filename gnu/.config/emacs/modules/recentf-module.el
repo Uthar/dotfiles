@@ -11,6 +11,8 @@
   ;; Dont't care about fossil commit message files.
   (add-to-list 'recentf-exclude (regexp-opt '("ci-comment-")))
 
+  (add-to-list 'recentf-exclude (regexp-opt '("*Completions*")))
+
   (defun kaspi/recentf-save-current-buffer ()
     (let ((file-name (buffer-file-name (current-buffer)))
           (inhibit-message t))
