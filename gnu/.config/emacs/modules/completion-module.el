@@ -94,7 +94,7 @@
   "Minibuffer commands to not refresh completions for")
 
 (defun refresh-completions-refresh ()
-  (message "AFTER %s" current-minibuffer-command)
+  ;; (message "AFTER %s" current-minibuffer-command)
   (cond
    ((and (minibufferp)
          (not (memq current-minibuffer-command
@@ -107,7 +107,7 @@
     (minibuffer-next-completion))))
 
 (defun refresh-completions-after-change (&rest _)
-  (message "AFTER %s" current-minibuffer-command)
+  ;; (message "AFTER %s" current-minibuffer-command)
   (when refresh-completions-timer
     (cancel-timer refresh-completions-timer))
   (when (and (memq this-command refresh-completions-commands)
