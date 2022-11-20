@@ -68,8 +68,8 @@
 
 ;;;;;;;; Switch to completions shortcut
 
-;; (define-key completion-in-region-mode-map (kbd "M-c") 'switch-to-completions)
-;; (define-key minibuffer-mode-map (kbd "M-c") 'switch-to-completions)
+(define-key completion-in-region-mode-map (kbd "M-c") 'switch-to-completions)
+(define-key minibuffer-mode-map (kbd "M-c") 'switch-to-completions)
 
 ;;;;;;;; Auto refresh completions buffer after typing
 
