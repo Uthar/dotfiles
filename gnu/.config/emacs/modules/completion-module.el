@@ -73,16 +73,16 @@
 
 ;;;;;;;; Auto refresh completions buffer after typing
 
-(defvar lcr-timer nil)
-(defvar lcr-delay 0.01)
+(defvar refresh-completions-timer nil)
+(defvar refresh-completions-delay 0.01)
 
-(defvar lcr-commands
+(defvar refresh-completions-commands
   (list 'self-insert-command
         'delete-backward-char
         'backward-delete-char-untabify)
   "Commands to trigger completion help after, whether in region or minibuffer")
 
-(defvar lcr-minibuffer-disabled-commands
+(defvar refresh-completions-disabled-minibuffer-commands
   (list 'query-replace
         'query-replace-regexp
         'shell-command
@@ -92,12 +92,12 @@
         nil)
   "Minibuffer commands to not refresh completions for")
 
-(defun lcr-refresh ()
-  ;; (message "lcr-refresh in %s" current-minibuffer-command)
+(defun refresh-completions-refresh ()
+  (message "AFTER %s" current-minibuffer-command)
   (cond
    ((and (minibufferp)
          (not (memq current-minibuffer-command
-                    lcr-minibuffer-disabled-commands)))
+                    refresh-completions-disabled-minibuffer-commands)))
     (let ((minibuffer-completion-auto-choose nil))
       (minibuffer-completion-help)
       (minibuffer-next-completion)))
@@ -105,24 +105,28 @@
     (completion-help-at-point)
     (minibuffer-next-completion))))
 
-(defun lcr-after-change (&rest _)
-  (when lcr-timer
-    (cancel-timer lcr-timer))
-  (when (and (memq this-command lcr-commands)
+(defun refresh-completions-after-change (&rest _)
+  (message "AFTER %s" current-minibuffer-command)
+  (when refresh-completions-timer
+    (cancel-timer refresh-completions-timer))
+  (when (and (memq this-command refresh-completions-commands)
              (or completion-in-region-mode
                  (minibufferp)))
-    (setf lcr-timer (run-at-time lcr-delay nil 'lcr-refresh))))
+    (setf refresh-completions-timer
+          (run-at-time refresh-completions-delay
+                       nil
+                       'refresh-completions-refresh))))
 
-(define-minor-mode global-lcr-mode
-  "Live Completion-In-Region Mode"
+(define-minor-mode global-refresh-completions-mode
+  "Mode where showing completions help is automatic"
   :global t
   (cond
-   (global-lcr-mode
-    (add-hook 'post-command-hook 'lcr-after-change))
+   (global-refresh-completions-mode
+    (add-hook 'post-command-hook 'refresh-completions-after-change))
    (t
-    (remove-hook 'post-command-hook 'lcr-after-change))))
+    (remove-hook 'post-command-hook 'refresh-completions-after-change))))
 
-(add-hook 'after-init-hook 'global-lcr-mode)
+(add-hook 'after-init-hook 'global-refresh-completions-mode)
 
 (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
 (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
