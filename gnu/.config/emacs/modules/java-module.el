@@ -18,3 +18,11 @@
   (cl-defmethod eglot-execute-command
     (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
     (mapc #'eglot--apply-workspace-edit arguments)))
+
+;; "http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz"
+(with-eval-after-load 'eglot
+  (rplacd (assoc 'java-mode eglot-server-programs)
+          '("~/.local/share/jdtls/bin/jdtls"
+            "-configuration" "~/.local/share/jdtls/config_linux"
+            "-data" "~/.cache/jdtls")))
+
