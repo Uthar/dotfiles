@@ -88,8 +88,7 @@
         'shell-command
         'dired-create-directory
         'make-empty-file
-        'eval-expression
-        nil)
+        'eval-expression)
   "Minibuffer commands to not refresh completions for")
 
 (defun lcr-refresh ()
