@@ -26,4 +26,5 @@
 (global-set-key (kbd "C-M-r") 'raise-sexp)
 
 (global-set-key (kbd "C-c l d") 'duplicate-line)
-(global-set-key (kbd "C-c l l") 'kaspi/copy-line)
+(global-set-key (kbd "C-c l L") 'kaspi/copy-line)
+(global-set-key (kbd "C-c l l") 'kaspi/copy-line*)

@@ -49,6 +49,16 @@
   (prog1 (kill-ring-save (line-beginning-position) (line-end-position))
     (pulse-momentary-highlight-one-line)))
 
+(defun kaspi/copy-line* ()
+  (interactive)
+  (let ((beg (progn
+               (line-beginning-position)
+               (back-to-indentation)
+               (point)))
+        (end (line-end-position)))
+    (prog1 (kill-ring-save beg end)
+      (pulse-momentary-highlight-region beg end))))
+
 (defvar kaspi/duplicate-line-repeat-map
   (let ((map (make-sparse-keymap)))
     (define-key map "d" 'duplicate-line)
