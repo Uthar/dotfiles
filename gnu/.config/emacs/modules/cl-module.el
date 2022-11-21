@@ -64,7 +64,7 @@
 (with-eval-after-load 'slime
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
-  (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf))
+  (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf 't))
 
 (with-eval-after-load 'slime-repl
   (defslime-repl-shortcut nil ("delete-package" "dp")
