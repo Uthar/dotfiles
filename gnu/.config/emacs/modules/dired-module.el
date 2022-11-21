@@ -27,8 +27,4 @@
 
 (add-hook 'dired-mode-hook
   (lambda ()
-    (setq-local mouse-1-click-follows-link nil)
-    (local-set-key "j" 'dired-next-line)
-    (local-set-key "k" 'dired-previous-line)
-    (local-set-key "l" 'dired-find-file)
-    (local-set-key "h" 'dired-up-directory)))
+    (setq-local mouse-1-click-follows-link nil)))
