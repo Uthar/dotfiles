@@ -14,7 +14,7 @@
          (buffer-name (format "*%s*" (symbol-name fn)))
          (query (format "%s for: " (symbol-name fn))))
     ;; compile mode has hard coded sleep after command termination
-    (advice-add 'sit-for :override (cl-constantly nil) '((name . noop)))
+    (advice-add 'sit-for :override 'kaspi/noop)
     (setopt compilation-always-kill t)
     (add-hook 'post-command-hook input-hook)
     (unwind-protect
@@ -23,7 +23,7 @@
           (select-window (get-buffer-window buffer-name)))
       (remove-hook 'post-command-hook input-hook)
       (setopt compilation-always-kill nil)
-      (advice-remove 'sit-for 'noop))))
+      (advice-remove 'sit-for 'kaspi/noop))))
 
 (defvar kaspi/fd-regexp-alist
   '(("^\\(.+\\)$" 1)))
