@@ -28,6 +28,8 @@
       (exit-minibuffer))
       (select-window (minibuffer-window)))
 
+(defun kaspi/noop (&rest _))
+
 (defun kaspi/bash ()
   (interactive)
   (ansi-term "bash"))
