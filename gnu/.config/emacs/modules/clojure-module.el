@@ -46,3 +46,5 @@
 (autoload 'clojurescript-mode "clojure-mode" "" t)
 (autoload 'clojurec-mode "clojure-mode" "" t)
 
+(advice-add 'cider-eval-last-sexp :after 'kaspi/flash-last-sexp)
+(advice-add 'cider-eval-defun-at-point :after 'kaspi/flash-defun)
