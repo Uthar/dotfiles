@@ -26,3 +26,19 @@
             "-configuration" "~/.local/share/jdtls/config_linux"
             "-data" "~/.cache/jdtls")))
 
+;; (with-eval-after-load 'eglot
+;;   (rplacd (assoc 'java-mode eglot-server-programs)
+;;           '("nbcode"
+;;             "--start-java-language-server=stdio"
+;;             :initializationOptions
+;;             (:nbcodeCapabilities
+;;              (:statusBarMessageSupport nil
+;;               :testResultsSupport nil
+;;               :showHtmlPageSupport nil
+;;               :wantsJavaSupport t
+;;               :wantsGroovySupport t)))))
+
+;; (setq-default eglot-workspace-configuration
+;;               '(:netbeans.javadoc.load.timeout 10000
+;;                 :netbeans.java.onSave.organizeImports :json-true))
+
