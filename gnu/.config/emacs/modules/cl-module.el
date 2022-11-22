@@ -69,6 +69,11 @@
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
   (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf 't))
 
+(advice-add 'slime-flash-region :override 'kaspi/noop)
+(advice-add 'slime-eval-defun :after 'kaspi/flash-defun)
+(advice-add 'slime-compile-defun :after 'kaspi/flash-defun)
+(advice-add 'slime-eval-last-expression :after 'kaspi/flash-last-sexp)
+
 (with-eval-after-load 'slime-repl
   (defslime-repl-shortcut nil ("delete-package" "dp")
     (:handler (lambda ()
