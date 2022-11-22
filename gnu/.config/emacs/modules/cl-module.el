@@ -52,6 +52,9 @@
 
  )
 
+(with-eval-after-load 'inf-lisp
+  (require 'inferior-slime))
+
 (global-set-key (kbd "C-c s") 'slime-selector)
 
 (defun kaspi/slime-capf ()
