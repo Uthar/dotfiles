@@ -20,25 +20,26 @@
     (mapc #'eglot--apply-workspace-edit arguments)))
 
 ;; "http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz"
-(with-eval-after-load 'eglot
-  (rplacd (assoc 'java-mode eglot-server-programs)
-          '("~/.local/share/jdtls/bin/jdtls"
-            "-configuration" "~/.local/share/jdtls/config_linux"
-            "-data" "~/.cache/jdtls")))
+;; (with-eval-after-load 'eglot
+;;   (rplacd (assoc 'java-mode eglot-server-programs)
+;;           '("~/.local/share/jdtls/bin/jdtls"
+;;             "-configuration" "~/.local/share/jdtls/config_linux"
+;;             "-data" "~/.cache/jdtls")))
 
 ;; (with-eval-after-load 'eglot
 ;;   (rplacd (assoc 'java-mode eglot-server-programs)
-;;           '("nbcode"
+;;           '("/home/kpg/archive/binary/nbcode/extension/nbcode/bin/nbcode"
+;;             "--userdir" "/home/kpg/.config/VSCodium/User/workspaceStorage/6a9f687e8b133d26d3521d7b5b2e8125/asf.apache-netbeans-java/userdir"
 ;;             "--start-java-language-server=stdio"
-;;             :initializationOptions
+;;               :initializationOptions
 ;;             (:nbcodeCapabilities
-;;              (:statusBarMessageSupport nil
-;;               :testResultsSupport nil
-;;               :showHtmlPageSupport nil
+;;              (:statusBarMessageSupport t
+;;               :testResultsSupport t
+;;               :showHtmlPageSupport t
 ;;               :wantsJavaSupport t
 ;;               :wantsGroovySupport t)))))
 
 ;; (setq-default eglot-workspace-configuration
-;;               '(:netbeans.javadoc.load.timeout 10000
-;;                 :netbeans.java.onSave.organizeImports :json-true))
+;;               '(:netbeans.javadoc.load.timeout 500
+;;                 :netbeans.java.onSave.organizeImports t))
 
