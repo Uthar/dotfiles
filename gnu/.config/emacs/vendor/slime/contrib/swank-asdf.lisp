@@ -386,11 +386,7 @@ Example:
 AND in its source-registry. (legacy name)"
   (unique-string-list
    (mapcar
-    (lambda (asd)
-      (typecase asd
-        (pathname (pathname-name asd))
-        (string asd)
-        (t asd)))
+    #'pathname-name
     (while-collecting (c)
       (loop for dir in asdf:*central-registry*
             for defaults = (eval dir)
@@ -400,7 +396,7 @@ AND in its source-registry. (legacy name)"
       (if (or #+asdf3 t
 	      #-asdf3 (asdf:version-satisfies (asdf:asdf-version) "2.15"))
           (loop :for k :being :the :hash-keys :of asdf::*source-registry*
-		:do (c k))
+		            :do (c (make-pathname :name k)))
 	  #-asdf3
           (dolist (entry (asdf::flatten-source-registry))
             (destructuring-bind (directory &key recurse exclude) entry
