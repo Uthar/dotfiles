@@ -8,6 +8,22 @@
   (modify-syntax-entry ?\{ "(}" lisp-mode-syntax-table)
   (modify-syntax-entry ?\} "){" lisp-mode-syntax-table))
 
+;; Indent [...] {...} for reader macros
+(defun kaspi/indent-braces-function (function &rest args)
+  (cl-destructuring-bind (point column char)
+      (save-excursion
+        (backward-up-list)
+        (list (point)
+              (current-column)
+              (char-after)))
+    (if (or (eql char ?\[)
+            (eql char ?\{))
+        (1+ column)
+        (apply function args))))
+
+(with-eval-after-load 'cl-indent
+  (advice-add 'common-lisp-indent-function :around 'kaspi/indent-braces-function))
+
 ;;;; Adds sexp flashing, a'la SLIME's C-c C-c, to other sexp evaluation commands
 
 (defun kaspi/flash-defun (&rest _)
