@@ -52,6 +52,7 @@
 
  )
 
+(add-to-list 'load-path (concat +vendor-dir+ "slime/contrib"))
 (with-eval-after-load 'inf-lisp
   (require 'inferior-slime))
 
