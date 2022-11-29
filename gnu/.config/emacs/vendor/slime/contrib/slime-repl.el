@@ -732,9 +732,7 @@ With prefix argument send the input even if the parenthesis are not
 balanced."
   (interactive "P")
   (slime-check-connected)
-  (cond (completion-in-region-mode
-         (kaspi/minibuffer-choose-completion))
-        (end-of-input
+  (cond (end-of-input
          (slime-repl-send-input))
         (slime-repl-read-mode ; bad style?
          (slime-repl-send-input t))

@@ -65,11 +65,17 @@
          (completion-set (cl-first completion-result)))
     (list beg (max (point) end) completion-set)))
 
+(defun kaspi/slime-repl-return-advice (function &rest args)
+  (if completion-in-region-mode
+      (kaspi/minibuffer-choose-completion)
+      (apply function args)))
+
 (with-eval-after-load 'slime
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
   (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf 't))
 
+(advice-add 'slime-repl-return :around 'kaspi/slime-repl-return-advice)
 (advice-add 'slime-flash-region :override 'kaspi/noop)
 (advice-add 'slime-eval-defun :after 'kaspi/flash-defun)
 (advice-add 'slime-compile-defun :after 'kaspi/flash-defun)
