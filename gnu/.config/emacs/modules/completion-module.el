@@ -15,8 +15,7 @@
 
 ;;;;;;;; Limit completions buffer size
 
-(setq temp-buffer-max-height 12)
-(temp-buffer-resize-mode)
+(add-to-list 'display-buffer-alist '("\\*Completions\\*" nil (window-height . 12)))
 
 ;;;;;;;; Complete filenames with C-M-i
 
