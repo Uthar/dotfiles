@@ -181,7 +181,7 @@ implement your own ones) you can customize the variable
     (run-hooks 'nix-store-path-headers-hook)
     (newline)
     (run-hooks 'nix-store-path-sections-hook)
-    (setf (point) (point-min))))
+    (goto-char (point-min))))
 
 (defun nix-store-path-at-point ()
   "Return the nix-store path at point."
