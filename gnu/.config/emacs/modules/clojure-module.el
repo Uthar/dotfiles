@@ -32,10 +32,22 @@
 (autoload 'cider-jack-in-cljs "cider" "" t)
 (autoload 'cider-connect-cljs "cider" "" t)
 
-(global-set-key (kbd "C-c M-j") 'cider-jack-in-clj)
-(global-set-key (kbd "C-c M-c") 'cider-connect-clj)
-(global-set-key (kbd "C-c M-J") 'cider-jack-in-cljs)
-(global-set-key (kbd "C-c M-C") 'cider-connect-cljs)
+(defvar kaspi/cider-jack-in-cmd
+  "java clojure.main -m nrepl.cmdline --middleware [cider.nrepl/cider-middleware]")
+
+(autoload 'nrepl-start-server-process "cider")
+(autoload 'cider-connect-sibling-clj "cider")
+
+(defun kaspi/cider ()
+  (interactive)
+  (let* ((project-dir (kaspi/sensible-directory))
+         (jack-in-cmd kaspi/cider-jack-in-cmd)
+         (params (list :project-dir project-dir :jack-in-cmd jack-in-cmd)))
+    (nrepl-start-server-process
+     project-dir 
+     jack-in-cmd
+     (lambda (server-buffer)
+       (cider-connect-sibling-clj params server-buffer)))))
 
 (add-to-list 'auto-mode-alist '("\\.clj\\'" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
