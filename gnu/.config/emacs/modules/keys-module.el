@@ -20,6 +20,7 @@
 ;; Wyłącza wkurzający domyślny skrót na 'suspend-emacs', który
 ;; dodatkowo gryzie się z evilowym 'evil-emacs-state'.
 (global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "ESC ESC ESC"))
 
 (global-set-key (kbd "C-M-z") 'zap-up-to-char)
 
