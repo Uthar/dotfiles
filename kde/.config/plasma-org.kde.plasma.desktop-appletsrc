@@ -137,7 +137,7 @@ DialogWidth=720
 
 [Containments][29][Applets][55][Configuration][General]
 groupingStrategy=0
-launchers=file:///nix/store/0x3bl8vvdvvb8flibri2l4a9fmf5whxq-profile/share/applications/emacs.desktop,applications:firefox_firefox.desktop,applications:org.kde.konsole.desktop
+launchers=applications:emacs.desktop,applications:firefox.desktop,applications:org.kde.konsole.desktop
 
 [Containments][29][ConfigDialog]
 DialogHeight=84
