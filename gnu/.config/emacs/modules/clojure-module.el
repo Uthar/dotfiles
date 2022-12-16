@@ -14,6 +14,7 @@
 (setq cider-use-fringe-indicators nil)
 (setq cider-mode-line-show-connection nil)
 (setq cider-use-overlays nil)
+(setq cider-use-tooltips nil)
 (setq cider-repl-history-file (concat user-emacs-directory "cider-history"))
 (add-hook 'cider-after-eval-done-hook 'cider-repl-history-just-save)
 
