@@ -53,7 +53,7 @@
 (load "search-module")
 (load "blog-module")
 
-(let ((hour (cl-nth-value 2 (decode-time))))
+(let ((hour (nth 2 (decode-time))))
   (if (and window-system (<= 7 hour 20))
       (load-theme 'modus-operandi)
       (load-theme 'modus-vivendi)))
@@ -70,3 +70,4 @@
 ;; M-x scratch-buffer - recreate *scratch*
 ;; C-x e  call kb macro
 ;; j in dired, fast go to file or directory by name
+;; C-x v C-h - show keybindings starting with C-x v (can be whatever)
