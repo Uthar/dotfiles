@@ -67,6 +67,7 @@
 (autoload 'turn-on-diff-hl-mode "diff-hl" "" t)
 (autoload 'diff-hl-dired-mode-unless-remote "diff-hl-dired" "" t)
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+(add-hook 'conf-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode-unless-remote)
 
