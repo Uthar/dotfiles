@@ -97,13 +97,6 @@
     [mouse-1]
     'slime-inspect-presentation-at-mouse))
 
-(with-eval-after-load 'slime-cl-indent
-  (define-common-lisp-style "kasper"
-    "Personal style."
-    (:inherit "modern")
-    (:indentation))
-  (setq common-lisp-style-default "kasper"))
-
 (add-to-list 'load-path (concat +vendor-dir+ "slime"))
 (autoload 'slime "slime" "" t)
 (autoload 'slime-connect "slime" "" t)
