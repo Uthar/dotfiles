@@ -108,12 +108,3 @@
 (autoload 'slime "slime" "" t)
 (autoload 'slime-connect "slime" "" t)
 (autoload 'slime-selector "slime" "" t)
-
-(add-to-list 'load-path (concat +vendor-dir+ "sly"))
-(autoload 'sly "sly" "" t)
-(setq sly-symbol-completion-mode nil)
-(setq sly-complete-symbol-function 'sly-simple-completions)
-(with-eval-after-load 'sly
-  (add-to-list 'sly-contribs 'sly-asdf)
-  (add-to-list 'sly-contribs 'sly-stepper))
-
