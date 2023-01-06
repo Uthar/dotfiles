@@ -21,11 +21,13 @@
         (link (concat (file-name-sans-extension entry) ".html")))
     (with-temp-buffer
       (insert (format "* [[file:%s][%s]]\n" entry title))
-      (org-set-property "CUSTOM_ID" (string-replace " " "_" title))
-      (org-set-property "RSS_PERMALINK" (url-encode-url link))
-      (org-set-property "RSS_TITLE" title)
-      (org-set-property "PUBDATE" date)
-      (org-set-property "AUTHOR" author)
+      (insert (format ":PROPERTIES:\n"))
+      (insert (format ":CUSTOM_ID: %s\n" (string-replace " " "_" title)))
+      (insert (format ":RSS_PERMALINK: %s\n" (url-encode-url link)))
+      (insert (format ":RSS_TITLE: %s\n" title))
+      (insert (format ":PUBDATE: %s\n" date))
+      (insert (format ":AUTHOR: %s\n" author))
+      (insert (format ":END:\n"))
       (buffer-string))))
 
 (setq org-publish-project-alist
@@ -42,7 +44,7 @@
          :sitemap-function kaspi/format-rss-feed
          :sitemap-format-entry kaspi/format-rss-entry
          :sitemap-filename "index.org"
-         :sitemap-title "Kasper Gałkowski"
+         :sitemap-title "Kasper Gałkowski - Blog"
          :sitemap-sort-files anti-chronologically
          :html-head-include-default-style nil
          :html-head-extra "
