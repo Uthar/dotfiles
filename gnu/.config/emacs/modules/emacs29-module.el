@@ -37,3 +37,5 @@
 ;; C-x v b: new vc branch command
 
 ;; C-x v !: new vc edit next command
+
+(setopt grep-use-headings t)
