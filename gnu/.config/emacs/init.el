@@ -60,7 +60,8 @@
 
 ;; notes:
 
-;; diff a/ b/ in eshell creates a diff-mode buffer (also = in dired)
+;; diff a/ b/ in eshell creates a diff-mode buffer
+;; Also = in dired
 ;; C-x v ~  - visits other revision of file in other window
 ;; M-x reverse-region : reverse order of lines in buffer
 ;; C-x v M D - best vc command, show CHANGES in one branch relative to another
