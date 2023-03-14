@@ -75,3 +75,5 @@
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
+
+(setq ring-bell-function 'ignore)
