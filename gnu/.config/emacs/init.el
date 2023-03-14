@@ -72,3 +72,6 @@
 ;; C-x e  call kb macro
 ;; j in dired, fast go to file or directory by name
 ;; C-x v C-h - show keybindings starting with C-x v (can be whatever)
+
+;; Dla ekranów z wysoką rozdzielczością:
+;; (set-face-attribute 'default nil :height 130)
