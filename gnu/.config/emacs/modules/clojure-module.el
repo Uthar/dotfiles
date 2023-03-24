@@ -6,7 +6,8 @@
   (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
   (add-hook 'cider-connected-hook 'cider-repl-clear-buffer)
   (require 'cider-macroexpansion)
-  (require 'cider-xref))
+  (require 'cider-xref)
+  (require 'cider-format))
 (setq cider-connection-message-fn (cl-constantly '("Are we consing yet?")))
 (setq cider-repl-display-help-banner nil)
 (setq cider-offer-to-open-cljs-app-in-browser nil)
@@ -32,7 +33,7 @@
 (autoload 'cider-connect-clj "cider" "" t)
 (autoload 'cider-jack-in-cljs "cider" "" t)
 (autoload 'cider-connect-cljs "cider" "" t)
-
+  
 (defvar kaspi/cider-jack-in-cmd
   "java clojure.main -m nrepl.cmdline --middleware [cider.nrepl/cider-middleware]")
 
