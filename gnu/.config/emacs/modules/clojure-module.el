@@ -33,6 +33,13 @@
 (autoload 'cider-connect-clj "cider" "" t)
 (autoload 'cider-jack-in-cljs "cider" "" t)
 (autoload 'cider-connect-cljs "cider" "" t)
+
+;; linting
+
+(add-to-list 'load-path (concat +vendor-dir+ "cider/lib/flymake-kondor"))
+(autoload 'flymake-kondor-setup "flymake-kondor")
+(add-hook 'clojure-mode-hook 'flymake-kondor-setup)
+(add-hook 'clojure-mode-hook 'flymake-mode)
   
 (defvar kaspi/cider-jack-in-cmd
   "java clojure.main -m nrepl.cmdline --middleware [cider.nrepl/cider-middleware]")
