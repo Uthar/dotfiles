@@ -22,6 +22,12 @@
   (interactive)
   (insert (shell-command-to-string "xsel -o -b")))
 
+(defun kaspi/copy-buffer-file-name ()
+  (interactive)
+  (let ((name (buffer-file-name)))
+    (kill-new name)
+    (message name)))
+
 (defun kaspi/select-or-exit-minibuffer ()
   (interactive)
   (if current-prefix-arg
