@@ -1,7 +1,7 @@
 ;;; cider-macroexpansion.el --- Macro expansion support -*- lexical-binding: t -*-
 
 ;; Copyright © 2012-2013 Tim King, Phil Hagelberg, Bozhidar Batsov
-;; Copyright © 2013-2022 Bozhidar Batsov, Artur Malabarba and CIDER contributors
+;; Copyright © 2013-2023 Bozhidar Batsov, Artur Malabarba and CIDER contributors
 ;;
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Phil Hagelberg <technomancy@gmail.com>
@@ -69,10 +69,10 @@ The default for DISPLAY-NAMESPACES is taken from
                   "ns" ,(cider-current-ns)
                   "display-namespaces" ,(or display-namespaces
                                             (symbol-name cider-macroexpansion-display-namespaces)))
-    (nconc (when cider-macroexpansion-print-metadata
-             '("print-meta" "true")))
-    (cider-nrepl-send-sync-request)
-    (nrepl-dict-get "expansion")))
+                (nconc (when cider-macroexpansion-print-metadata
+                         '("print-meta" "true")))
+                (cider-nrepl-send-sync-request)
+                (nrepl-dict-get "expansion")))
 
 (defun cider-macroexpand-undo (&optional arg)
   "Undo the last macroexpansion, using `undo-only'.

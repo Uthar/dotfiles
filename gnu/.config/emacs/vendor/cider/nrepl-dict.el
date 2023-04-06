@@ -1,7 +1,7 @@
 ;;; nrepl-dict.el --- Dictionary functions for Clojure nREPL -*- lexical-binding: t -*-
 
 ;; Copyright © 2012-2013 Tim King, Phil Hagelberg, Bozhidar Batsov
-;; Copyright © 2013-2022 Bozhidar Batsov, Artur Malabarba and CIDER contributors
+;; Copyright © 2013-2023 Bozhidar Batsov, Artur Malabarba and CIDER contributors
 ;;
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Phil Hagelberg <technomancy@gmail.com>
@@ -127,6 +127,18 @@ FUNCTION follows the same restrictions as in `nrepl-dict-map', and it must
 also always return a sequence (since the result will be flattened)."
   (when dict
     (apply #'append (nrepl-dict-map function dict))))
+
+(defun nrepl-dict-filter (function dict)
+  "For all key-values of DICT, return new dict where FUNCTION returns non-nil.
+
+FUNCTION should be a function taking two arguments, key and value."
+  (let ((new-map (nrepl-dict))
+        (keys (nrepl-dict-keys dict)))
+    (dolist (key keys)
+      (let ((val (nrepl-dict-get dict key)))
+        (when (funcall function key val)
+          (nrepl-dict-put new-map key val))))
+    new-map))
 
 
 ;;; More specific functions

@@ -1,7 +1,7 @@
 ;;; nrepl-client.el --- Client for Clojure nREPL -*- lexical-binding: t -*-
 
 ;; Copyright © 2012-2013 Tim King, Phil Hagelberg, Bozhidar Batsov
-;; Copyright © 2013-2022 Bozhidar Batsov, Artur Malabarba and CIDER contributors
+;; Copyright © 2013-2023 Bozhidar Batsov, Artur Malabarba and CIDER contributors
 ;;
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Phil Hagelberg <technomancy@gmail.com>
@@ -236,6 +236,16 @@ PARAMS is as in `nrepl-make-buffer-name'."
       (nrepl--port-from-file (expand-file-name ".nrepl-port" dir))
       (nrepl--port-from-file (expand-file-name "target/repl-port" dir))
       (nrepl--port-from-file (expand-file-name ".shadow-cljs/nrepl.port" dir))))
+
+(defun nrepl-extract-ports (dir)
+  "Read ports from applicable repl-port files in directory DIR."
+  (delq nil
+        (list (nrepl--port-from-file (expand-file-name "repl-port" dir))
+              (nrepl--port-from-file (expand-file-name ".nrepl-port" dir))
+              (nrepl--port-from-file (expand-file-name "target/repl-port" dir))
+              (nrepl--port-from-file (expand-file-name ".shadow-cljs/nrepl.port" dir)))))
+
+(make-obsolete 'nrepl-extract-port 'nrepl-extract-ports "1.5.0")
 
 (defun nrepl--port-from-file (file)
   "Attempts to read port from a file named by FILE."
@@ -560,7 +570,18 @@ If NO-ERROR is non-nil, show messages instead of throwing an error."
 (defun nrepl--ssh-tunnel-connect (host port)
   "Connect to a remote machine identified by HOST and PORT through SSH tunnel."
   (message "[nREPL] Establishing SSH tunneled connection to %s:%s ..." host port)
-  (let* ((remote-dir (if host (format "/ssh:%s:" host) default-directory))
+  (let* ((current-buf (buffer-file-name))
+         (tramp-file-regexp "/ssh:\\(.+@\\)?\\(.+?\\)\\(:\\|#\\).+")
+         (remote-dir (cond
+                      ;; If current buffer is a TRAMP buffer and its host is
+                      ;; the same as HOST, reuse its connection parameters for
+                      ;; SSH tunnel.
+                      ((and (string-match tramp-file-regexp current-buf)
+                            (string= host (match-string 2 current-buf))) current-buf)
+                      ;; Otherwise, if HOST was provided, use it for connection.
+                      (host (format "/ssh:%s:" host))
+                      ;; Use default directory as fallback.
+                      (t default-directory)))
          (ssh (or (executable-find "ssh")
                   (error "[nREPL] Cannot locate 'ssh' executable")))
          (cmd (nrepl--ssh-tunnel-command ssh remote-dir port))
@@ -576,7 +597,8 @@ If NO-ERROR is non-nil, show messages instead of throwing an error."
         (error "[nREPL] SSH port forwarding failed.  Check the '%s' buffer" tunnel-buf)
       (message "[nREPL] SSH port forwarding established to localhost:%s" port)
       (let ((endpoint (nrepl--direct-connect "localhost" port)))
-        (thread-first endpoint
+        (thread-first
+          endpoint
           (plist-put :tunnel tunnel)
           (plist-put :remote-host host))))))
 
@@ -587,11 +609,12 @@ If NO-ERROR is non-nil, show messages instead of throwing an error."
     ;; forwarding is set up, which is used to synchronise on, so that
     ;; the port forwarding is up when we try to connect.
     (format-spec
-     "%s -v -N -L %p:localhost:%p %u'%h'"
+     "%s -v -N -L %p:localhost:%p %u'%h' %n"
      `((?s . ,ssh)
        (?p . ,port)
        (?h . ,v-host)
-       (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
+       (?u . ,(if v-user (format "-l '%s' " v-user) ""))
+       (?n . ,(if v-port (format "-p '%s' " v-port) ""))))))
 
 (autoload 'comint-watch-for-password-prompt "comint"  "(autoload).")
 
@@ -616,12 +639,33 @@ If NO-ERROR is non-nil, show messages instead of throwing an error."
 ;;; Client: Process Handling
 
 (defun nrepl--kill-process (proc)
-  "Kill PROC using the appropriate, os specific way.
-Implement a workaround to clean up an orphaned JVM process left around
-after exiting the REPL on some windows machines."
-  (if (memq system-type '(cygwin windows-nt))
-      (interrupt-process proc)
-    (kill-process proc)))
+  "Attempt to kill PROC tree.
+On MS-Windows, using the standard API is highly likely to leave the child
+processes still running in the background as orphans.  As a workaround, an
+attempt is made to delegate the task to the `taskkill` program, which comes
+with windows since at least Windows XP, and fallback to the Emacs API if it
+can't be found.
+
+It is expected that the `(process-status PROC)` return value after PROC is
+killed is `exit` when `taskkill` is used and `signal` otherwise."
+  (cond
+   ((and (eq system-type 'windows-nt)
+         (process-live-p proc)
+         (executable-find "taskkill"))
+    ;; try to use `taskkill` if available
+    (with-temp-buffer
+      (call-process-shell-command (format "taskkill /PID %s /T /F" (process-id proc))
+                                  nil (buffer-name) )
+      ;; useful for debugging.
+      ;;(message ":PROCESS-KILL-OUPUT %s" (buffer-string))
+      ))
+
+   ((memq system-type '(cygwin windows-nt))
+    ;; fallback, this is considered to work better than `kill-process` on
+    ;; MS-Windows.
+    (interrupt-process proc))
+
+   (t (kill-process proc))))
 
 (defun nrepl-kill-server-buffer (server-buf)
   "Kill SERVER-BUF and its process."
@@ -907,7 +951,7 @@ If TOOLING, use the tooling session rather than the standard session."
                    (time-less-p
                     nrepl-sync-request-timeout
                     (time-subtract nil time0)))
-          (error "Sync nREPL request timed out %s" request)))
+          (error "Sync nREPL request timed out %s after %s secs" request nrepl-sync-request-timeout)))
       ;; Clean up the response, otherwise we might repeatedly ask for input.
       (nrepl-dict-put response "status" (remove "need-input" status))
       (accept-process-output nil 0.01))
@@ -1065,7 +1109,12 @@ been determined."
                (propertize cmd 'face 'font-lock-keyword-face))
       serv-proc)))
 
-(defconst nrepl-listening-address-regexp
+(defconst nrepl-listening-unix-address-regexp
+  (rx
+   (and "nREPL server listening on" (+ " ")
+        "nrepl+unix:" (group-n 1 (+ not-newline)))))
+
+(defconst nrepl-listening-inet-address-regexp
   (rx (or
        ;; standard
        (and "nREPL server started on port " (group-n 1 (+ (any "0-9"))))
@@ -1079,8 +1128,22 @@ match groups:
 1  for the port, and
 2  for the host (babashka only).")
 
+(defun cider--process-plist-put (proc prop val)
+  "Change value in PROC's plist of PROP to VAL.
+Value is changed using `plist-put`, of which see."
+  (thread-first
+    proc
+    (process-plist)
+    (plist-put prop val)
+    (thread-last (set-process-plist proc))))
+
 (defun nrepl-server-filter (process output)
-  "Process nREPL server output from PROCESS contained in OUTPUT."
+  "Process nREPL server output from PROCESS contained in OUTPUT.
+
+The PROCESS plist is updated as (non-exhaustive list):
+
+:cider--nrepl-server-ready set to t when the server is successfully brought
+up."
   ;; In Windows this can be false:
   (let ((server-buffer (process-buffer process)))
     (when (buffer-live-p server-buffer)
@@ -1097,17 +1160,26 @@ match groups:
             (when-let* ((win (get-buffer-window)))
               (set-window-point win (point)))))
         ;; detect the port the server is listening on from its output
-        (when (and (null nrepl-endpoint)
-                   (string-match nrepl-listening-address-regexp output))
-          (let ((host (or (match-string 2 output)
-                          (file-remote-p default-directory 'host)
-                          "localhost"))
-                (port (string-to-number (match-string 1 output))))
-            (setq nrepl-endpoint (list :host host
-                                       :port port))
-            (message "[nREPL] server started on %s" port)
-            (when nrepl-on-port-callback
-              (funcall nrepl-on-port-callback (process-buffer process)))))))))
+        (when (null nrepl-endpoint)
+          (let ((end (cond
+                      ((string-match nrepl-listening-unix-address-regexp output)
+                       (let ((path (match-string 1 output)))
+                         (message "[nREPL] server started on nrepl+unix:%s" path)
+                         (list :host "local-unix-domain-socket"
+                               :port path
+                               :socket-file path)))
+                      ((string-match nrepl-listening-inet-address-regexp output)
+                       (let ((host (or (match-string 2 output)
+                                       (file-remote-p default-directory 'host)
+                                       "localhost"))
+                             (port (string-to-number (match-string 1 output))))
+                         (message "[nREPL] server started on %s" port)
+                         (list :host host :port port))))))
+            (when end
+              (setq nrepl-endpoint end)
+              (cider--process-plist-put process :cider--nrepl-server-ready t)
+              (when nrepl-on-port-callback
+                (funcall nrepl-on-port-callback (process-buffer process))))))))))
 
 (defmacro emacs-bug-46284/when-27.1-windows-nt (&rest body)
   "Only evaluate BODY when Emacs bug #46284 has been detected."
@@ -1118,16 +1190,11 @@ match groups:
 
 (declare-function cider--close-connection "cider-connection")
 (defun nrepl-server-sentinel (process event)
-  "Handle nREPL server PROCESS EVENT."
-  (let* ((server-buffer (process-buffer process))
-         (clients (seq-filter (lambda (b)
-                                (eq (buffer-local-value 'nrepl-server-buffer b)
-                                    server-buffer))
-                              (buffer-list)))
-         (problem (if (and server-buffer (buffer-live-p server-buffer))
-                      (with-current-buffer server-buffer
-                        (buffer-substring (point-min) (point-max)))
-                    "")))
+  "Handle nREPL server PROCESS EVENT.
+On a fatal EVENT, attempt to close any open client connections, and signal
+an `error' if the nREPL PROCESS exited because it couldn't start up."
+  ;; only interested on fatal signals.
+  (when (not (process-live-p process))
     (emacs-bug-46284/when-27.1-windows-nt
      ;; There is a bug in emacs 27.1 (since fixed) that sets all EVENT
      ;; descriptions for signals to "unknown signal". We correct this by
@@ -1140,17 +1207,22 @@ match groups:
          (2 (setq event "Interrupt"))
          ;; SIGKILL==9 emacs nt/inc/ms-w32.h
          (9 (setq event "Killed")))))
+    (let* ((server-buffer (process-buffer process))
+           (clients (seq-filter (lambda (b)
+                                  (eq (buffer-local-value 'nrepl-server-buffer b)
+                                      server-buffer))
+                                (buffer-list))))
+      ;; close any known open client connections
+      (mapc #'cider--close-connection clients)
 
-    (when server-buffer
-      (kill-buffer server-buffer))
-    (cond
-     ((string-match-p "^killed\\|^interrupt" event)
-      nil)
-     ((string-match-p "^hangup" event)
-      (mapc #'cider--close-connection clients))
-     ;; On Windows, a failed start sends the "finished" event. On Linux it sends
-     ;; "exited abnormally with code 1".
-     (t (error "Could not start nREPL server: %s" problem)))))
+      (if (process-get process :cider--nrepl-server-ready)
+          (progn
+            (when server-buffer (kill-buffer server-buffer))
+            (message "nREPL server exited."))
+        (let ((problem (when (and server-buffer (buffer-live-p server-buffer))
+                         (with-current-buffer server-buffer
+                           (buffer-substring (point-min) (point-max))))))
+          (error "Could not start nREPL server: %s (%S)" problem (string-trim event)))))))
 
 
 ;;; Messages
@@ -1301,7 +1373,8 @@ EVENT gives the button position on window."
   "Return the color to use when pretty-printing the nREPL message with ID.
 If ID is nil, return nil."
   (when id
-    (thread-first (string-to-number id)
+    (thread-first
+      (string-to-number id)
       (mod (length nrepl-message-colors))
       (nth nrepl-message-colors))))
 

@@ -1,6 +1,6 @@
 ;;; cider-clojuredocs.el --- ClojureDocs integration -*- lexical-binding: t -*-
 
-;; Copyright © 2014-2022 Bozhidar Batsov and CIDER contributors
+;; Copyright © 2014-2023 Bozhidar Batsov and CIDER contributors
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.dev>
 
@@ -43,19 +43,20 @@
   (thread-first `("op" "clojuredocs-lookup"
                   "ns" ,ns
                   "sym" ,sym)
-    (cider-nrepl-send-sync-request)
-    (nrepl-dict-get "clojuredocs")))
+                (cider-nrepl-send-sync-request)
+                (nrepl-dict-get "clojuredocs")))
 
 (defun cider-sync-request:clojuredocs-refresh ()
   "Refresh the ClojureDocs cache."
   (thread-first '("op" "clojuredocs-refresh-cache")
-    (cider-nrepl-send-sync-request)
-    (nrepl-dict-get "status")))
+                (cider-nrepl-send-sync-request)
+                (nrepl-dict-get "status")))
 
 (defun cider-clojuredocs-replace-special (name)
   "Convert the dashes in NAME to a ClojureDocs friendly format.
 We need to handle \"?\", \".\", \"..\" and \"/\"."
-  (thread-last name
+  (thread-last
+    name
     (replace-regexp-in-string "\\?" "_q")
     (replace-regexp-in-string "\\(\\.+\\)" "_\\1")
     (replace-regexp-in-string "/" "fs")))

@@ -1,6 +1,6 @@
 ;;; cider-eldoc-tests.el  -*- lexical-binding: t; -*-
 
-;; Copyright © 2012-2022 Tim King, Bozhidar Batsov
+;; Copyright © 2012-2023 Tim King, Bozhidar Batsov
 
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Bozhidar Batsov <bozhidar@batsov.dev>
@@ -122,6 +122,7 @@
 (describe "cider-eldoc-beginning-of-sexp"
   (it "moves to the beginning of the sexp"
     (with-temp-buffer
+      (clojure-mode)
       (save-excursion
         (insert "(a (b b) (c c) d)"))
       (search-forward "d")
@@ -131,6 +132,7 @@
 
   (it "returns the number sexp the point was over or after"
     (with-temp-buffer
+      (clojure-mode)
       (save-excursion
         (insert "(a (b b) (c c) d)"))
       (search-forward "d")
@@ -140,6 +142,7 @@
 
   (it "returns nil if the maximum number of sexps to skip is exceeded"
     (with-temp-buffer
+      (clojure-mode)
       (save-excursion
         (insert "(a (b b) (c c) d)"))
       (search-forward "d")
@@ -171,7 +174,7 @@
     (with-temp-buffer
       (clojure-mode)
       (save-excursion (insert "(map inc [1 2 3])"))
-      ;; whem cursor is on map, display its eldoc
+      ;; when cursor is on map, display its eldoc
       (search-forward "map")
       (expect (cider-eldoc-info-in-current-sexp) :to-equal
               '("eldoc-info" ("clojure.core" "map" (("f") ("f" "coll"))) "thing" "map" "pos" 0))
@@ -192,7 +195,7 @@
       (with-temp-buffer
         (clojure-mode)
         (save-excursion (insert "(map inc [1 2 3])"))
-        ;; whem cursor is on map, display its eldoc
+        ;; when cursor is on map, display its eldoc
         (search-forward "map")
         (expect (cider-eldoc-info-in-current-sexp) :to-equal
                 '("eldoc-info" ("clojure.core" "map" (("f") ("f" "coll"))) "thing" "map" "pos" 0))

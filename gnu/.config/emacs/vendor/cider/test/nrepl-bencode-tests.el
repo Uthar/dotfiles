@@ -1,6 +1,6 @@
 ;;; nrepl-bencode-tests.el  -*- lexical-binding: t; -*-
 
-;; Copyright © 2012-2022 Tim King, Bozhidar Batsov
+;; Copyright © 2012-2023 Tim King, Bozhidar Batsov
 
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Bozhidar Batsov <bozhidar@batsov.dev>
@@ -30,6 +30,15 @@
 (require 'buttercup)
 (require 'cl-lib)
 (require 'nrepl-client)
+
+;; Workaround for silex/master-dev issue with buggy old snapshot.  To be removed
+;; once new snapshot image is build.
+(when (= emacs-major-version 29)
+  (cl-struct-define 'queue nil 'cl-structure-object 'record nil
+		    '((cl-tag-slot)
+		      (head)
+		      (tail))
+		    'cl-struct-queue-tags 'queue 't))
 
 (defun nrepl-bdecode-string (string)
   "Return first complete object in STRING.

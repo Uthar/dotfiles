@@ -17,6 +17,8 @@ variable. Here's an example:
 (cider-add-to-alist 'cider-jack-in-cljs-dependencies "weasel/weasel" "0.7.1")
 ----
 
+IMPORTANT: Always use the fully qualified `group/artifact` (e.g. `re-frame/re-frame`) in these dependencies, since only Leiningen supports the bare `re-frame` syntax.
+
 Typically, modifying this variable is not needed, as ClojureScript dependencies are declared
 explicitly in your project configuration most of the time.
 
@@ -43,6 +45,8 @@ All supported ClojureScript REPLs are stored in
 ----
 (cider-register-cljs-repl-type 'super-cljs "(do (...))" optional-requirements-function)
 ----
+
+NOTE: If you're registering a self-hosted (native) ClojureScript REPL (e.g. `scittle`), the "upgrade" form should be `nil`.
 
 You can also modify the known ClojureScript REPLs on a per-project basis using
 `.dir-locals.el`:

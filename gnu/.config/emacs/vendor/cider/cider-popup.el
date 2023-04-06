@@ -1,6 +1,6 @@
 ;;; cider-popup.el --- Creating and quitting popup buffers  -*- lexical-binding: t; -*-
 
-;; Copyright © 2015-2022  Bozhidar Batsov, Artur Malabarba and CIDER contributors
+;; Copyright © 2015-2023  Bozhidar Batsov, Artur Malabarba and CIDER contributors
 
 ;; Author: Artur Malabarba <bruce.connor.am@gmail.com>
 
@@ -46,7 +46,7 @@ If major MODE is non-nil, enable it for the popup buffer.
 If ANCILLARY is non-nil, the buffer is added to `cider-ancillary-buffers'
 and automatically removed when killed."
   (thread-first (cider-make-popup-buffer name mode ancillary)
-    (cider-popup-buffer-display select)))
+                (cider-popup-buffer-display select)))
 
 (defun cider-popup-buffer-display (buffer &optional select)
   "Display BUFFER.

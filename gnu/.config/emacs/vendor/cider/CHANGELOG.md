@@ -2,6 +2,86 @@
 
 ## master (unreleased)
 
+## 1.7.0 (2023-03-23)
+
+### New features
+
+- [#3314](https://github.com/clojure-emacs/cider/issues/3314): Detect `nrepl+unix` sockets (say via `lein nrepl :headless :socket nrepl.sock`).
+- [#3262](https://github.com/clojure-emacs/cider/issues/3262): Add navigation functionality to `n/p/f/b` keys inside the data inspector's buffer.
+- [#3310](https://github.com/clojure-emacs/cider/issues/3310): Add ability to use custom coordinates in `cider-jack-in-dependencies`.
+- [cider-nrepl#766](https://github.com/clojure-emacs/cider-nrepl/issues/766): Complete local bindings for ClojureScript files.
+- [#3179](https://github.com/clojure-emacs/cider/issues/3179): Introduce `cider-jack-in-universal` to support jacking-in without a project from a set of pre-configured Clojure project tools.
+
+### Changes
+
+- Allow using `npx nbb` as `cider-nbb-command`.
+- [#3281](https://github.com/clojure-emacs/cider/pull/3281): Replace newline chars with actual newlines in `*cider-test-report*` buffer, for prettier error messages.
+- Bump the injected `cider-nrepl` to 0.30.
+- [#3219](https://github.com/clojure-emacs/cider/issues/3219): Disable by default forcing the display of output when the REPL prompt is at the first line of the of the REPL window. This behavior is desirable, but very slow and rarely needed. It can be re-enabled by setting `cider-repl-display-output-before-window-boundaries` to `t`.
+
+## 1.6.0 (2022-12-21)
+
+### New features
+
+- [#3278](https://github.com/clojure-emacs/cider/pull/3278): Introduce integration tests, which also fix a long standing issue with orphaned process on MS-Windows by contracting `taskkill`, if available, to properly kill the nREPL server process tree.
+- [#3061](https://github.com/clojure-emacs/cider/issues/3061): Add support for `nbb`.
+- [#3249](https://github.com/clojure-emacs/cider/pull/3249): Add support for Clojure Spec 2.
+- [#3247](https://github.com/clojure-emacs/cider/pull/3247): Add the `cider-stacktrace-analyze-at-point` and `cider-stacktrace-analyze-in-region` commands to view printed exceptions in the stacktrace inspector.
+
+### Changes
+
+- Bump the injected nREPL version to 1.0.
+- [#3061](https://github.com/clojure-emacs/cider/issues/3061): Allow to use `cider-connect-clj` for self-hosted cljs repls (e.g. `nbb`).
+- [#3291](https://github.com/clojure-emacs/cider/pull/3291): **Remove** the `'cljs-pending` `repl-type`. It is replaced by `cider-repl-cljs-upgrade-pending`.
+- [#3261](https://github.com/clojure-emacs/cider/issues/3261): If user is connecting to nREPL from a TRAMP buffer, use its connection parameters (port, username) for establishing SSH tunnel.
+
+### Bugs fixed
+
+- Remove needless quotes from the choices of `cider-jack-in-auto-inject-clojure`.
+- [#2561](https://github.com/clojure-emacs/cider/issues/2561): Disable undo in `*cider-test-report*` buffers.
+- [#3251](https://github.com/clojure-emacs/cider/pull/3251): Disable undo in `*cider-stacktrace*` buffers.
+- Consecutive overlays will not be spuriously deleted.
+- [#3260](https://github.com/clojure-emacs/cider/pull/3260): Scroll REPL buffer in other frame.
+- [#3293](https://github.com/clojure-emacs/cider/issues/3293): Can't jack in to more than one `bb` projects.
+
+## 1.5.0 (2022-08-24)
+
+### New features
+
+- [#3226](https://github.com/clojure-emacs/cider/pull/3226): Populate completions metadata, making it possible to change the style of completion via `completion-category-override` or `completion-category-defaults`.
+- [#2946](https://github.com/clojure-emacs/cider/issues/2946): Add custom var `cider-merge-sessions` to allow combining sessions in two different ways: Setting `cider-merge-sessions` to `'host` will merge all sessions associated with the same host within a project. Setting it to `'project` will combine all sessions of a project irrespective of their host.
+- Support Gradle jack-in via the Gradle wrapper (`gradlew`), instead of just a globally installed `gradle` on the `PATH`.
+- Gradle projects can now inject dependencies and middleware as with other build tools (dependency injection requires [Clojurephant](https://github.com/clojurephant/clojurephant) 0.7.0 or higher).
+- [#3239](https://github.com/clojure-emacs/cider/issues/3239): Added commands to evaluate and tap last sexp (`cider-tap-last-sexp`) and sexp at point (`cider-tap-sexp-at-point`).
+
+## Changes
+
+- Upgrade clojure-mode to [5.15.1](https://github.com/clojure-emacs/clojure-mode/blob/v5.15.1/CHANGELOG.md).
+- Upgrade injected `cider-nrepl` to [0.28.5](https://github.com/clojure-emacs/cider-nrepl/releases/tag/v0.28.5).
+- [#3200](https://github.com/clojure-emacs/cider/issues/3200): Improve cider-browse-ns interface to allow selective hiding of var types as well as grouping options.  Include private vars in result list.
+- Changed default `cider-gradle-command` to `./gradlew` to use the Gradle wrapper.
+- Changed default `cider-gradle-global-options` to `""` (empty, formerly `--no-daemon`).
+- [#3234](https://github.com/clojure-emacs/cider/pull/3234): Autocomplete multiple available ports on nREPL connect.
+
+### Bugs fixed
+
+- [#3235](https://github.com/clojure-emacs/cider/issues/3235): Check `name` is a TRAMP file in `cider--client-tramp-filename` via `tramp-tramp-file-p`.
+
+## 1.4.1 (2022-05-25)
+
+## Changes
+
+* Upgrade cider-nrepl to [0.28.4](https://github.com/clojure-emacs/cider-nrepl/releases/tag/v0.28.4).
+
+### Bugs fixed
+
+* [#3195](https://github.com/clojure-emacs/cider/issues/3195): Revert the change that resulted in `(error "Cyclic keymap inheritance")` on `cider-test-run-test`.
+* [#3182](https://github.com/clojure-emacs/cider/issues/3182): Don't try to invoke
+JVM-specific code outside of JVM Clojure.
+* [#3202](https://github.com/clojure-emacs/cider/pull/3202): Fix `cider-eval-ns-form`
+  * Do not always perform `undef-all`. Undef only with `C-u` prefix.
+  * Fix extraction of namespace name.
+
 ## 1.4.0 (2022-05-02)
 
 ## New features
@@ -1261,7 +1341,7 @@ the option `cider-repl-use-clojure-font-lock`.
 
 * Added new interactive command `cider-read-and-eval` (bound to `C-c M-:` in `cider-mode`).
 * Added new interactive command `cider-eval-last-sexp-to-repl` (`C-c M-e`). The command will output the result
-of the evaluated code to the REPL buffer, so you can easily play with the output there afterwords.
+of the evaluated code to the REPL buffer, so you can easily play with the output there afterwards.
 * Added new interactive command `cider-insert-last-sexp-in-repl` (`C-c M-p`).
 * Added new interactive command `cider-eval-last-expression-and-replace` (`C-c C-w`).
 * Implemented REPL shortcuts, triggered by pressing `,` at the start of a REPL input line (similar to the ones in SLIME).

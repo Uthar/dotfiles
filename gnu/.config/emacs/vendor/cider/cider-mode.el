@@ -1,7 +1,7 @@
 ;;; cider-mode.el --- Minor mode for REPL interactions -*- lexical-binding: t -*-
 
 ;; Copyright © 2012-2013 Tim King, Phil Hagelberg, Bozhidar Batsov
-;; Copyright © 2013-2022 Bozhidar Batsov, Artur Malabarba and CIDER contributors
+;; Copyright © 2013-2023 Bozhidar Batsov, Artur Malabarba and CIDER contributors
 ;;
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Phil Hagelberg <technomancy@gmail.com>
@@ -229,7 +229,7 @@ If EVAL is non-nil the form will also be evaluated.  Use
   (when cider-switch-to-repl-on-insert
     (cider-switch-to-repl-buffer))
   (let ((repl (cider-current-repl)))
-    (with-selected-window (or (get-buffer-window repl)
+    (with-selected-window (or (get-buffer-window repl t)
                               (selected-window))
       (with-current-buffer repl
         (goto-char (point-max))
@@ -320,10 +320,12 @@ If invoked with a prefix ARG eval the expression after inserting it."
     "--"
     ["Eval current list" cider-eval-list-at-point]
     ["Eval current sexp" cider-eval-sexp-at-point]
+    ["Eval and tap current sexp" cider-tap-sexp-at-point]
     ["Eval current sexp to point" cider-eval-sexp-up-to-point]
     ["Eval current sexp in context" cider-eval-sexp-at-point-in-context]
     "--"
     ["Eval last sexp" cider-eval-last-sexp]
+    ["Eval and tap last sexp" cider-tap-last-sexp]
     ["Eval last sexp in context" cider-eval-last-sexp-in-context]
     ["Eval last sexp and insert" cider-eval-print-last-sexp
      :keys "\\[universal-argument] \\[cider-eval-last-sexp]"]

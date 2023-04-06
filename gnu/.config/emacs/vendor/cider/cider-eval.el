@@ -1,7 +1,7 @@
 ;;; cider-eval.el --- Interactive evaluation (compilation) functionality -*- lexical-binding: t -*-
 
 ;; Copyright © 2012-2013 Tim King, Phil Hagelberg, Bozhidar Batsov
-;; Copyright © 2013-2022 Bozhidar Batsov, Artur Malabarba and CIDER contributors
+;; Copyright © 2013-2023 Bozhidar Batsov, Artur Malabarba and CIDER contributors
 ;;
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Phil Hagelberg <technomancy@gmail.com>
@@ -462,6 +462,13 @@ Uses the value of the `out' slot in RESPONSE."
    (cider-nrepl-sync-request:eval
     "(clojure.stacktrace/print-cause-trace *e)")))
 
+(defun cider-default-err-eval-print-handler ()
+  "Display the last exception without middleware support.
+When clojure.stracktrace is not present."
+  (cider--handle-err-eval-response
+   (cider-nrepl-sync-request:eval
+    "(println (ex-data *e))")))
+
 (defun cider--render-stacktrace-causes (causes &optional error-types)
   "If CAUSES is non-nil, render its contents into a new error buffer.
 Optional argument ERROR-TYPES contains a list which should determine the
@@ -475,8 +482,10 @@ op/situation that originated this error."
 If RESPONSE contains a cause, cons it onto CAUSES and return that.  If
 RESPONSE is the final message (i.e. it contains a status), render CAUSES
 into a new error buffer."
-  (nrepl-dbind-response response (class status)
-    (cond (class (cons response causes))
+  (nrepl-dbind-response response (class msg status type)
+    (cond ((and (member "notification" status) causes)
+           (nrepl-notify msg type))
+          (class (cons response causes))
           (status (cider--render-stacktrace-causes causes)))))
 
 (defun cider-default-err-op-handler ()
@@ -485,9 +494,9 @@ into a new error buffer."
   (let (causes)
     (cider-nrepl-send-request
      (thread-last
-         (map-merge 'list
-                    '(("op" "stacktrace"))
-                    (cider--nrepl-print-request-map fill-column))
+       (map-merge 'list
+                  '(("op" "analyze-last-stacktrace"))
+                  (cider--nrepl-print-request-map fill-column))
        (seq-mapcat #'identity))
      (lambda (response)
        ;; While the return value of `cider--handle-stacktrace-response' is not
@@ -498,9 +507,12 @@ into a new error buffer."
 (defun cider-default-err-handler ()
   "This function determines how the error buffer is shown.
 It delegates the actual error content to the eval or op handler."
-  (if (cider-nrepl-op-supported-p "stacktrace")
-      (cider-default-err-op-handler)
-    (cider-default-err-eval-handler)))
+  (cond ((cider-nrepl-op-supported-p "analyze-last-stacktrace")
+         (cider-default-err-op-handler))
+        ((cider-library-present-p "clojure.stacktrace")
+         (cider-default-err-eval-handler))
+        (t (cider-default-err-eval-print-handler))))
+
 
 ;; The format of the error messages emitted by Clojure's compiler changed in
 ;; Clojure 1.10.  That's why we're trying to match error messages to both the
@@ -739,7 +751,10 @@ when `cider-auto-inspect-after-eval' is non-nil."
                                    (cider-emit-interactive-eval-output out))
                                  (lambda (_buffer err)
                                    (cider-emit-interactive-eval-err-output err)
-                                   (unless cider-show-error-buffer
+
+                                   (when (or (not cider-show-error-buffer)
+                                             (not (cider-connection-has-capability-p 'jvm-compilation-errors)))
+
                                      ;; Display errors as temporary overlays
                                      (let ((cider-result-use-clojure-font-lock nil))
                                        (cider--display-interactive-eval-result
@@ -1015,6 +1030,25 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
   (save-excursion
     (goto-char (cadr (cider-sexp-at-point 'bounds)))
     (cider-eval-last-sexp output-to-current-buffer)))
+
+(defun cider-tap-last-sexp (&optional output-to-current-buffer)
+  "Evaluate and tap the expression preceding point.
+If invoked with OUTPUT-TO-CURRENT-BUFFER, print the result in the current
+buffer."
+  (interactive "P")
+  (let ((tapped-form (concat "(clojure.core/doto " (cider-last-sexp) " (clojure.core/tap>))")))
+    (cider-interactive-eval tapped-form
+                            (when output-to-current-buffer (cider-eval-print-handler))
+                            nil
+                            (cider--nrepl-pr-request-map))))
+
+(defun cider-tap-sexp-at-point (&optional output-to-current-buffer)
+  "Evaluate and tap the expression around point.
+If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
+  (interactive "P")
+  (save-excursion
+    (goto-char (cadr (cider-sexp-at-point 'bounds)))
+    (cider-tap-last-sexp output-to-current-buffer)))
 
 (defvar-local cider-previous-eval-context nil
   "The previous evaluation context if any.
@@ -1333,12 +1367,12 @@ buffer, else display in a popup buffer."
 (defun cider-eval-ns-form (&optional undef-all)
   "Evaluate the current buffer's namespace form.
 When UNDEF-ALL is non-nil, unmap all symbols and aliases first."
-  (interactive "p")
-  (when (clojure-find-ns)
+  (interactive "P")
+  (when-let ((ns (clojure-find-ns)))
     (save-excursion
       (goto-char (match-beginning 0))
       (when undef-all
-        (cider-undef-all (match-string 0)))
+        (cider-undef-all ns))
       (cider-eval-defun-at-point))))
 
 (defun cider-read-and-eval (&optional value)
@@ -1422,8 +1456,10 @@ passing arguments."
     (define-key map (kbd "n") #'cider-eval-ns-form)
     (define-key map (kbd "d") #'cider-eval-defun-at-point)
     (define-key map (kbd "e") #'cider-eval-last-sexp)
+    (define-key map (kbd "q") #'cider-tap-last-sexp)
     (define-key map (kbd "l") #'cider-eval-list-at-point)
     (define-key map (kbd "v") #'cider-eval-sexp-at-point)
+    (define-key map (kbd "t") #'cider-tap-sexp-at-point)
     (define-key map (kbd "o") #'cider-eval-sexp-up-to-point)
     (define-key map (kbd ".") #'cider-read-and-eval-defun-at-point)
     (define-key map (kbd "z") #'cider-eval-defun-up-to-point)
@@ -1438,8 +1474,10 @@ passing arguments."
     (define-key map (kbd "C-n") #'cider-eval-ns-form)
     (define-key map (kbd "C-d") #'cider-eval-defun-at-point)
     (define-key map (kbd "C-e") #'cider-eval-last-sexp)
+    (define-key map (kbd "C-q") #'cider-tap-last-sexp)
     (define-key map (kbd "C-l") #'cider-eval-list-at-point)
     (define-key map (kbd "C-v") #'cider-eval-sexp-at-point)
+    (define-key map (kbd "C-t") #'cider-tap-sexp-at-point)
     (define-key map (kbd "C-o") #'cider-eval-sexp-up-to-point)
     (define-key map (kbd "C-.") #'cider-read-and-eval-defun-at-point)
     (define-key map (kbd "C-z") #'cider-eval-defun-up-to-point)

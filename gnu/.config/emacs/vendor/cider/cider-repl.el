@@ -1,7 +1,7 @@
 ;;; cider-repl.el --- CIDER REPL mode interactions -*- lexical-binding: t -*-
 
 ;; Copyright © 2012-2013 Tim King, Phil Hagelberg, Bozhidar Batsov
-;; Copyright © 2013-2022 Bozhidar Batsov, Artur Malabarba and CIDER contributors
+;; Copyright © 2013-2023 Bozhidar Batsov, Artur Malabarba and CIDER contributors
 ;;
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Phil Hagelberg <technomancy@gmail.com>
@@ -153,7 +153,8 @@ you'd like to use the default Emacs behavior use
 (make-obsolete-variable 'cider-repl-print-level 'cider-print-options "0.21")
 
 (defvar cider-repl-require-repl-utils-code
-  '((clj . "(clojure.core/apply clojure.core/require clojure.main/repl-requires)")
+  '((clj . "(when-let [requires (resolve 'clojure.main/repl-requires)]
+  (clojure.core/apply clojure.core/require @requires))")
     (cljs . "(require '[cljs.repl :refer [apropos dir doc find-doc print-doc pst source]])")))
 
 (defcustom cider-repl-init-code (list (cdr (assoc 'clj cider-repl-require-repl-utils-code)))
@@ -166,6 +167,19 @@ Will be evaluated with bindings for set!-able vars in place."
   "When non-nil a bit of help text will be displayed on REPL start."
   :type 'boolean
   :package-version '(cider . "0.11.0"))
+
+;; See https://github.com/clojure-emacs/cider/issues/3219 for more details
+(defcustom cider-repl-display-output-before-window-boundaries nil
+  "Controls whether to display output emitted before the REPL window boundaries.
+
+If the prompt is on the first line of the window, then scroll the window
+down by a single line to make the emitted output visible.
+
+That behavior is desirable, but rarely needed and it slows down printing
+output a lot (e.g. 10x) that's why it's disable by default starting with
+CIDER 1.7."
+  :type 'boolean
+  :package-version '(cider . "1.7.0"))
 
 
 ;;;; REPL buffer local variables
@@ -223,6 +237,8 @@ This cache is stored in the connection buffer.")
       (nrepl-dbind-response response (repl-type changed-namespaces)
         (when (and repl-type cider-repl-auto-detect-type)
           (cider-set-repl-type repl-type))
+        (when (eq (cider-maybe-intern repl-type) 'cljs)
+          (setq cider-repl-cljs-upgrade-pending nil))
         (unless (nrepl-dict-empty-p changed-namespaces)
           (setq cider-repl-ns-cache (nrepl-dict-merge cider-repl-ns-cache changed-namespaces))
           (dolist (b (buffer-list))
@@ -272,12 +288,13 @@ Run CALLBACK once the evaluation is complete."
     (cider-nrepl-request:eval
      ;; Ensure we evaluate _something_ so the initial namespace is correctly set
      (thread-first (or cider-repl-init-code '("nil"))
-       (string-join "\n"))
+                   (string-join "\n"))
      (cider-repl-init-eval-handler callback)
      nil
      (line-number-at-pos (point))
      (cider-column-number-at-pos (point))
-     (thread-last request
+     (thread-last
+       request
        (map-pairs)
        (seq-mapcat #'identity)))))
 
@@ -774,14 +791,16 @@ Before inserting, run `cider-repl-preoutput-hook' on STRING."
                  (not (bolp)))
         (insert-before-markers "\n")
         (set-marker cider-repl-output-end (1- (point))))))
-  (when-let* ((window (get-buffer-window buffer t)))
-    ;; If the prompt is on the first line of the window, then scroll the window
-    ;; down by a single line to make the emitted output visible.
-    (when (and (pos-visible-in-window-p cider-repl-prompt-start-mark window)
-               (< 1 cider-repl-prompt-start-mark)
-               (not (pos-visible-in-window-p (1- cider-repl-prompt-start-mark) window)))
-      (with-selected-window window
-        (scroll-down 1)))))
+  (when cider-repl-display-output-before-window-boundaries
+    ;; FIXME: The code below is super slow, that's why it's disabled by default.
+    (when-let* ((window (get-buffer-window buffer t)))
+      ;; If the prompt is on the first line of the window, then scroll the window
+      ;; down by a single line to make the emitted output visible.
+      (when (and (pos-visible-in-window-p cider-repl-prompt-start-mark window)
+                 (< 1 cider-repl-prompt-start-mark)
+                 (not (pos-visible-in-window-p (1- cider-repl-prompt-start-mark) window)))
+        (with-selected-window window
+          (scroll-down 1))))))
 
 (defun cider-repl--emit-interactive-output (string face)
   "Emit STRING as interactive output using FACE."
@@ -1039,7 +1058,7 @@ If NEWLINE is true then add a newline at the end of the input."
          (line-number-at-pos input-start)
          (cider-column-number-at-pos input-start)
          (thread-last
-             (cider--repl-request-map fill-column)
+           (cider--repl-request-map fill-column)
            (map-pairs)
            (seq-mapcat #'identity)))))))
 

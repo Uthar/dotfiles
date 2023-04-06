@@ -86,7 +86,16 @@ Here's how you can modify the injected dependencies for `cider-jack-in-clj`:
 ;; auto-inject version 1.0 of the library foo/bar
 (cider-add-to-alist 'cider-jack-in-dependencies
                     "foo/bar" "1.0")
+;; if you want to have full control over the coordinate description set it as an alist
+;; auto-inject {:git/sha "6ae2b6f71773de7549d7f22759e8b09fec27f0d9" for library org.clojure/tools.deps
+;;              :git/url "https://github.com/clojure/tools.deps/"}
+(cider-add-to-alist 'cider-jack-in-dependencies
+                    "org.clojure/tools.deps"
+                    '(("git/sha" . "6ae2b6f71773de7549d7f22759e8b09fec27f0d9")
+                      ("git/url" . "https://github.com/clojure/tools.deps/")))
 ----
+
+IMPORTANT: Always use the fully qualified `group/artifact` (e.g. `re-frame/re-frame`) in these dependencies, since only Leiningen supports the bare `re-frame` syntax.
 
 CIDER will also inject the most recent version of nREPL that it supports. This is a simple
 trick to override the version of nREPL bundled with your build tool (e.g. Leiningen), so you can gain
@@ -104,10 +113,6 @@ for example, if your project defaults to an older version of Clojure than that
 supported by the CIDER middleware. Set `cider-jack-in-auto-inject-clojure`
 appropriately to enable this.
 
-NOTE: CIDER does not currently support
-dependency auto-injection for Gradle projects. Unfortunately there's no
-way to pass extra dependencies to Gradle via its command-line interface.
-
 === Jacking-in without a Project
 
 If you try to run `cider-jack-in` outside a project
@@ -119,6 +124,57 @@ but was subsequently switched to `clj`, Clojure's basic startup command.
 
 TIP: You can set `cider-allow-jack-in-without-project` to `t` if you'd like to
 disable the warning displayed when jacking-in outside a project.
+
+==== Universal jack-in
+
+`cider-jack-in-universal` kbd:[C-c C-x j u] is another way to quickly
+jack in without a project choosing from a list of pre-configured
+Clojure build tools. When this command is called from outside of a
+project, the user is given the option to select to jack in with one of
+the pre-configured tools, as well as to confirm the root directory to
+use as a base. If the command is called from within a project
+directory, it behaves exactly the same as `cider-jack-in` does.
+
+It utilizes Emacs's
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Prefix-Command-Arguments.html[numeric
+prefix arguments] to quickly jack in with a specific build tool. Numeric prefix
+arguments can be set with the `Meta` key followed by a number.
+
+The following Clojure build tools are supported so far
+
+- kbd:[M-1 C-c C-x j u] jack-in using clojure-cli.
+- kbd:[M-2 C-c C-x j u] jack-in using leiningen.
+- kbd:[M-3 C-c C-x j u] jack-in using babashka.
+- kbd:[M-4 C-c C-x j u] jack-in using nbb.
+
+Here is an example of how to bind kbd:[F12] for quickly bringing up a
+babashka REPL:
+
+[source,lisp]
+----
+(global-set-key (kbd "<f12>") (lambda ()
+                                (interactive)
+                                (cider-jack-in-universal 3)))
+----
+
+The list of available build tools to consider is configured in
+`cider-jack-in-universal-options`. Each element of the list consists
+of the tool name and its setup options. Taking `nbb` as an example
+from the list:
+
+[source,lisp]
+----
+(nbb         (:prefix-arg 4 :cmd (:jack-in-type cljs :project-type nbb :cljs-repl-type nbb :edit-project-dir t)))
+----
+
+with
+
+. `:prefix-arg` assigns the `nbb` tool name a numerical argument prefix of 4.
+. `:cmd` how to invoke the command.
+.. `:jack-in-type` use a `cljs` repl.
+.. `:project-type` use `nbb` (see `jack-in-command`) to bring up the nREPL server.
+.. `:cljs-repl-type` client uses the `nbb` cljs repl type (see `cider-cljs-repl-types`) to initialize server.
+.. `:edit-project-dir` ask the user to confirm root directory to use as base.
 
 === Customizing the Jack-in Command Behavior
 
@@ -175,15 +231,49 @@ wait`)
 
 ==== Gradle Options
 
-* `cider-gradle-command` - the name of the Gradle executable (`gradle` by default)
-* `cider-gradle-parameters`
-* `cider-gradle-global-options`
+* `cider-gradle-command` - the name of the Gradle executable (`./gradlew` by default)
+* `cider-gradle-parameters` - the Gradle arguments to invoke the repl task (`clojureRepl` by default)
+* `cider-gradle-global-options` - these are usually global options to gradle, such as `--no-daemon` or `--configuration-cache` (empty by default)
 
 ==== shadow-cljs
 
 * `cider-shadow-cljs-command` - the command to run `shadow-cljs` (`npx shadow-cljs` by default). By default we favor the project-specific shadow-cljs over the system-wide.
 * `cider-shadow-cljs-parameters` - the task to start a REPL server (`server` by default)
 * `cider-shadow-cljs-global-options`
+
+=== Override the Jack-In Command
+
+Which Jack-In Command is used is based on the project type. You can override the Jack-In Command either project-wide or as an argument in Lisp.
+This allows for fine-grained control over how cider starts the nrepl-server.
+
+The precedence order for determining the Jack-In Command is:
+1) :jack-in-cmd if provided as a parameter,
+2) `cider-jack-in-command` if set as a directory local variable, and
+3) inferred from the project type (the default).
+
+==== Setting a project-wide command
+
+You can set a local variable `cider-jack-in-command` to override the jack-in command.
+
+[source,emacs-lisp]
+----
+((nil
+  (cider-jack-in-cmd . "nbb nrepl-server")))
+----
+
+==== Passing the Command Programmatically as a Parameter
+
+You can provide an override Jack-In command as an argument to `cider-jack-in`.
+Here is an example Nbb Jack-In command, providing a custom `:jack-in-cmd`.
+
+[source,emacs-lisp]
+----
+(defun cider-jack-in-nbb-2 ()
+  "Start a Cider nREPL server with the 'nbb nrepl-server' command."
+  (interactive)
+  (cider-jack-in-clj '(:jack-in-cmd "nbb nrepl-server")))
+----
+
 
 == Connect to a Running nREPL Server
 
@@ -264,7 +354,9 @@ config files such as `~/.ssh/config` and `~/.ssh/known_hosts`. This is known to
 cause problems with complex or nonstandard ssh configs.
 
 You can safely run `cider-jack-in-*` while working with remote files over TRAMP. CIDER
-will handle this use-case transparently for you.
+will reuse existing SSH connection's parameters (like port and username) for establishing SSH tunnel.
+The same will happen if you try to `cider-connect-*` to a host that matches the one you're currently
+connected to.
 
 == Connecting via unix domain file socket
 
@@ -273,10 +365,13 @@ CIDER's support for Unix sockets is considered experimental and its
 interface might change in future CIDER releases.
 
 When locally running nREPL servers, there is the option to listen on a
-socket file instead of opening a network port. This can have
-advantages in some use cases, e.g. when working with virtual networks
-(containers) where sharing a file socket can be vastly simpler than
-managing bridge networks and firewall setups.
+socket file instead of opening a network port.  As long as access to
+the parent directory of the socket is sufficiently protected, this is
+much more secure than the network port, since any local user can
+access the port-provided REPL.  It can also be be helpful in other
+cases, e.g. when working with virtual networks (containers) where
+sharing a file socket can be vastly simpler than managing bridge
+networks and firewall setups.
 
 After having started an nREPL server on a file socket, e.g. with the
 `clj` command (see https://nrepl.org/nrepl/usage/server.html for other
@@ -289,6 +384,12 @@ $ clj -R:nREPL -m nrepl.cmdline --socket nrepl.sock
 
 you can then connect CIDER by using the `local-unix-domain-socket`
 special hostname with `cider-connect`: kbd:[M-x] `cider-connect` kbd:[RET] `local-unix-domain-socket` kbd:[RET] `nrepl.sock` kbd:[RET].
+
+At the moment only with `leiningen`, commands like `cider-jack-in`
+will detect and use the unix domain socket if one is requested via the
+`:socket` argument.  This can be arranged by specifying a prefix
+argument to `cider-jack-in`, e.g. kbd:[C-u] kbd:[M-x] `cider-jack-in`,
+or by adjusting `cider-lein-parameters`.
 
 == What's Next?
 

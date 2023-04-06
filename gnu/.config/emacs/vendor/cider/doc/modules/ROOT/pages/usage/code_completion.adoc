@@ -6,7 +6,8 @@ CIDER provides intelligent code completion for both source buffers (powered by
 
 NOTE: Internally CIDER leverages
 https://github.com/alexander-yakushev/compliment[compliment] for Clojure and
-https://github.com/rkms/clj-suitable[clj-suitable] for ClojureScript.
+https://github.com/clojure-emacs/clj-suitable[clj-suitable] for ClojureScript.
+
 Improvements to the two libraries automatically translate to improvements in CIDER.
 
 == Standard completion
@@ -114,6 +115,18 @@ image::completion-annotations.png[Completion Annotations]
 
 TIP: Completion annotations can be disabled by setting
 `cider-annotate-completion-candidates` to `nil`.
+
+=== Changing the completion style
+
+Sometimes the user may want to use a different completion style just for the CIDER
+complete at point function. That can be achieved by setting
+`completion-category-defaults`, overriting the completion style of the CIDER
+complete at point function. The following snippet accomplishes that:
+
+[source,lisp]
+----
+(add-to-list 'completion-category-defaults '(cider (styles basic)))
+----
 
 === Updating stale classes and methods cache
 

@@ -1,6 +1,6 @@
 ;;; nrepl-client-tests.el  -*- lexical-binding: t; -*-
 
-;; Copyright © 2012-2022 Tim King, Bozhidar Batsov
+;; Copyright © 2012-2023 Tim King, Bozhidar Batsov
 
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Bozhidar Batsov <bozhidar@batsov.dev>
@@ -114,7 +114,7 @@
 (describe "nrepl-parse-port"
   (it "standard"
       (let ((msg "nREPL server started on port 58882 on host kubernetes.docker.internal - nrepl://kubernetes.docker.internal:58882"))
-        (expect (string-match nrepl-listening-address-regexp msg)
+        (expect (string-match nrepl-listening-inet-address-regexp msg)
                 :not :to-be nil)
         (expect (match-string 1 msg)
                 :to-equal "58882")
@@ -122,7 +122,7 @@
                 :to-be nil)))
   (it "babashka"
       (let ((msg "Started nREPL server at 127.0.0.1:1667"))
-        (expect (string-match nrepl-listening-address-regexp msg)
+        (expect (string-match nrepl-listening-inet-address-regexp msg)
                 :not :to-be nil)
         (expect (match-string 1 msg)
                 :to-equal "1667")
@@ -130,12 +130,20 @@
                 :to-equal "127.0.0.1")))
     (it "shadow"
       (let ((msg "shadow-cljs - nREPL server started on port 50999"))
-        (expect (string-match nrepl-listening-address-regexp msg)
+        (expect (string-match nrepl-listening-inet-address-regexp msg)
                 :not :to-be nil)
         (expect (match-string 1 msg)
                 :to-equal "50999")
         (expect (match-string 2 msg)
                 :to-be nil))))
+
+(describe "nrepl-parse-sock"
+  (it "standard"
+      (let ((msg "nREPL server listening on  nrepl+unix:nrepl.sock"))
+        (expect (string-match nrepl-listening-unix-address-regexp msg)
+                :not :to-be nil)
+        (expect (match-string 1 msg)
+                :to-equal "nrepl.sock"))))
 
 (describe "nrepl-client-lifecycle"
   (it "start and stop nrepl client process"
@@ -152,14 +160,12 @@
                                 server-buffer))))
 
         ;; server up and running
-        (nrepl-tests-sleep-until 2 (eq (process-status server-process) 'run))
-        (expect (process-status server-process)
-                :to-equal 'run)
+        (nrepl-tests-poll-until (eq (process-status server-process) 'run) 2)
 
         ;; server has reported its endpoint
-        (nrepl-tests-sleep-until 2 server-endpoint)
-        (expect server-endpoint :not :to-be nil)
-
+        (nrepl-tests-poll-until server-endpoint 2)
+        (expect (plist-get (process-plist server-process) :cider--nrepl-server-ready)
+                :to-equal t)
         (condition-case error-details
             ;; start client process
             (let* ((client-buffer (get-buffer-create ":nrepl-lifecycle/client"))
@@ -182,10 +188,12 @@
               (delete-process process-client)
 
               ;; server process has been signalled
-              (nrepl-tests-sleep-until 4 (eq (process-status server-process)
-                                             'signal))
-              (expect (process-status server-process)
-                      :to-equal 'signal))
+              (nrepl-tests-poll-until (member (process-status server-process)
+                                                 '(exit signal)) 4)
+              (expect (let ((status (process-status server-process)))
+                        (if (eq system-type 'windows-nt)
+                            (eq status 'exit)
+                          (eq status 'signal)))))
           (error
            ;; there may be some useful information in the nrepl buffer on error
            (when-let ((nrepl-error-buffer (get-buffer "*nrepl-error*")))
