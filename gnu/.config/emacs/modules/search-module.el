@@ -38,6 +38,8 @@
 (defun kaspi/fd (regex)
   (compilation-start (format "fd -H -c never %s" regex) #'kaspi/fd-mode))
 
+(setopt grep-use-headings t)
+
 (defun kaspi/rg (regex)
   (compilation-start (format "rg --hidden --no-heading -nH %s" regex) #'kaspi/rg-mode))
 
