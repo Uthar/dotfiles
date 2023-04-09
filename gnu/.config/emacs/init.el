@@ -43,7 +43,6 @@
 (load "java-module")
 (load "clojure-module")
 (load "glsl-module")
-(load "ansi-module")
 (load "docker-module")
 (load "restclient-module")
 (load "window-module")
