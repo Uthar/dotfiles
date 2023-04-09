@@ -24,5 +24,6 @@
    (* 0.5 (window-text-height nil t))
    nil 1))
 
-(global-set-key (kbd "M-v") 'kaspi/pixel-scroll-up)
-(global-set-key (kbd "C-v") 'kaspi/pixel-scroll-down)
+(when window-system
+  (global-set-key (kbd "M-v") 'kaspi/pixel-scroll-up)
+  (global-set-key (kbd "C-v") 'kaspi/pixel-scroll-down))
