@@ -58,6 +58,9 @@
       (load-theme 'modus-operandi)
       (load-theme 'modus-vivendi)))
 
+(unless window-system
+  (xterm-mouse-mode))
+
 ;; notes:
 
 ;; diff a/ b/ in eshell creates a diff-mode buffer
