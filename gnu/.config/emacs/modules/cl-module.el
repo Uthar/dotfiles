@@ -58,13 +58,15 @@
 
 (global-set-key (kbd "C-c s") 'slime-selector)
 
-(defun kaspi/slime-capf ()
-  (let* ((end (move-marker (make-marker) (slime-symbol-end-pos)))
-         (beg (move-marker (make-marker) (slime-symbol-start-pos)))
-         (completion-result (slime-contextual-completions beg end))
-         (completion-set (cl-first completion-result)))
-    (when (consp completion-set)
-      (list beg (max (point) end) completion-set))))
+;; Causes stutter when moving around in completions
+;; Also causes hang when completing anything
+;; (defun kaspi/slime-capf ()
+;;   (let* ((end (move-marker (make-marker) (slime-symbol-end-pos)))
+;;          (beg (move-marker (make-marker) (slime-symbol-start-pos)))
+;;          (completion-result (slime-contextual-completions beg end))
+;;          (completion-set (cl-first completion-result)))
+;;     (when (consp completion-set)
+;;       (list beg (max (point) end) completion-set))))
 
 (defun kaspi/slime-repl-return-advice (function &rest args)
   (if completion-in-region-mode
@@ -74,7 +76,8 @@
 (with-eval-after-load 'slime
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
-  (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf))
+  ;; (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf)
+  )
 
 (advice-add 'slime-repl-return :around 'kaspi/slime-repl-return-advice)
 (advice-add 'slime-flash-region :override 'kaspi/noop)
