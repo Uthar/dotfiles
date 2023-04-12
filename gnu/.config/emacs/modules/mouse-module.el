@@ -15,13 +15,13 @@
 (defun kaspi/pixel-scroll-up ()
   (interactive)
   (pixel-scroll-precision-interpolate
-   (* 0.5 (- (window-text-height nil t)))
+   (* 0.5 (window-text-height nil t))
    nil 1))
 
 (defun kaspi/pixel-scroll-down ()
   (interactive)
   (pixel-scroll-precision-interpolate
-   (* 0.5 (window-text-height nil t))
+   (* -0.5 (window-text-height nil t))
    nil 1))
 
 (when window-system
