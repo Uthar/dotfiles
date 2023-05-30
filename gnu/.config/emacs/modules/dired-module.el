@@ -9,6 +9,8 @@
  ;; Also show dotfiles before normal files with -v
  dired-listing-switches "--group-directories-first -vlh"
 
+ dired-dwim-target t
+
  )
 
 (defun kaspi/dired-toggle-hidden ()
