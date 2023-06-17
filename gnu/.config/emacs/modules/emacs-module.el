@@ -19,7 +19,7 @@
 
  ;; Disable annoying local variable pop-ups.
  enable-dir-local-variables nil
- enable-local-variables 'safe
+ enable-local-variables :safe
 
  ;; Disable echo messages when using emacsclient.
  server-client-instructions nil
