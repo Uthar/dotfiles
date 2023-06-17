@@ -83,6 +83,9 @@
  switch-to-prev-buffer-skip-regexp
  (regexp-opt '("*inferior-lisp*"))
 
+ ;; Show count of isearch matches
+ isearch-lazy-count t
+
  )
 
 ;; Space indentation
