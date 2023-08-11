@@ -51,6 +51,7 @@
 (load "rust-module")
 (load "search-module")
 (load "blog-module")
+(load "snippets-module")
 
 (let ((hour (nth 2 (decode-time))))
   (if (and window-system (<= 7 hour 20))
