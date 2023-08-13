@@ -18,3 +18,8 @@
   (cl-defmethod eglot-execute-command
     (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
     (mapc #'eglot--apply-workspace-edit arguments)))
+
+(defun kaspi/open-current-file-in-idea ()
+  (interactive)
+  (start-process "idea" nil "idea-community" (buffer-file-name)))
+
