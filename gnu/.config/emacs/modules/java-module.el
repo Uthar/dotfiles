@@ -15,9 +15,18 @@
     (c-set-offset 'inclass 'kaspi/c-lineup-java-toplevel-class)))
 
 (with-eval-after-load 'eglot
+
   (cl-defmethod eglot-execute-command
     (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
-    (mapc #'eglot--apply-workspace-edit arguments)))
+    (mapc #'eglot--apply-workspace-edit arguments))
+
+  (rplacd (assoc '(java-mode java-ts-mode) eglot-server-programs)
+          '("~/jdtls/bin/jdtls"
+            :initializationOptions
+            (:extendedClientCapabilities
+             (:classFileContentsSupport t))))
+  
+  )
 
 (defun kaspi/open-current-file-in-idea ()
   (interactive)
