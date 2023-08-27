@@ -83,7 +83,7 @@
  switch-to-prev-buffer-skip-regexp
  (regexp-opt '("*inferior-lisp*"))
 
- ;; Show count of isearch matches
+ ;; Display isearch match count in modeline
  isearch-lazy-count t
 
  )
