@@ -55,8 +55,8 @@
 
 (let ((hour (nth 2 (decode-time))))
   (if (and window-system (<= 7 hour 20))
-      (load-theme 'modus-operandi)
-      (load-theme 'modus-vivendi)))
+      (load-theme 'modus-operandi-tinted)
+      (load-theme 'modus-vivendi-tinted)))
 
 (unless window-system
   (xterm-mouse-mode))
