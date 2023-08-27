@@ -4,16 +4,9 @@
   stow gnu
 #+END_SRC
 
-#+BEGIN_SRC sh :results silent verbatim
-  stow kde
-#+END_SRC
-
 * Uninstall
 
 #+BEGIN_SRC sh :results silent verbatim
   stow -D gnu
 #+END_SRC
 
-#+BEGIN_SRC sh :results silent verbatim
-  stow -D kde
-#+END_SRC
