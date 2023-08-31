@@ -1,0 +1,5 @@
+startup_message off
+caption always
+defmonitor on
+markkeys h=^B:l=^F:$=^E
+term screen-256color
