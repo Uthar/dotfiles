@@ -1,5 +1,8 @@
 startup_message off
 caption always
 defmonitor on
-markkeys h=^B:l=^F:$=^E
+markkeys h=^B:l=^F:$=^E:g=<:G=>
 term screen-256color
+bind o focus
+bind x
+bind ^x
