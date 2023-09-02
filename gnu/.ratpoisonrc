@@ -1,0 +1,3 @@
+bind o focus
+bind X remove
+bind u undo
