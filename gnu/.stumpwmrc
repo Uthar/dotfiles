@@ -1,0 +1,25 @@
+;; -*- mode: lisp -*-
+;;
+;; C-t ; loadrc RET
+
+;; (init-load-path "/home/kpg/.stumpwm.d/modules")
+;; (load-module "battery-portable")
+;; (load-module "winner-mode")
+
+(defvar *last-ddump* nil)
+
+(defun save-last-ddump (command)
+  (when (eql command 'stumpwm:only)
+    (setf *last-ddump* (stumpwm::dump-desktop))))
+
+(add-hook *pre-command-hook* 'save-last-ddump)
+
+(defcommand undo () ()
+  "Undo the last 'only' command."
+  (when *last-ddump*
+    (stumpwm::restore-desktop *last-ddump*)
+    (setf *last-ddump* nil)))
+          
+(define-key *root-map* (kbd "|") "hsplit")
+(define-key *root-map* (kbd "S") "vsplit")
+(define-key *root-map* (kbd "u") "undo")
