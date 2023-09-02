@@ -1,6 +1,7 @@
 startup_message off
 caption always
 defmonitor on
+defscrollback 100000
 markkeys h=^B:l=^F:$=^E:g=<:G=>
 term screen-256color
 bind o focus
