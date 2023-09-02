@@ -54,9 +54,13 @@
 (load "snippets-module")
 
 (let ((hour (nth 2 (decode-time))))
-  (if (and window-system (<= 7 hour 20))
-      (load-theme 'modus-operandi-tinted)
-      (load-theme 'modus-vivendi-tinted)))
+  (cond
+   ((not window-system)
+    (load-theme 'modus-vivendi))
+   ((<= 7 hour 20)
+    (load-theme 'modus-operandi-tinted))
+   (t
+    (load-theme 'modus-vivendi-tinted))))
 
 (unless window-system
   (xterm-mouse-mode))

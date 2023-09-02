@@ -58,3 +58,9 @@ shopt -s autocd
 stty -ixon -ixoff
 eval "$(direnv hook bash)"
 
+# Naprawia zgniłe kolorki w screen
+#
+# Bez tego miałem problemy z wyświetlaniem kolorów w emacs -nw. Były zupełnie
+# inne niż w tmux i średnio czytelne. Wciąż są inne przy modus-operandi-tinted,
+# ale są już OK przy modus-operandi.
+unset COLORTERM
