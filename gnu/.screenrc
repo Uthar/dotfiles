@@ -3,6 +3,8 @@ caption always
 defmonitor on
 defscrollback 100000
 markkeys h=^B:l=^F:$=^E:g=<:G=>
+# C-space sets mark
+markkeys ' '=^@
 term screen-256color
 bind o focus
 bind x
