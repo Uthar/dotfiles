@@ -24,3 +24,16 @@
 (define-key *root-map* (kbd "S") "vsplit")
 (define-key *root-map* (kbd "u") "undo")
 (define-key *root-map* (kbd "quotedbl") "pull-from-windowlist")
+
+(define-remapped-keys
+  '(("[Ff]irefox|[Tt]hunderbird"
+     ("C-a" . "Home")
+     ("C-e" . "End")
+     ("C-n" . "Down")
+     ("C-p" . "Up")
+     ("C-f" . "Right")
+     ("C-b" . "Left")
+     ("C-v" . "Next")
+     ("M-v" . "Prior")
+     ("C-s" . "C-f")
+     ("C-r" . "C-f"))))
