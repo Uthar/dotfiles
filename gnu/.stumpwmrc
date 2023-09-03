@@ -5,5 +5,5 @@
 (define-key *root-map* (kbd "|") "hsplit")
 (define-key *root-map* (kbd "S") "vsplit")
 
-;; NOTE: doesn't work with floating windows
+;; NOTE: doesn't work with floating windows - use windowlist
 (define-key *root-map* (kbd "quotedbl") "pull-from-windowlist")
