@@ -4,6 +4,25 @@
 
 (define-key *root-map* (kbd "|") "hsplit")
 (define-key *root-map* (kbd "S") "vsplit")
-
+(define-key *root-map* (kbd "C-\\") "quit-confirm")
 ;; NOTE: doesn't work with floating windows - use windowlist
 (define-key *root-map* (kbd "quotedbl") "pull-from-windowlist")
+(define-key *root-map* (kbd "R") "loadrc")
+(define-key *root-map* (kbd "c") "exec alacritty")
+(define-key *root-map* (kbd "C-c") "exec alacritty")
+
+;; (setf *mouse-focus-policy* :ignore)
+
+(defcommand delete-confirm () ()
+  "Confirm before deleting a window"
+  (when (stumpwm::y-or-n-p
+         (format
+          nil
+          "Delete window #~a ~a? "
+          (slot-value (current-window) 'stumpwm::number)
+          (slot-value (current-window) 'stumpwm::title)))
+    (delete-window)))
+
+(define-key *root-map* (kbd "k") "delete-confirm")
+
+
