@@ -23,6 +23,7 @@
 (define-key *root-map* (kbd "|") "hsplit")
 (define-key *root-map* (kbd "S") "vsplit")
 (define-key *root-map* (kbd "u") "undo")
+;; NOTE: doesn't work with floating windows
 (define-key *root-map* (kbd "quotedbl") "pull-from-windowlist")
 
 (define-remapped-keys
