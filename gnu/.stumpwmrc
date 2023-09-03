@@ -23,3 +23,4 @@
 (define-key *root-map* (kbd "|") "hsplit")
 (define-key *root-map* (kbd "S") "vsplit")
 (define-key *root-map* (kbd "u") "undo")
+(define-key *root-map* (kbd "quotedbl") "pull-from-windowlist")
