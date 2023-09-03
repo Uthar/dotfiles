@@ -2,9 +2,18 @@ startup_message off
 caption always
 defmonitor on
 defscrollback 100000
-markkeys h=^B:l=^F:$=^E:g=<:G=>
+# Emacs keys
+markkeys h=^B:l=^F:$=^E:g=<:G=>:x=^x
 # C-space sets mark
 markkeys ' '=^@
+#        ESC->C-g         
+markkeys \033=\007
+# ESC does nothing
+markkeys @=\033
+# C-d->C-v, C-u->M-v
+# (actually not M-v but just v - it works event with Alt held down, probably
+# because of making ESC do nothing)
+markkeys \004=\026:\025=v
 term screen-256color
 bind o focus
 bind x
