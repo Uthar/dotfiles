@@ -52,6 +52,7 @@
 (load "search-module")
 (load "blog-module")
 (load "snippets-module")
+(load "c++-module")
 
 (let ((hour (nth 2 (decode-time))))
   (cond
