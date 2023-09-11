@@ -7,3 +7,7 @@
    'org-babel-load-languages
    '((shell . t)
      (lisp . t))))
+
+;; For <q TAB and <s TAB spinnets
+(with-eval-after-load "org"
+  (require 'org-tempo))

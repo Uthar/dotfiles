@@ -51,7 +51,6 @@
 (load "rust-module")
 (load "search-module")
 (load "blog-module")
-(load "snippets-module")
 (load "c++-module")
 (load "term-module")
 (load "links-module")
