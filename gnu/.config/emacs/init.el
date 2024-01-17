@@ -88,3 +88,5 @@
 
 ;; Odpalaj litery tylko przy zapisie pliku 
 (setq flymake-no-changes-timeout nil)
+
+(set-frame-font "DejaVu Sans Mono")
