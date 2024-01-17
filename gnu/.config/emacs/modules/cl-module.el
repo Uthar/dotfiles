@@ -93,6 +93,12 @@
                   (slime-repl-shortcut-eval `(cl:delete-package ,package)))))
     (:one-liner "Delete a package.")))
 
+;; Prevent prompt from being too close to the botttom of the window
+;; (slime sets this to 0)
+(add-hook 
+ 'slime-repl-mode-hook
+ (lambda () (setq-local scroll-margin 1)))
+
 ;; Inspect presentations in repl with a mouse click.
 (with-eval-after-load 'slime-presentations
   (define-key
