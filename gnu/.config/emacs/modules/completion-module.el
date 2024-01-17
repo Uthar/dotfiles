@@ -58,13 +58,6 @@
             (kbd "RET")
             'kaspi/minibuffer-end-completion)
 
-;;;;;;;; Same for in-buffer completion
-
-(advice-add 'completion-at-point
-            :after
-            (lambda (&rest _) (minibuffer-next-completion))
-            '((name . next-completion)))
-
 ;;;;;;;; Switch to completions shortcut
 
 ;; (define-key completion-in-region-mode-map (kbd "M-c") 'switch-to-completions)
@@ -116,8 +109,13 @@
   :global t
   (cond
    (global-lcr-mode
+    (advice-add 'completion-at-point
+                :after
+                (lambda (&rest _) (minibuffer-next-completion))
+                '((name . next-completion)))
     (add-hook 'post-command-hook 'lcr-after-change))
-   (t
+   (t 
+    (advice-remove 'completion-at-point 'next-completion)
     (remove-hook 'post-command-hook 'lcr-after-change))))
 
 (add-hook 'after-init-hook 'global-lcr-mode)
