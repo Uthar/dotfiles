@@ -11,6 +11,9 @@
 
  dired-dwim-target t
 
+ ;; Limit filenames to window length
+ dired-filename-display-length 'window
+
  )
 
 (defun kaspi/dired-toggle-hidden ()
