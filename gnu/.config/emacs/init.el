@@ -85,3 +85,6 @@
 ;; (set-face-attribute 'default nil :height 130)
 
 (setq ring-bell-function 'ignore)
+
+;; Odpalaj litery tylko przy zapisie pliku 
+(setq flymake-no-changes-timeout nil)
