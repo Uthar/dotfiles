@@ -86,6 +86,9 @@
  ;; Display isearch match count in modeline
  isearch-lazy-count t
 
+ ;; Pokazuj bieżący projekt w modeline
+ project-mode-line t
+
  )
 
 ;; Space indentation
