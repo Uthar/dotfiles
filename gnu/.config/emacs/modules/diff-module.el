@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
-(setq diff-font-lock-syntax nil)
+;; Configure syntax highlighting in diff buffers
+(setq diff-font-lock-syntax t)
 
 ;; Prevent messing with the diff by removing save hooks.
 (add-hook 'diff-mode-hook
