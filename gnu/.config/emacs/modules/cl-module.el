@@ -68,6 +68,7 @@
 ;;     (when (consp completion-set)
 ;;       (list beg (max (point) end) completion-set))))
 
+;; Make RET either insert completions or send input, depending on the context
 (defun kaspi/slime-repl-return-advice (function &rest args)
   (if completion-in-region-mode
       (kaspi/minibuffer-choose-completion)
