@@ -81,7 +81,7 @@
 
  ;; Don't visit uninteresting buffers when switching
  switch-to-prev-buffer-skip-regexp
- (regexp-opt '("*inferior-lisp*"))
+ (regexp-opt '("*inferior-lisp*" "*slime-events*" "*direnv*"))
 
  ;; Display isearch match count in modeline
  isearch-lazy-count t
