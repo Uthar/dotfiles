@@ -35,8 +35,8 @@ make_ps1() {
 
 export PS1="$(make_ps1)"
 export HISTCONTROL=ignoreboth
-export HISTSIZE=1000
-export HISTFILESIZE=2000
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 export EDITOR=emacs
 export VISUAL=emacs
 export TERM=xterm-256color
