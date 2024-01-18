@@ -64,3 +64,5 @@ eval "$(direnv hook bash)"
 # inne niż w tmux i średnio czytelne. Wciąż są inne przy modus-operandi-tinted,
 # ale są już OK przy modus-operandi.
 unset COLORTERM
+
+export AWS_PROFILE=r-csblee-team-collectors
