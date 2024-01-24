@@ -85,16 +85,17 @@
 
 (defun lcr-refresh ()
   ;; (message "lcr-refresh in %s" current-minibuffer-command)
-  (cond
-   ((and (minibufferp)
-         (not (memq current-minibuffer-command
-                    lcr-minibuffer-disabled-commands)))
-    (let ((minibuffer-completion-auto-choose nil))
-      (minibuffer-completion-help)
-      (minibuffer-next-completion)))
-   (completion-in-region-mode
-    (completion-help-at-point)
-    (minibuffer-next-completion))))
+  (while-no-input
+    (cond
+     ((and (minibufferp)
+           (not (memq current-minibuffer-command
+                      lcr-minibuffer-disabled-commands)))
+      (let ((minibuffer-completion-auto-choose nil))
+        (minibuffer-completion-help)
+        (minibuffer-next-completion)))
+     (completion-in-region-mode
+      (completion-help-at-point)
+      (minibuffer-next-completion)))))
 
 (defun lcr-after-change (&rest _)
   (when lcr-timer
