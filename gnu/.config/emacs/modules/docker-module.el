@@ -5,3 +5,9 @@
 (autoload 'dockerfile-mode "dockerfile-mode" "" t)
 (add-to-list 'load-path (concat +vendor-dir+ "kubel"))
 (autoload 'kubel "kubel" "" t)
+
+;; Z jakiegoś powodu tramp się wysypuje przy edytowaniu plików w kontenerach...
+(advice-add 'tramp-get-remote-path :filter-return 
+  (lambda (path)
+    (cons "/bin" path))
+  '((name . add-bin)))
