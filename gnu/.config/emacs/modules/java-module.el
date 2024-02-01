@@ -23,3 +23,6 @@
   (interactive)
   (start-process "idea" nil "idea-community" (buffer-file-name)))
 
+
+;; used in openjdk source
+(add-to-list 'auto-mode-alist '("\\.gmk\\'" . makefile-mode))
