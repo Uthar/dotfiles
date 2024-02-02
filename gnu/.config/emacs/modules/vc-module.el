@@ -71,6 +71,8 @@
 (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode-unless-remote)
 
+(add-hook 'vc-dir-mode-hook (lambda () (text-scale-adjust 2)))
+
 (defun kaspi/vc-filter-command-function (command file-or-list flags)
   (let ((flags (cond
                 ((and (string= command "git")
