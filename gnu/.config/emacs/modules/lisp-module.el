@@ -49,6 +49,11 @@
 (advice-add 'eval-last-sexp :after 'kaspi/flash-last-sexp)
 (advice-add 'eval-defun :after 'kaspi/flash-defun)
 
+;; Fixes e.g. make-todo or add-note from being highlighted (todo-module.el)
+(advice-add 'lisp-mode-variables :filter-args 
+  (cl-constantly nil)
+  '((name . kaspi/keywords-case-insensitive)))
+
 ;; CL-style indentation
 (put 'if 'lisp-indent-function 4)
 (put 'if-let 'lisp-indent-function 4)
