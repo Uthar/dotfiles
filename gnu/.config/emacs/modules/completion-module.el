@@ -95,24 +95,23 @@
   ;;          current-minibuffer-command
   ;;          this-command
   ;;          real-this-command)
-  (while-no-input
-    (cond
-     ((and (minibufferp)
-           (not (memq current-minibuffer-command
-                      lcr-minibuffer-disabled-commands)))
-      (let ((minibuffer-completion-auto-choose nil))
-        ;; TODO Check if this is slow
-        ;; (This one prints "Making completion list...")
-        (minibuffer-completion-help)))
-     (completion-in-region-mode
-      (completion-help-at-point)))))
+  (cond
+   ((and (minibufferp)
+         (not (memq current-minibuffer-command
+                    lcr-minibuffer-disabled-commands)))
+    (let ((minibuffer-completion-auto-choose nil))
+      ;; TODO Check if this is slow
+      ;; (This one prints "Making completion list...")
+      (minibuffer-completion-help)))
+   (completion-in-region-mode
+    (completion-help-at-point))))
 
 ;; TODO consider completion-fail-discreetly
 ;; TODO consider after-change-functions instead of post-command-hook
 
 (defun lcr-after-change (&rest _)
-  (when lcr-timer
-    (cancel-timer lcr-timer))
+  ;; (when lcr-timer
+  ;;   (cancel-timer lcr-timer))
   ;; (message "lcr-after-change in %s / %s / %s" 
   ;;          current-minibuffer-command
   ;;          this-command
@@ -121,7 +120,11 @@
              (or completion-in-region-mode
                  (minibufferp)))
     ;; (message "HIT")
-    (setf lcr-timer (run-at-time lcr-delay nil 'lcr-refresh))))
+    ;; (setf lcr-timer (run-at-time lcr-delay nil 'lcr-refresh))
+    ;; VERY important - prevents "hanging" while waiting for completions
+    (redisplay)
+    (while-no-input (lcr-refresh))
+    ))
 
 ;; Whatever is printing "Making completion list..." Is slow.
  
