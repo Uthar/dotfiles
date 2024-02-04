@@ -93,7 +93,7 @@
 
  )
 
-(setq default-frame-alist '((width . 120) (height . 55)))
+(setq default-frame-alist '((width . 160) (height . 55)))
 
 ;; Space indentation
 (setopt indent-tabs-mode nil)
