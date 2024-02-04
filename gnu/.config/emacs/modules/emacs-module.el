@@ -87,7 +87,9 @@
  isearch-lazy-count t
 
  ;; Pokazuj bieżący projekt w modeline
- project-mode-line t
+ ;; BUG Causes general slowness when browsing sbcl source code in /nix/store
+ ;; Probably project.el is trying to find a project in this huge directory
+ ;; project-mode-line t
 
  )
 
