@@ -20,3 +20,6 @@
   (font-lock-add-keywords nil kaspi/todo-font-lock-keywords))
 
 (add-hook 'prog-mode-hook 'kaspi/enable-todo-highlighting)
+
+;; Because the expansion is upcased...
+(add-hook 'slime-macroexpansion-minor-mode-hook 'kaspi/disable-todo-highlighting)
