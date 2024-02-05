@@ -111,6 +111,12 @@
     ;; FIXME: there's `inhibit-quit' though... Something seems to be inhibiting
     ;; the keypress wakeup in cider completion...
     ;; (NOTE: completion-preview-mode has the same problem...)
+    ;; HACK:
+    ;; (setq gc-cons-threshold 100000000) seems to fix this.
+    ;; The pauses are probably not due to while-no-input not working. I set
+    ;; post-gc-hook and saw that gc was being triggered pretty much on every
+    ;; keypress. This must have caused the slowness and tearing.
+    (redisplay)
     (let ((while-no-input-ignore-events nil))
       (while-no-input (redisplay) (lcr-refresh)))))
 
