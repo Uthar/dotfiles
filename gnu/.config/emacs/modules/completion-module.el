@@ -110,6 +110,7 @@
     ;; Before this, whatever was printing "Making completion list..." was slow.
     ;; FIXME: there's `inhibit-quit' though... Something seems to be inhibiting
     ;; the keypress wakeup in cider completion...
+    ;; (NOTE: completion-preview-mode has the same problem...)
     (let ((while-no-input-ignore-events nil))
       (while-no-input (redisplay) (lcr-refresh)))))
 
