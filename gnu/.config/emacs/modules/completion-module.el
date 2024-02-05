@@ -108,8 +108,10 @@
                  (minibufferp)))
     ;; VERY important - prevents "hanging" while waiting for completions
     ;; Before this, whatever was printing "Making completion list..." was slow.
-    (redisplay)
-    (while-no-input (lcr-refresh))))
+    ;; FIXME: there's `inhibit-quit' though... Something seems to be inhibiting
+    ;; the keypress wakeup in cider completion...
+    (let ((while-no-input-ignore-events nil))
+      (while-no-input (redisplay) (lcr-refresh)))))
 
 (defun kaspi/next-completion (&rest _)
   (when (or completion-in-region-mode (minibufferp))
