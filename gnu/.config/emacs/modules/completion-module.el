@@ -28,7 +28,8 @@
 ;; completion-at-point (but not with minibuffer completion)
 (setopt completion-auto-deselect nil)
 
-(setopt completions-sort 'historical)
+;; FIXME make M-x sort by history - currently this doesn't work
+;; (setopt completions-sort 'historical)
 
 ;;;;;;;; Complete filenames with C-M-i
 (autoload 'comint-filename-completion "comint")
@@ -62,15 +63,13 @@
 
 ;;;;;;;; Switch to completions shortcut
 
+;; TODO make M-c while in *Completions* buffer go back to the buffer that jumped
+;; there
+
 ;; (define-key completion-in-region-mode-map (kbd "M-c") 'switch-to-completions)
 ;; (define-key minibuffer-mode-map (kbd "M-c") 'switch-to-completions)
 
 ;;;;;;;; Auto refresh completions buffer after typing
-
-(defvar lcr-timer nil)
-
-;; Did the use of while-no-input render this delay obsolete?
-(defvar lcr-delay 0.0)
 
 (defvar lcr-commands
   (list 'self-insert-command
@@ -91,17 +90,11 @@
   "Minibuffer commands to not refresh completions for")
 
 (defun lcr-refresh ()
-  ;; (message "lcr-refresh in %s / %s / %s" 
-  ;;          current-minibuffer-command
-  ;;          this-command
-  ;;          real-this-command)
   (cond
    ((and (minibufferp)
          (not (memq current-minibuffer-command
                     lcr-minibuffer-disabled-commands)))
     (let ((minibuffer-completion-auto-choose nil))
-      ;; TODO Check if this is slow
-      ;; (This one prints "Making completion list...")
       (minibuffer-completion-help)))
    (completion-in-region-mode
     (completion-help-at-point))))
@@ -110,24 +103,14 @@
 ;; TODO consider after-change-functions instead of post-command-hook
 
 (defun lcr-after-change (&rest _)
-  ;; (when lcr-timer
-  ;;   (cancel-timer lcr-timer))
-  ;; (message "lcr-after-change in %s / %s / %s" 
-  ;;          current-minibuffer-command
-  ;;          this-command
-  ;;          real-this-command)
   (when (and (memq this-command lcr-commands)
              (or completion-in-region-mode
                  (minibufferp)))
-    ;; (message "HIT")
-    ;; (setf lcr-timer (run-at-time lcr-delay nil 'lcr-refresh))
     ;; VERY important - prevents "hanging" while waiting for completions
+    ;; Before this, whatever was printing "Making completion list..." was slow.
     (redisplay)
-    (while-no-input (lcr-refresh))
-    ))
+    (while-no-input (lcr-refresh))))
 
-;; Whatever is printing "Making completion list..." Is slow.
- 
 (defun kaspi/next-completion (&rest _)
   (when (or completion-in-region-mode (minibufferp))
     (minibuffer-next-completion)))
