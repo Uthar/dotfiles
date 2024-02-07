@@ -40,6 +40,7 @@
  scroll-margin 4
  scroll-conservatively 1000
  scroll-preserve-screen-position t
+ next-screen-context-lines 8
 
  ;; Clear the scratch buffer.
  initial-scratch-message ""
