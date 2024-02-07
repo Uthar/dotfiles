@@ -51,7 +51,7 @@
  ;; Keep previous backup files.
  version-control t
  delete-old-versions t
- kept-old-versions 6
+ kept-old-versions 20
 
  ;; Prevent filesystem trashing.
  backup-directory-alist
