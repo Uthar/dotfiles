@@ -37,6 +37,18 @@
     (add-to-list 'font-lock-extra-managed-props 'mouse-face)
     (add-to-list 'font-lock-extra-managed-props 'keymap)))
 
+(defun kaspi/url-at-point ()
+  (save-excursion
+    (backward-sexp)
+    (and 
+     (save-excursion
+       (or (ignore-errors (search-forward "http://"))
+           (ignore-errors (search-forward "https://"))))
+     (let ((begin (point)))
+       (forward-sexp)
+       (buffer-substring-no-properties begin (point))))))
+        
+
 (add-hook 'conf-mode-hook
   (lambda ()
     (make-local-variable 'font-lock-extra-managed-props)
@@ -53,6 +65,6 @@
 ;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz}z. foo
 ;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz}p. foo
 ;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz:x. foo
-;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz]n. foo
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz[1]n. foo
 
 ;; http://abcdeąćółż).
