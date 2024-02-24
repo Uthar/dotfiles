@@ -54,6 +54,7 @@
 (load "snippets-module")
 (load "c++-module")
 (load "term-module")
+(load "links-module")
 
 (let ((hour (nth 2 (decode-time))))
   (cond
