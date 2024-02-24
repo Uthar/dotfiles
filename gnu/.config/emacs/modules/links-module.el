@@ -16,7 +16,7 @@
     map))
 
 (defvar kaspi/links-font-lock-keywords
-  '(("http[s]?://[[:graph:]]+"  0 
+  '(("http[s]?://[[:graph:]]+\\>"  0 
      `(face link mouse-face highlight keymap ,kaspi/links-font-lock-keymap) t)))
 
 ;; TODO minor mode?
@@ -48,3 +48,11 @@
 
 ;; See http://example.org/foo?bar=krasn#baz
 ;; See https://example.org/foo?bar=krasn&blah=foo%20baz#baz 123
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz)y. foo
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz). foo
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz}z. foo
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz}p. foo
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz:x. foo
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz]n. foo
+
+;; http://abcdeąćółż).
