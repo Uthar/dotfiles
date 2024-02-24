@@ -39,11 +39,16 @@
   "Search, fetch more data until something is found or eof."
   (interactive (list (read-string "Search for: ")))
   (cl-assert (not (string-empty-p query)))
-  (let ((match nil))
+  (let ((start (point))
+        (match nil))
     (while (null match)
       (condition-case nil
-          (setq match (save-excursion (search-forward query) (point)))
+          (setq match (save-excursion
+                        (goto-char start)
+                        (search-forward query)
+                        (point)))
         (search-failed
+         (setq start (point-max))
          (pager-scroll-up))))
     (goto-char match)))
 
