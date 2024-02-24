@@ -4,6 +4,8 @@
 
 (define-error 'pager-eof "EOF")
 
+(defvar stdin (fopen "/dev/stdin" "r"))
+
 (defun pager-scroll-up ()
   "Scroll down. Maybe fetch more data if needed and available."
   (interactive)
@@ -14,7 +16,7 @@
      (let ((start (point))
            (got-eof nil))
        (condition-case nil
-           (dotimes (_ 30) (read-line))
+           (dotimes (_ 50) (read-line))
          (pager-eof
           (setq got-eof t)))
        (recode-region start (point-max) 'utf-8 'binary)
@@ -22,25 +24,19 @@
        (when got-eof
          (signal 'pager-eof nil))))))
 
-(cl-defun read-line (&optional (file "/dev/stdin"))
-  (cl-destructuring-bind (_ nbytes)
-      (insert-file-contents file nil nil 1)
-    (when (zerop nbytes)
-        (signal 'pager-eof nil))
-    (end-of-buffer))
-  (while (not (char-equal ?\n (char-before (point))))
-    (cl-destructuring-bind (_ nbytes)
-        (insert-file-contents file nil nil 1)
-      (end-of-buffer)
-      (when (zerop nbytes)
-        (signal 'pager-eof nil)))))
+(cl-defun read-line ()
+  (let ((line (getline stdin)))
+    (when (string-empty-p line)
+      (signal 'pager-eof nil))
+    (insert line)))
 
 (defun pager-search (query)
   "Search, fetch more data until something is found or eof."
   (interactive (list (read-string "Search for: ")))
   (cl-assert (not (string-empty-p query)))
   (let ((start (point))
-        (match nil))
+        (match nil)
+        (got-eof nil))
     (while (null match)
       (condition-case nil
           (setq match (save-excursion
@@ -49,8 +45,15 @@
                         (point)))
         (search-failed
          (setq start (point-max))
-         (pager-scroll-up))))
-    (goto-char match)))
+         (condition-case nil
+             (pager-scroll-up)
+           (pager-eof
+            (redisplay)
+            (goto-char start)
+            (search-forward query))))))
+    (redisplay)
+    (message (concat query " found at " (format "%d" match)))
+    (message (concat "Jumped to " (format "%d" (goto-char match))))))
 
 (defvar pager-mode-map
   (let ((map (make-sparse-keymap)))
