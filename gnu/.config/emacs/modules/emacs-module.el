@@ -103,6 +103,9 @@
 (setq-default fill-column 80)
 (setq-default cursor-type 'bar)
 
+;; Never try to save password on disk
+(setq auth-source-save-behavior nil)
+
 (add-hook 'after-init-hook
   (lambda ()
 
