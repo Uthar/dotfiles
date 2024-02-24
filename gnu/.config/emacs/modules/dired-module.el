@@ -32,5 +32,6 @@
 
 (add-hook 'dired-mode-hook
   (lambda ()
+    (hl-line-mode)
     (local-set-key "b" 'dired-up-directory)
     (setq-local mouse-1-click-follows-link nil)))
