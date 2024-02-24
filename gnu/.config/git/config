@@ -6,7 +6,7 @@
   autocrlf = false
 
 [alias]
-	graph = log --oneline --graph --all --pretty='format:%h (%as) [%an] %s' # --grep='^<<hidden>>' --notes --invert-grep
+	graph = log --oneline --graph --all --pretty='format:%d%h (%as) [%an] %s' # --grep='^<<hidden>>' --notes --invert-grep
   up = git pull --no-commit
 	ci = commit
   co = checkout
