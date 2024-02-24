@@ -90,6 +90,7 @@
   "Minibuffer commands to not refresh completions for")
 
 (defun lcr-refresh ()
+  (let ((inhibit-message t))
   (cond
    ((and (minibufferp)
          (not (memq current-minibuffer-command
@@ -97,10 +98,17 @@
     (let ((minibuffer-completion-auto-choose nil))
       (minibuffer-completion-help)))
    (completion-in-region-mode
-    (completion-help-at-point))))
+    (completion-help-at-point)))))
 
 ;; TODO consider completion-fail-discreetly
 ;; TODO consider after-change-functions instead of post-command-hook
+
+;; Experimented with it, only this value prevents hangs in the ui during heavy
+;; consing completion (e.g. java class completion in cider).
+;;
+;; I think the issue is that completion in emacs is creating multiple garbage
+;; lists: for all completions, filtered, sorted, grouped, etc.
+(setq gc-cons-threshold (* 64 800000))
 
 (defun lcr-after-change (&rest _)
   (when (and (memq this-command lcr-commands)
@@ -116,9 +124,7 @@
     ;; The pauses are probably not due to while-no-input not working. I set
     ;; post-gc-hook and saw that gc was being triggered pretty much on every
     ;; keypress. This must have caused the slowness and tearing.
-    (redisplay)
-    (let ((while-no-input-ignore-events nil))
-      (while-no-input (redisplay) (lcr-refresh)))))
+    (while-no-input (sit-for 0.05) (lcr-refresh))))
 
 (defun kaspi/next-completion (&rest _)
   (when (or completion-in-region-mode (minibufferp))
