@@ -5,3 +5,5 @@
 (autoload 'eat "eat" "" t)
 
 (advice-add 'eat-kill-process :override 'kaspi/noop)
+
+(add-hook 'eat-mode-hook 'toggle-truncate-lines)
