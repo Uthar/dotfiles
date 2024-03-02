@@ -7,3 +7,5 @@
 (advice-add 'eat-kill-process :override 'kaspi/noop)
 
 (add-hook 'eat-mode-hook 'toggle-truncate-lines)
+
+(setopt eat-line-input-ring-size 1000000)
