@@ -8,3 +8,9 @@
   (lambda ()
     (setq-local require-final-newline nil)
     (setq-local before-save-hook nil)))
+
+;; Ediff control window in same frame as A/B windows
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; Better for wide screens which I use
+(setq ediff-split-window-function 'split-window-horizontally)
