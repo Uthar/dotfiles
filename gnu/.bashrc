@@ -65,4 +65,8 @@ eval "$(direnv hook bash)"
 # ale są już OK przy modus-operandi.
 unset COLORTERM
 
-export AWS_PROFILE=r-csblee-team-collectors
+export AWS_PROFILE=CSBLEE-dev-base-865832283175
+
+FindSecrets () {
+  aws secretsmanager list-secrets | jq  ".SecretList[] | select(.Name | test(\"$1\"))"
+}
