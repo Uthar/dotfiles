@@ -85,6 +85,7 @@
 ;; align-regexp: align columns by some regex: Example:
 ;;   asdasd            = 1
 ;;   asdasdasdasdasdas = 2
+;; Check out ediff instead of smerge: (smerge-ediff) - https://www.youtube.com/watch?v=9S2pMZ6U5Tc
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
