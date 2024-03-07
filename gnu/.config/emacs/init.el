@@ -55,6 +55,7 @@
 (load "c++-module")
 (load "term-module")
 (load "links-module")
+(load "proced-module")
 
 (let ((hour (nth 2 (decode-time))))
   (cond
