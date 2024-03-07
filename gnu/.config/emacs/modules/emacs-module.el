@@ -39,7 +39,8 @@
  ;; Less jumpy scroll.
  scroll-margin 4
  scroll-conservatively 1000
- next-screen-context-lines 28
+ scroll-preserve-screen-position t
+ next-screen-context-lines 8
 
  ;; Clear the scratch buffer.
  initial-scratch-message ""
@@ -50,7 +51,7 @@
  ;; Keep previous backup files.
  version-control t
  delete-old-versions t
- kept-old-versions 6
+ kept-old-versions 20
 
  ;; Prevent filesystem trashing.
  backup-directory-alist
@@ -81,10 +82,15 @@
 
  ;; Don't visit uninteresting buffers when switching
  switch-to-prev-buffer-skip-regexp
- (regexp-opt '("*inferior-lisp*"))
+ (regexp-opt '("*inferior-lisp*" "*slime-events*" "*direnv*"))
 
  ;; Display isearch match count in modeline
  isearch-lazy-count t
+
+ ;; Pokazuj bieżący projekt w modeline
+ ;; BUG Causes general slowness when browsing sbcl source code in /nix/store
+ ;; Probably project.el is trying to find a project in this huge directory
+ ;; project-mode-line t
 
  )
 
@@ -96,6 +102,9 @@
 
 (setq-default fill-column 80)
 (setq-default cursor-type 'bar)
+
+;; Never try to save password on disk
+(setq auth-source-save-behavior nil)
 
 (add-hook 'after-init-hook
   (lambda ()

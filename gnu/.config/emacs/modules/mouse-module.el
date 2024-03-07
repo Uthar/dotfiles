@@ -8,7 +8,8 @@
 ;; moving a lot of lines.
 (setq mouse-wheel-progressive-speed nil)
 
-(add-hook 'after-init-hook 'pixel-scroll-precision-mode)
+;; BUG Causes unpleasant stuttering on scrolling up when cursor is at the top
+;; (add-hook 'after-init-hook 'pixel-scroll-precision-mode)
 (setq pixel-scroll-precision-interpolate-page t)
 (setq pixel-scroll-precision-interpolate-mice t)
 
@@ -24,6 +25,6 @@
    (* -0.5 (window-text-height nil t))
    nil 1))
 
-(when window-system
-  (global-set-key (kbd "M-v") 'kaspi/pixel-scroll-up)
-  (global-set-key (kbd "C-v") 'kaspi/pixel-scroll-down))
+;; (when window-system
+;;   (global-set-key (kbd "M-v") 'kaspi/pixel-scroll-up)
+;;   (global-set-key (kbd "C-v") 'kaspi/pixel-scroll-down))

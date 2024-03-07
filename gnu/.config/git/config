@@ -1,14 +1,18 @@
 
+[advice]
+  statusHints = false
+
 [core]
   autocrlf = false
 
 [alias]
-	l = log --all --color --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	up = checkout
+	graph = log --oneline --graph --all --pretty='format:%d%h (%as) [%an] %s' # --grep='^<<hidden>>' --notes --invert-grep
+  up = git pull --no-commit
 	ci = commit
+  co = checkout
 	m = merge --no-ff --no-commit
   p = pull --no-commit
-	r = restore --staged --worktree .
+	rev = restore --staged --worktree .
 	s = status
 
 [user]
@@ -23,3 +27,4 @@
 
 [push]
 	default = current
+  autoSetupRemote = true

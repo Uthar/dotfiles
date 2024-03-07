@@ -2,9 +2,7 @@
 
 (global-set-key (kbd "C-;") 'kaspi/comment-or-uncomment)
 
-;; TODO(kaspi): Possibly add back the repl window code.
-;; (global-set-key (kbd "<f1>") 'toggle-repl-window)
-(global-set-key (kbd "<f1>") 'eshell)
+(global-set-key (kbd "<f1>") 'eat)
 (global-set-key (kbd "<f2>") 'dired-jump)
 (global-set-key (kbd "<f3>") 'kaspi/live-fd)
 (global-set-key (kbd "<f4>") 'kaspi/live-rg)

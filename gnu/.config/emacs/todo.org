@@ -1,0 +1,16 @@
+- java: j.u.c.Map completion-style for classes (like partial-completion for lisp)
+- vc-dir: show diff of just one file with = (NOT changes of marked files)
+- vc-dir: auto-track unregistered files when selected together with edited during commit
+- vc-dir: fix C-x v u sometimes not working (git)
+- dired: open subtree (see prot video)
+- consider emacs as pager (stdio bindings)
+- org: numbered/indented headings
+- slime: package completion
+- cider: add cider-who-specialises for protocols and multimethods (and java interfaces too?)
+- cilckable links: fix thing-at-point 'url (now it includes trailing closing paren)
+- go to test with find-alternate-file
+- proced: revert-buffer but keep (o)mitted state
+- jvm: write debugger: https://docs.oracle.com/en/java/javase/21/docs/specs/jpda/architecture.html
+- jvm: check out class unloading
+- jvm: for debugging, see man java, search for -agentlib
+- lisp: Write a document how to very simply use the condition system where it is applicable

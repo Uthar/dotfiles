@@ -53,6 +53,9 @@
 (load "blog-module")
 (load "snippets-module")
 (load "c++-module")
+(load "term-module")
+(load "links-module")
+(load "proced-module")
 
 (let ((hour (nth 2 (decode-time))))
   (cond
@@ -80,6 +83,7 @@
 ;; C-x e  call kb macro
 ;; j in dired, fast go to file or directory by name
 ;; C-x v C-h - show keybindings starting with C-x v (can be whatever)
+;; Check out ediff instead of smerge: (smerge-ediff) - https://www.youtube.com/watch?v=9S2pMZ6U5Tc
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
@@ -90,3 +94,9 @@
 (setq flymake-no-changes-timeout nil)
 
 (set-frame-font "DejaVu Sans Mono")
+
+;; Unfortunately this is really slow
+;; (require 'marginalia)
+;; (add-hook 'completion-list-mode-hook 'toggle-truncate-lines)
+;; (marginalia-mode 'toggle)
+

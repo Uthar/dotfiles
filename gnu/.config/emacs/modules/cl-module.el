@@ -68,9 +68,10 @@
 ;;     (when (consp completion-set)
 ;;       (list beg (max (point) end) completion-set))))
 
+;; Make RET either insert completions or send input, depending on the context
 (defun kaspi/slime-repl-return-advice (function &rest args)
   (if completion-in-region-mode
-      (kaspi/minibuffer-choose-completion)
+      (minibuffer-choose-completion)
       (apply function args)))
 
 (with-eval-after-load 'slime
@@ -92,6 +93,12 @@
                 (let ((package (slime-read-package-name "Package: ")))
                   (slime-repl-shortcut-eval `(cl:delete-package ,package)))))
     (:one-liner "Delete a package.")))
+
+;; Prevent prompt from being too close to the botttom of the window
+;; (slime sets this to 0)
+(add-hook 
+ 'slime-repl-mode-hook
+ (lambda () (setq-local scroll-margin 1)))
 
 ;; Inspect presentations in repl with a mouse click.
 (with-eval-after-load 'slime-presentations

@@ -11,6 +11,9 @@
 
  dired-dwim-target t
 
+ ;; Limit filenames to window length
+ dired-filename-display-length 'window
+
  )
 
 (defun kaspi/dired-toggle-hidden ()
@@ -29,5 +32,6 @@
 
 (add-hook 'dired-mode-hook
   (lambda ()
+    (hl-line-mode)
     (local-set-key "b" 'dired-up-directory)
     (setq-local mouse-1-click-follows-link nil)))
