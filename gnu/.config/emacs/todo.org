@@ -9,7 +9,7 @@
 - cider: add cider-who-specialises for protocols and multimethods (and java interfaces too?)
 - cilckable links: fix thing-at-point 'url (now it includes trailing closing paren)
 - go to test with find-alternate-file
-- proced: revert-buffer but keep (o)mitted state
+- proced: revert-buffer but keep (o)mitted state - this is just (f)ilter
 - jvm: write debugger: https://docs.oracle.com/en/java/javase/21/docs/specs/jpda/architecture.html
 - jvm: check out class unloading
 - jvm: for debugging, see man java, search for -agentlib
