@@ -94,7 +94,7 @@
 
  ;; Never attempt to write unsaved files when compiling, because this feature
  ;; doesn't work and asks for unrelated files.
- compilation-save-buffers-predicate (cl-constantly nil)
+ compilation-save-buffers-predicate (lambda () nil)
 
  )
 
