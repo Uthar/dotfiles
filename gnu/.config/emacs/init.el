@@ -94,3 +94,9 @@
 (setq flymake-no-changes-timeout nil)
 
 (set-frame-font "DejaVu Sans Mono")
+
+;; Unfortunately this is really slow
+;; (require 'marginalia)
+;; (add-hook 'completion-list-mode-hook 'toggle-truncate-lines)
+;; (marginalia-mode 'toggle)
+
