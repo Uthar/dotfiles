@@ -45,6 +45,7 @@
 
 (add-hook 'prog-mode-hook 'kaspi/enable-clickable-links)
 (add-hook 'conf-mode-hook 'kaspi/enable-clickable-links)
+(add-hook 'compilation-mode-hook 'kaspi/enable-clickable-links)
 
 ;; See http://example.org/foo?bar=krasn#baz
 ;; See https://example.org/foo?bar=krasn&blah=foo%20baz#baz 123
