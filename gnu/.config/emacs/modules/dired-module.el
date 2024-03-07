@@ -34,4 +34,5 @@
   (lambda ()
     (hl-line-mode)
     (local-set-key "b" 'dired-up-directory)
+    (local-set-key "e" 'wdired-change-to-wdired-mode)
     (setq-local mouse-1-click-follows-link nil)))
