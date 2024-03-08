@@ -68,3 +68,5 @@
 ;; customization group control exactly when Emacs displays this preview.
 
 
+;; Add Tramp methods dockercp and podmancp
+;; - May allow to copy files from bare bone containers with no sh?
