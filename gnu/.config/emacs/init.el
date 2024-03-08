@@ -96,7 +96,7 @@
 ;; Odpalaj litery tylko przy zapisie pliku 
 (setq flymake-no-changes-timeout nil)
 
-(set-frame-font "DejaVu Sans Mono")
+(add-to-list 'default-frame-alist '(font . "SourceCodePro-10"))
 
 ;; Unfortunately this is really slow
 ;; (require 'marginalia)
