@@ -108,6 +108,7 @@
 ;;
 ;; I think the issue is that completion in emacs is creating multiple garbage
 ;; lists: for all completions, filtered, sorted, grouped, etc.
+;; BUG this gets overridden by startup-module
 (setq gc-cons-threshold (* 64 800000))
 
 (defun lcr-after-change (&rest _)
