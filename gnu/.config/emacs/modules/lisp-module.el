@@ -51,8 +51,10 @@
 
 ;; Fixes e.g. make-todo or add-note from being highlighted (todo-module.el)
 (advice-add 'lisp-mode-variables :filter-args 
-  (cl-constantly nil)
-  '((name . kaspi/keywords-case-insensitive)))
+ (lambda (&rest args)
+   (cl-destructuring-bind (&optional lisp-syntax keywords-case-insensitive elisp) args
+     (list lisp-syntax nil elisp)))
+ '((name . kaspi/keywords-case-insensitive)))
 
 ;; CL-style indentation
 (put 'if 'lisp-indent-function 4)
