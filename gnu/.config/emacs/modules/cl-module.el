@@ -27,26 +27,11 @@
  slime-contribs
  '(
    slime-asdf
-   slime-autodoc
+   slime-fancy
    slime-banner
    slime-compiler-notes-tree
-   slime-editing-commands
-   slime-fancy-inspector
-   slime-fancy-trace
-   slime-fontifying-fu
-   slime-indentation
-   slime-macrostep
-   slime-mdot-fu
    slime-mrepl
-   slime-package-fu
-   slime-presentations
-   slime-quicklisp
-   slime-references
-   slime-repl
-   slime-scratch
    slime-sprof
-   slime-trace-dialog
-   slime-tramp
    slime-xref-browser
    )
 
@@ -58,26 +43,26 @@
 
 (global-set-key (kbd "C-c s") 'slime-selector)
 
-;; Causes stutter when moving around in completions
-;; Also causes hang when completing anything
-;; (defun kaspi/slime-capf ()
-;;   (let* ((end (move-marker (make-marker) (slime-symbol-end-pos)))
-;;          (beg (move-marker (make-marker) (slime-symbol-start-pos)))
-;;          (completion-result (slime-contextual-completions beg end))
-;;          (completion-set (cl-first completion-result)))
-;;     (when (consp completion-set)
-;;       (list beg (max (point) end) completion-set))))
-
+(defun kaspi/slime-capf ()
+  (let* ((endpos (slime-symbol-end-pos))
+         (begpos (slime-symbol-start-pos))
+         (end (move-marker (make-marker) endpos))
+         (beg (move-marker (make-marker) begpos)))
+    (list begpos endpos
+      (completion-table-dynamic
+       (lambda (&rest _)
+         (cl-first (slime-contextual-completions beg end)))))))
+          
 ;; Make RET either insert completions or send input, depending on the context
 (defun kaspi/slime-repl-return-advice (function &rest args)
-  (if completion-in-region-mode
+  (if (and completion-in-region-mode
+           (get-buffer-window (get-buffer "*Completions*")))
       (minibuffer-choose-completion)
       (apply function args)))
 
 (with-eval-after-load 'slime
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
-  ;; (add-to-list 'slime-completion-at-point-functions 'kaspi/slime-capf)
   )
 
 (advice-add 'slime-repl-return :around 'kaspi/slime-repl-return-advice)
@@ -96,9 +81,14 @@
 
 ;; Prevent prompt from being too close to the botttom of the window
 ;; (slime sets this to 0)
-(add-hook 
- 'slime-repl-mode-hook
- (lambda () (setq-local scroll-margin 1)))
+(add-hook 'slime-repl-mode-hook
+ (lambda () 
+   (setq-local scroll-margin 1)
+   (setq-local slime-completion-at-point-functions '(slime-filename-completion kaspi/slime-capf))))
+
+(add-hook 'slime-mode-hook
+ (lambda ()
+   (setq-local slime-completion-at-point-functions '(slime-filename-completion kaspi/slime-capf))))
 
 ;; Inspect presentations in repl with a mouse click.
 (with-eval-after-load 'slime-presentations
