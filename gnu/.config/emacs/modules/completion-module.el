@@ -35,11 +35,26 @@
 (autoload 'comint-filename-completion "comint")
 (add-to-list 'completion-at-point-functions 'comint-filename-completion)
 
-;;;;;;;; Fix to screen jump in emacs 29-trunk
+;; Skip uninteresting dirs
+(advice-add 'file-name-all-completions :filter-return
+  (lambda (paths)
+    (cl-remove-if (lambda (path) (member path '("./" "../"))) paths))
+  '((name . kaspi/skip-uninteresting)))
 
 (define-key completion-in-region-mode-map
             (kbd "RET")
             'minibuffer-choose-completion)
+
+;; Useful for completion with non trivial boundaries (e.g. file names).
+;; (Complete nested directories without exiting *Completions* in between).
+;; Should be added to lcr-commands so that the next directory files appear.
+(defun kaspi/insert-current-completion ()
+  (interactive)
+  (minibuffer-choose-completion t t))
+
+(define-key completion-in-region-mode-map
+            (kbd "TAB")
+            'kaspi/insert-current-completion)
 
 ;;;;;;;; Select first candidate or minibuffer contents in minibuffer completion
 
@@ -77,6 +92,7 @@
         'backward-delete-char-untabify
         'kill-region
         'yank
+        'kaspi/insert-current-completion
         'undo)
   "Commands to trigger completion help after, whether in region or minibuffer")
 
