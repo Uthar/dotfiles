@@ -96,6 +96,9 @@
  ;; doesn't work and asks for unrelated files.
  compilation-save-buffers-predicate (lambda () nil)
 
+ ;; Disable default help, because I know about that already
+ echo-keystrokes-help nil
+ 
  )
 
 ;; Space indentation
