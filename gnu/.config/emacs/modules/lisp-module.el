@@ -57,3 +57,6 @@
 ;; CL-style indentation
 (put 'if 'lisp-indent-function 4)
 (put 'if-let 'lisp-indent-function 4)
+
+;; Work like SLIME - can always C-u C-e
+(define-key emacs-lisp-mode-map (kbd "C-j") 'newline-and-indent)
