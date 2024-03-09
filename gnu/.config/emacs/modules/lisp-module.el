@@ -60,3 +60,4 @@
 
 ;; Work like SLIME - can always C-u C-e
 (define-key emacs-lisp-mode-map (kbd "C-j") 'newline-and-indent)
+(define-key lisp-interaction-mode-map (kbd "C-j") 'newline-and-indent)
