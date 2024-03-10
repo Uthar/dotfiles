@@ -85,6 +85,8 @@
  (lambda () 
    (setq-local scroll-margin 1)
    (setq-local slime-completion-at-point-functions '(slime-filename-completion kaspi/slime-capf))
+   ;; Don't want completions like this
+   (setq-local tab-always-indent t)
    ;; Parse only code after the current prompt for TAB
    ;; indentation. This prevents indenting against printed parens from
    ;; previous repl results. It's achieved by providing a starting
