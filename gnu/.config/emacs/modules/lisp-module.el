@@ -108,3 +108,6 @@
 
 (defun kaspi/clojure-indent-function (point state)
   (kaspi/lisp-indent-specially #'clojure-indent-function point state))
+
+;; Default - primarily for emacs-lisp-mode
+(setq lisp-indent-function 'kaspi/common-lisp-indent-function)
