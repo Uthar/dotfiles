@@ -27,6 +27,7 @@
 
 (add-hook 'cider-repl-mode-hook
   (lambda () 
+   (setq-local lisp-indent-function 'kaspi/clojure-indent-function)
    ;; Parse only code after the current prompt for TAB
    ;; indentation. This prevents indenting against printed parens from
    ;; previous repl results. It's achieved by providing a starting
@@ -35,6 +36,10 @@
    (setq-local indent-line-function (lambda (&rest _) (lisp-indent-line (calculate-lisp-indent cider-repl-input-start-mark))))
    ;; Same but for indent-region
    (setq-local indent-region-function 'indent-region-line-by-line)))
+
+(add-hook 'clojure-mode-hook
+  (lambda ()
+    (setq-local lisp-indent-function 'kaspi/clojure-indent-function)))
 
 ;; It has a lot of dependencies:
 

@@ -63,3 +63,48 @@
 ;; Work like SLIME - can always C-u C-e
 (define-key emacs-lisp-mode-map (kbd "C-j") 'newline-and-indent)
 (define-key lisp-interaction-mode-map (kbd "C-j") 'newline-and-indent)
+
+;;;; Lisp indentation
+
+;;;; lisp-mode's lisp-indent-offset is too powerful - it prevents special
+;;;; keywords from being indented specially. I want to indent arguments to
+;;;; normal function calls on next lines with a smaller indent because to me
+;;;; that looks better. I also want to increase the default indent for arguments
+;;;; to function calls where all of the arguments are on the next line (the
+;;;; default indentation of 1 space is too small). But I still want some
+;;;; builtins to use the predefined indentation. One solution is to wrap any
+;;;; lisp-indent-function to detect those special keywords and delegate the
+;;;; indentation to the real function, but override anything else with a hard
+;;;; coded indentation.
+
+(defvar +kaspi/lisp-indent-offset+ 2
+  "How many spaces to indent non special funcalls by.")
+
+(defvar +kaspi/lisp-specially-indented-symbols+
+  '(lambda defun or and case if list vector destructuring-bind loop
+    + - * /
+    hash-map -> ->>)
+  "List of functions to delegate the indentation of to some elisp library.")
+
+(defun kaspi/lisp-indent-specially (f point state)
+  "Indent lisp form either by a fixed offset or by delegating to f"
+  (cl-destructuring-bind (depth containing-list &rest) state
+    (let ((sym (when (integerp containing-list)
+                 (save-excursion
+                   (goto-char containing-list)
+                   (forward-char)
+                   (symbol-at-point)))))
+      (if (memq sym +kaspi/lisp-specially-indented-symbols+)
+          (funcall f point state)
+          (+ (if (not (integerp containing-list))
+                 0
+                 (save-excursion
+                   (goto-char containing-list)
+                   (current-column)))
+             +kaspi/lisp-indent-offset+)))))
+
+(defun kaspi/common-lisp-indent-function (point state)
+  (kaspi/lisp-indent-specially #'common-lisp-indent-function point state))
+
+(defun kaspi/clojure-indent-function (point state)
+  (kaspi/lisp-indent-specially #'clojure-indent-function point state))
