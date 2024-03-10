@@ -84,7 +84,15 @@
 (add-hook 'slime-repl-mode-hook
  (lambda () 
    (setq-local scroll-margin 1)
-   (setq-local slime-completion-at-point-functions '(slime-filename-completion kaspi/slime-capf))))
+   (setq-local slime-completion-at-point-functions '(slime-filename-completion kaspi/slime-capf))
+   ;; Parse only code after the current prompt for TAB
+   ;; indentation. This prevents indenting against printed parens from
+   ;; previous repl results. It's achieved by providing a starting
+   ;; point to parse from to calculate-lisp-indent so that it does not
+   ;; try to guess it itself.
+   (setq-local indent-line-function (lambda (&rest _) (lisp-indent-line (calculate-lisp-indent slime-repl-input-start-mark))))
+   ;; Same but for indent-region
+   (setq-local indent-region-function 'indent-region-line-by-line)))
 
 (add-hook 'slime-mode-hook
  (lambda ()
