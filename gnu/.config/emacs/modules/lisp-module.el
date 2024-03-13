@@ -63,3 +63,18 @@
 ;; Work like SLIME - can always C-u C-e
 (define-key emacs-lisp-mode-map (kbd "C-j") 'newline-and-indent)
 (define-key lisp-interaction-mode-map (kbd "C-j") 'newline-and-indent)
+
+;; Compact indentation for function calls with long names where the first
+;; argument is a "dispatch object" and so it makes sense for it to stay on the
+;; same line as the function name, but following arguments would waste too much
+;; screen space when indented normally.
+;;
+;; Example:
+;; (sqlite:execute *sqlite*
+;;   "insert into foo values (?,?)" 1 2)
+(defun kaspi/lisp-indent-sexp-2 ()
+  (interactive)
+  (let ((lisp-indent-offset 2))
+    (indent-sexp)))
+
+(global-set-key (kbd "C-c l q") 'kaspi/lisp-indent-sexp-2)
