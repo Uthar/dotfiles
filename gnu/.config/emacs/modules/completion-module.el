@@ -50,9 +50,18 @@
 ;; Should be added to lcr-commands so that the next directory files appear.
 (defun kaspi/insert-current-completion ()
   (interactive)
-  (minibuffer-choose-completion t t))
+  (let ((completion-list-insert-choice-function #'kaspi/noop))
+    (minibuffer-choose-completion t t)))
 
 (define-key completion-in-region-mode-map
+            (kbd "TAB")
+            'kaspi/insert-current-completion)
+
+(define-key minibuffer-local-must-match-map
+            (kbd "TAB")
+            'kaspi/insert-current-completion)
+
+(define-key minibuffer-local-completion-map
             (kbd "TAB")
             'kaspi/insert-current-completion)
 
