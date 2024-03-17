@@ -51,10 +51,10 @@
 (load "rust-module")
 (load "search-module")
 (load "blog-module")
-(load "snippets-module")
 (load "c++-module")
 (load "term-module")
 (load "links-module")
+(load "asm-module")
 (load "proced-module")
 
 (let ((hour (nth 2 (decode-time))))
@@ -83,6 +83,9 @@
 ;; C-x e  call kb macro
 ;; j in dired, fast go to file or directory by name
 ;; C-x v C-h - show keybindings starting with C-x v (can be whatever)
+;; align-regexp: align columns by some regex: Example:
+;;   asdasd            = 1
+;;   asdasdasdasdasdas = 2
 ;; Check out ediff instead of smerge: (smerge-ediff) - https://www.youtube.com/watch?v=9S2pMZ6U5Tc
 
 ;; Dla ekranów z wysoką rozdzielczością:
@@ -93,7 +96,7 @@
 ;; Odpalaj litery tylko przy zapisie pliku 
 (setq flymake-no-changes-timeout nil)
 
-(set-frame-font "DejaVu Sans Mono")
+(add-to-list 'default-frame-alist '(font . "SourceCodePro-10"))
 
 ;; Unfortunately this is really slow
 ;; (require 'marginalia)

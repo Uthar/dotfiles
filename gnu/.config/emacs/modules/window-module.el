@@ -55,3 +55,5 @@
 
 (global-set-key (kbd "C-c w s") 'kaspi/save-window-configuration)
 (global-set-key (kbd "C-c w r") 'kaspi/restore-window-configuration)
+
+(put 'previous-window-any-frame 'repeat-map 'other-window-repeat-map)

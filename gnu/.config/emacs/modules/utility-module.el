@@ -70,6 +70,8 @@
 (defvar kaspi/duplicate-line-repeat-map
   (let ((map (make-sparse-keymap)))
     (define-key map "d" 'duplicate-line)
+    (define-key map "n" 'move-lines-down)
+    (define-key map "p" 'move-lines-up)
     map))
 
 (put 'duplicate-line 'repeat-map 'kaspi/duplicate-line-repeat-map)

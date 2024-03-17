@@ -18,7 +18,23 @@
 (setq cider-use-overlays nil)
 (setq cider-use-tooltips nil)
 (setq cider-repl-history-file (concat user-emacs-directory "cider-history"))
+(setq cider-repl-tab-command 'indent-for-tab-command)
 (add-hook 'cider-after-eval-done-hook 'cider-repl-history-just-save)
+
+(with-eval-after-load "cider"
+  ;; CL style
+  (put 'if 'clojure-indent-function 4))
+
+(add-hook 'cider-repl-mode-hook
+  (lambda () 
+   ;; Parse only code after the current prompt for TAB
+   ;; indentation. This prevents indenting against printed parens from
+   ;; previous repl results. It's achieved by providing a starting
+   ;; point to parse from to calculate-lisp-indent so that it does not
+   ;; try to guess it itself.
+   (setq-local indent-line-function (lambda (&rest _) (lisp-indent-line (calculate-lisp-indent cider-repl-input-start-mark))))
+   ;; Same but for indent-region
+   (setq-local indent-region-function 'indent-region-line-by-line)))
 
 ;; It has a lot of dependencies:
 

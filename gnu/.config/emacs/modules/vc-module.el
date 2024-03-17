@@ -88,3 +88,24 @@
 
 ;; Ogranicz destrukcyjne działanie gita
 (setq vc-filter-command-function 'kaspi/vc-filter-command-function)
+
+;; I want to see the diff of the file at point, not the diff of marked files.
+;;
+;; The workflow is the following:
+;; 1. See the changes in a file (=)
+;; 2. Decide whether to commit it or not (m)
+;; 3. Repeat for all changed files (n)
+;;
+;; By default, after the first file is marked (m), the next diff (=) will only
+;; show the changes in that one file, not the next (n) file currently under
+;; point.
+;;
+;; (If I want to see the diff of marked files, I can just go try to commit (v)
+;; and the diff will appear.)
+(defun kaspi/vc-dir-diff-current-file ()
+  (interactive)
+  (vc-diff nil t (list vc-dir-backend (list (vc-dir-current-file)))))
+
+(add-hook 'vc-dir-mode-hook
+  (lambda ()
+    (define-key vc-dir-mode-map (kbd "=") 'kaspi/vc-dir-diff-current-file)))

@@ -51,12 +51,18 @@
 
 ;; Fixes e.g. make-todo or add-note from being highlighted (todo-module.el)
 (advice-add 'lisp-mode-variables :filter-args 
-  (cl-constantly nil)
-  '((name . kaspi/keywords-case-insensitive)))
+ (lambda (&rest args)
+   (cl-destructuring-bind (&optional lisp-syntax keywords-case-insensitive elisp) args
+     (list lisp-syntax nil elisp)))
+ '((name . kaspi/keywords-case-insensitive)))
 
 ;; CL-style indentation
 (put 'if 'lisp-indent-function 4)
 (put 'if-let 'lisp-indent-function 4)
+
+;; Work like SLIME - can always C-u C-e
+(define-key emacs-lisp-mode-map (kbd "C-j") 'newline-and-indent)
+(define-key lisp-interaction-mode-map (kbd "C-j") 'newline-and-indent)
 
 ;; Compact indentation for function calls with long names where the first
 ;; argument is a "dispatch object" and so it makes sense for it to stay on the

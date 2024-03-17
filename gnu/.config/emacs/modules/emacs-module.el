@@ -92,6 +92,13 @@
  ;; Probably project.el is trying to find a project in this huge directory
  ;; project-mode-line t
 
+ ;; Never attempt to write unsaved files when compiling, because this feature
+ ;; doesn't work and asks for unrelated files.
+ compilation-save-buffers-predicate (lambda () nil)
+
+ ;; Disable default help, because I know about that already
+ echo-keystrokes-help nil
+ 
  )
 
 ;; Space indentation
