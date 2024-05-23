@@ -75,6 +75,33 @@
 (defun kaspi/lisp-indent-sexp-2 ()
   (interactive)
   (let ((lisp-indent-offset 2))
-    (indent-sexp)))
+    (indent-sexp))
+  ;; Przypadek, kiedy tylko pierwsze wcięcie powinno zostać tak ułożone.
+  ;;
+  ;; Zamiast tego:
+  ;; (elasticsearch:search *es*
+  ;;   {:query
+  ;;     {:bool
+  ;;       {:filter
+  ;;         [{:range {"created_at" {:gte "2024-05-13"
+  ;;                                  :lte "2024-05-13"}}}
+  ;;           {:term {"user_name" screenname}}]}}
+  ;;     :size 100})
+  ;;
+  ;; ...To:
+  ;; (elasticsearch:search *es*
+  ;;   {:query
+  ;;    {:bool
+  ;;     {:filter
+  ;;      [{:range {"created_at" {:gte "2024-05-13"
+  ;;                              :lte "2024-05-13"}}}
+  ;;       {:term {"user_name" screenname}}]}}
+  ;;    :size 100})
+  (when current-prefix-arg
+    (save-excursion
+      (forward-line)
+      (mark-sexp)
+      (forward-line)
+      (indent-region (region-beginning) (region-end)))))
 
 (global-set-key (kbd "C-c l q") 'kaspi/lisp-indent-sexp-2)
