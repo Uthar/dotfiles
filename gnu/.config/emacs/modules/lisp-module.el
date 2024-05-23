@@ -68,12 +68,17 @@
 ;; argument is a "dispatch object" and so it makes sense for it to stay on the
 ;; same line as the function name, but following arguments would waste too much
 ;; screen space when indented normally.
-;;
-;; Example:
-;; (sqlite:execute *sqlite*
-;;   "insert into foo values (?,?)" 1 2)
 (defun kaspi/lisp-indent-sexp-2 ()
   (interactive)
+  ;; Prosty przypadek.
+  ;;
+  ;; Zamiast tego:
+  ;; (sqlite:execute *sqlite*
+  ;;                 "insert into foo values (?,?)" 1 2)
+  ;;
+  ;; ...To:
+  ;; (sqlite:execute *sqlite*
+  ;;   "insert into foo values (?,?)" 1 2)
   (let ((lisp-indent-offset 2))
     (indent-sexp))
   ;; Przypadek, kiedy tylko pierwsze wcięcie powinno zostać tak ułożone.
