@@ -110,3 +110,16 @@
       (indent-region (region-beginning) (region-end)))))
 
 (global-set-key (kbd "C-c l q") 'kaspi/lisp-indent-sexp-2)
+
+(defun kaspi/unprogn-sexp ()
+  "Przekształca wskazane sexpr usuwając obejmujące je wyrażenie PROGNopodobne."
+  (interactive)
+  (let ((start (point)))
+    (forward-sexp)
+    (delete-char -1)
+    (goto-char start)
+    (forward-char)
+    (kill-sexp)
+    (delete-char -1)))
+
+(global-set-key (kbd "C-c l u") 'kaspi/unprogn-sexp)
