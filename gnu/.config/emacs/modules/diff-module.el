@@ -6,11 +6,22 @@
 ;; Don't jump after apply
 (setopt diff-advance-after-apply-hunk nil)
 
-;; Prevent messing with the diff by removing save hooks.
 (add-hook 'diff-mode-hook
   (lambda ()
+    ;; Prevent messing with the diff by removing save hooks.
     (setq-local require-final-newline nil)
-    (setq-local before-save-hook nil)))
+    (setq-local before-save-hook nil)
+    ;; Highlight current hunk at point
+    (require 'hl-line) ; BUG? otherwise custom face doesn't work
+    (setq-local hl-line-range-function 'kaspi/diff-current-hunk-position)
+    (setq-local hl-line-face 'bold)
+    (hl-line-mode)))
+
+(defun kaspi/diff-current-hunk-position ()
+  (ignore-errors
+    (cons
+     (save-excursion (diff-beginning-of-hunk) (point))
+     (save-excursion (diff-end-of-hunk) (point)))))
 
 ;; Ediff control window in same frame as A/B windows
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
