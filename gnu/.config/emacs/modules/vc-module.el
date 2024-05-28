@@ -109,3 +109,5 @@
 (add-hook 'vc-dir-mode-hook
   (lambda ()
     (define-key vc-dir-mode-map (kbd "=") 'kaspi/vc-dir-diff-current-file)))
+
+(add-hook 'log-view-mode-hook 'hl-line-mode)
