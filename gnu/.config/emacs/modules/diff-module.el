@@ -3,6 +3,9 @@
 ;; Configure syntax highlighting in diff buffers
 (setq diff-font-lock-syntax t)
 
+;; Don't jump after apply
+(setopt diff-advance-after-apply-hunk nil)
+
 ;; Prevent messing with the diff by removing save hooks.
 (add-hook 'diff-mode-hook
   (lambda ()
