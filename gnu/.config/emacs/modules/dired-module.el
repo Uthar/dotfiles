@@ -25,14 +25,20 @@
 
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "M-h") 'kaspi/dired-toggle-hidden)
+  (define-key dired-mode-map (kbd "(") 'kaspi/dired-toggle-details)
   (define-key dired-mode-map [mouse-1] 'dired-find-file))
 
-;; TODO(kasper): Make this persist between directories.
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(defvar kaspi/dired-details 1)
 
+(defun kaspi/dired-toggle-details ()
+  (interactive)
+  (setf kaspi/dired-details (- kaspi/dired-details))
+  (dired-hide-details-mode kaspi/dired-details))
+  
 (add-hook 'dired-mode-hook
   (lambda ()
     (hl-line-mode)
+    (dired-hide-details-mode kaspi/dired-details)
     (local-set-key "b" 'dired-up-directory)
     (local-set-key "e" 'wdired-change-to-wdired-mode)
     (setq-local mouse-1-click-follows-link nil)))
