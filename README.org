@@ -1,6 +1,7 @@
 * Install
 
 #+BEGIN_SRC sh :results silent verbatim
+  mkdir -pv ~/.config/emacs/auto-save ~/.config/nix/
   stow gnu
 #+END_SRC
 
