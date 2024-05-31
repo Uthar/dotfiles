@@ -17,6 +17,16 @@
     (setq-local hl-line-face 'bold)
     (hl-line-mode)))
 
+(defun kaspi/flash-line (&rest _)
+  (pulse-momentary-highlight-region
+   (line-beginning-position)
+   (line-end-position)))
+
+(advice-add 'diff-hunk-next :after 'kaspi/flash-line)
+(advice-add 'diff-hunk-prev :after 'kaspi/flash-line)
+(advice-add 'diff-file-next :after 'kaspi/flash-line)
+(advice-add 'diff-file-prev :after 'kaspi/flash-line)
+
 (defun kaspi/diff-current-hunk-position ()
   (ignore-errors
     (cons
