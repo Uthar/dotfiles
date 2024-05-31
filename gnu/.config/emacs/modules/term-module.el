@@ -9,3 +9,5 @@
 (add-hook 'eat-mode-hook 'toggle-truncate-lines)
 
 (setopt eat-line-input-ring-size 1000000)
+
+(setopt eat-term-scrollback-size (* 2 1024 1024 1024)) ;2GiB
