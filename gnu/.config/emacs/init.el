@@ -103,3 +103,4 @@
 ;; (add-hook 'completion-list-mode-hook 'toggle-truncate-lines)
 ;; (marginalia-mode 'toggle)
 
+(setq default-input-method "polish-slash")
