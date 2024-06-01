@@ -28,6 +28,18 @@
       (vc-annotate-toggle-annotation-visibility)
       (kaspi/vc-annotate-toggle-annotation-visibility*))))
 
+;; Chcę zobaczyć diffa nawet jeśli plik nie jest zapisany.
+;;
+;; Poprawia też sytuację, gdy log-edit-show-diff, do której nie da się jej
+;; przekazać argumentu NOT-URGENT wywala się gdy któryś z usuniętych plików ma
+;; otwarty bufor.
+;;
+;; Być może nie jest to najlepsze rozwiązanie, bo nie wziąłem pod uwagę
+;; wszystkich innych miejsc, w których użyta jest VC-BUFFER-SYNC.
+(advice-add 'vc-buffer-sync :filter-args 
+  (lambda (&rest _) '(t))
+  '((name . kaspi/always-not-urgent)))
+
 ;; Automatically pop up an emphemeral diff buffer (via C-x 4 4 C-c C-d) with the
 ;; current changes in 'vc-log-edit'. I almost always want this, so this saves me
 ;; those 2 key chords on each check-in
