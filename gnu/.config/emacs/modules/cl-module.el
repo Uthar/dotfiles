@@ -41,8 +41,6 @@
 (with-eval-after-load 'inf-lisp
   (require 'inferior-slime))
 
-(global-set-key (kbd "C-c s") 'slime-selector)
-
 (defun kaspi/slime-capf ()
   (let* ((endpos (slime-symbol-end-pos))
          (begpos (slime-symbol-start-pos))
