@@ -123,7 +123,8 @@
     (let ((minibuffer-completion-auto-choose nil))
       (minibuffer-completion-help)))
    (completion-in-region-mode
-    (completion-help-at-point)))))
+    (completion-help-at-point)))
+  :refreshed))
 
 ;; TODO consider completion-fail-discreetly
 ;; TODO consider after-change-functions instead of post-command-hook
@@ -150,7 +151,23 @@
     ;; The pauses are probably not due to while-no-input not working. I set
     ;; post-gc-hook and saw that gc was being triggered pretty much on every
     ;; keypress. This must have caused the slowness and tearing.
-    (while-no-input (sit-for 0.05) (lcr-refresh))))
+    ;; HACK:
+    ;; Muszę sprawdzać czy `while-no-input' wróciło czy zostało przerwane. To
+    ;; dlatego, że podczas `lcr-refresh' tworzony jest bufor z użyciem akcji
+    ;; body-function (robi to `minibuffer-completion-help'). Zgodnie z
+    ;; dokumentacją `display-buffer', funkcja będąca argumentem tej akcji jest
+    ;; wykonywana *przed* zmianą rozmiarów okna na te przekazane w m.in. akcji
+    ;; window-height. To powoduje możliwość przerwania wykonywania body-function
+    ;; w jej trakcie a przez to pokazanie się okna *Completions* z domyślnymi
+    ;; rozmiarami - u mnie było wysokie na pół frame. Dlatego wyżej ustawiony
+    ;; display-buffer-alist nie wystarcza - tutaj dodatkowo upewniam się że
+    ;; rozmiary są takie jakie chcę.
+    ;; TODO: Jeszcze jest czasem problem z pojawiającym się oknem *Minibuf-1* w
+    ;; trybie InactiveMinibuffer.
+    (let ((result (while-no-input (sit-for 0.05) (lcr-refresh))))
+      (when (member result '(t nil))
+        (when-let ((window (get-buffer-window "*Completions*"))) 
+          (fit-window-to-buffer window 12 12))))))
 
 (defun kaspi/next-completion (&rest _)
   (when (or completion-in-region-mode (minibufferp))
