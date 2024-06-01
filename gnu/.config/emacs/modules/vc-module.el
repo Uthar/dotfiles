@@ -40,13 +40,10 @@
   (lambda (&rest _) '(t))
   '((name . kaspi/always-not-urgent)))
 
-;; I tak na to nie patrzę, a to dodatkowe okno do przeskakiwania.
-(remove-hook 'log-edit-hook 'log-edit-show-files)
-
-;; Automatically pop up an emphemeral diff buffer (via C-x 4 4 C-c C-d) with the
-;; current changes in 'vc-log-edit'. I almost always want this, so this saves me
-;; those 2 key chords on each check-in
 (with-eval-after-load 'log-edit
+  ;; I tak na to nie patrzę, a to dodatkowe okno do przeskakiwania.
+  (remove-hook 'log-edit-hook 'log-edit-show-files)
+  ;; Otwieraj diffa - żeby było wiadomo co wejdzie do repo.
   (add-hook 'log-edit-hook
     (lambda ()
       (let ((log-window (selected-window))
@@ -55,11 +52,8 @@
         (log-edit-show-diff)
         (setq diff-buffer (current-buffer))
         (select-window log-window)
-        (add-hook 'kill-buffer-hook
-          (lambda ()
-            (kill-buffer diff-buffer))
-          100 t)))
-    100))
+        (cl-flet ((close-diff-buffer () (kill-buffer diff-buffer)))
+          (add-hook 'kill-buffer-hook #'close-diff-buffer t t))))))
 
 ;; Ensure smerge detects diff conflicts.
 ;; (Stock regexes were sometimes wrong)
