@@ -77,10 +77,10 @@
                   (slime-repl-shortcut-eval `(cl:delete-package ,package)))))
     (:one-liner "Delete a package.")))
 
-;; Prevent prompt from being too close to the botttom of the window
-;; (slime sets this to 0)
 (add-hook 'slime-repl-mode-hook
- (lambda () 
+ (lambda ()
+   ;; Prevent prompt from being too close to the botttom of the window
+   ;; (slime sets this to 0)
    (setq-local scroll-margin 1)
    (setq-local slime-completion-at-point-functions '(slime-filename-completion kaspi/slime-capf))
    ;; Don't want completions like this
