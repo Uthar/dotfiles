@@ -3,8 +3,17 @@
 ;; Configure syntax highlighting in diff buffers
 (setq diff-font-lock-syntax t)
 
-;; Don't jump after apply
-(setopt diff-advance-after-apply-hunk nil)
+;; Przejdź do następnego hunka po zaaplikowaniu.
+(setopt diff-advance-after-apply-hunk t)
+
+;; Zapisuj pliki od razu po zaaplikowaniu hunka, bo i tak bym to zrobił.
+(advice-add 'diff-apply-hunk :after
+  (lambda (&rest _)
+    (save-window-excursion
+      (pop-to-buffer (diff-find-file-name))
+      (recenter)
+      (save-buffer)))
+  '((name . kaspi/after-apply)))
 
 (add-hook 'diff-mode-hook
   (lambda ()
