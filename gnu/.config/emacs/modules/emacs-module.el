@@ -30,8 +30,8 @@
  ;; Disable an impure config source.
  custom-file null-device
 
- ;; Disable dialog boxes.
- use-dialog-box nil
+ ;; Enable dialog boxes.
+ use-dialog-box t
 
  ;; Text editing sane defaults.
  require-final-newline t
