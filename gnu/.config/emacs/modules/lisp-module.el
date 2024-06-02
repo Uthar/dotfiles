@@ -56,9 +56,15 @@
      (list lisp-syntax nil elisp)))
  '((name . kaspi/keywords-case-insensitive)))
 
-;; CL-style indentation
-(put 'if 'lisp-indent-function 4)
-(put 'if-let 'lisp-indent-function 4)
+;; Kompaktowo - więcej się zmieści na ekranie:
+;; (if (= 2 2)               (if (= 2 2)
+;;   :tak         zamiast        :tak
+;;   :nie)                       :nie)
+;; Czy to dobrze - nie wiem. Jeden czy dwa "if" i tak powinny wystarczyć.
+;; Jednak pod "if" mogą być już bardziej złożone wyrażenia. To dla nich ta
+;; zmiana.
+(put 'if 'lisp-indent-function 1)
+(put 'if-let 'lisp-indent-function 1)
 
 ;; Work like SLIME - can always C-u C-e
 (define-key emacs-lisp-mode-map (kbd "C-j") 'newline-and-indent)
