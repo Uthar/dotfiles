@@ -13,7 +13,8 @@
 	m = merge --no-ff --no-commit
   p = pull --no-commit
 	rev = restore --staged --worktree .
-	s = status
+	s = status --short --untracked-files=no
+  x = ls-files --others --exclude-standard
 
 [user]
 	email = kgalkowski@comscore.com
