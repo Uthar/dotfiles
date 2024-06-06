@@ -21,10 +21,49 @@
     (setq-local require-final-newline nil)
     (setq-local before-save-hook nil)
     ;; Highlight current hunk at point
-    (require 'hl-line) ; BUG? otherwise custom face doesn't work
-    (setq-local hl-line-range-function 'kaspi/diff-current-hunk-position)
-    (setq-local hl-line-face 'bold)
-    (hl-line-mode)))
+    (hl-hunk-mode)))
+
+(defvar hl-hunk-overlay nil
+  "Overlay used to highlight the hunk under point.")
+
+(defface hl-hunk
+  '((t :background "CornflowerBlue"))
+  "Default face for highlighting the current hunk in hl-hunk mode.")
+
+(defvar hl-hunk-face 'hl-hunk)
+
+(define-minor-mode hl-hunk-mode
+  "Toggle highlighting of the current hunk."
+  :global nil
+  (if hl-hunk-mode
+    (progn
+      (add-hook 'post-command-hook #'hl-hunk-highlight nil t))
+    (progn
+      (remove-hook 'post-command-hook #'hl-hunk-highlight t)
+      (delete-overlay hl-hunk-overlay))))
+
+(defun hl-hunk-highlight ()
+  ;; This happens on 'revert-buffer'.
+  (when-let ((ov hl-hunk-overlay))
+    (unless (eq (current-buffer) (overlay-buffer ov))
+      (delete-overlay ov)
+      (setq-local hl-hunk-overlay nil)))
+  (unless hl-hunk-overlay
+    (setq-local hl-hunk-overlay (make-overlay 1 1))
+      (overlay-put hl-hunk-overlay 'line-prefix
+        (propertize "|" 'display `(left-fringe vertical-bar ,hl-hunk-face))))
+  (when-let ((pos (hl-hunk-position)))
+    (cl-destructuring-bind (start . end) pos
+      (let ((ov hl-hunk-overlay))
+        (unless (and (= start (overlay-start ov))
+                     (= end (overlay-end ov)))
+          (move-overlay ov start end))))))
+
+(defun hl-hunk-position ()
+  (ignore-errors
+    (cons
+     (save-excursion (diff-beginning-of-hunk) (point))
+     (save-excursion (diff-end-of-hunk) (point)))))
 
 (defun kaspi/flash-line (&rest _)
   (pulse-momentary-highlight-region
@@ -35,12 +74,6 @@
 (advice-add 'diff-hunk-prev :after 'kaspi/flash-line)
 (advice-add 'diff-file-next :after 'kaspi/flash-line)
 (advice-add 'diff-file-prev :after 'kaspi/flash-line)
-
-(defun kaspi/diff-current-hunk-position ()
-  (ignore-errors
-    (cons
-     (save-excursion (diff-beginning-of-hunk) (point))
-     (save-excursion (diff-end-of-hunk) (point)))))
 
 ;; Ediff control window in same frame as A/B windows
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
