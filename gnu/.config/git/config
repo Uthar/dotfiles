@@ -13,6 +13,7 @@
 	m = merge --no-ff --no-commit
   p = pull --no-commit
 	rev = restore --staged --worktree .
+	d = diff
 	s = status --short --untracked-files=no
   x = ls-files --others --exclude-standard
 
