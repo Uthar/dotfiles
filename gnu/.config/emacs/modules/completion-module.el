@@ -164,6 +164,11 @@
     ;; rozmiary są takie jakie chcę.
     ;; TODO: Jeszcze jest czasem problem z pojawiającym się oknem *Minibuf-1* w
     ;; trybie InactiveMinibuffer.
+    ;; Oto jak go wywołać:
+    ;; Bardzo szybko próbuj wpisać:
+    ;;   M-x pwd
+    ;; Aż pojawi się okno Minibuf-1. Może być konieczne pokombinowanie z
+    ;; backspace i wpisywaniem od nowa, C-g i jeszcze raz itd.
     (let ((result (while-no-input (sit-for 0.05) (lcr-refresh))))
       (when (member result '(t nil))
         (when-let ((window (get-buffer-window "*Completions*"))) 
