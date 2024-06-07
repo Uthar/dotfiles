@@ -28,7 +28,26 @@
 ;; completion-at-point (but not with minibuffer completion)
 (setopt completion-auto-deselect nil)
 
-;; FIXME make M-x sort by history - currently this doesn't work
+;; Dodanie flex do completion-styles przeszkadza w sortowaniu po historii, bo
+;; flex definiuje własną funkcję sortującą która ma pierwszeństwo. Konieczny
+;; jest wpis do 'completion-category-overrides':
+;;
+;;   (add-to-list 'completion-category-overrides
+;;     '(command (display-sort-function . minibuffer-sort-by-history)))
+;;
+;; Niestety połączenie flex i sort-by-history nie działa za dobrze. Sortowanie
+;; po historii dominuje nad szukaniem po właściwej nazwie i przez to nic
+;; logicznego nie wyskakuje. Szczególnie jeśli chodzi o dokładny traf np M-x
+;; grep wyświetla komendy zawierające litery g-r-e-p które były niedawno
+;; wywołane, ale samego grepa ani śladu.
+;;
+;; O wiele lepiej działa to w trybie orderless z domyślymi ustawieniami exact i
+;; regex. Przynajmniej szuka nierozerwanego ciągu grep, i na pierwszym miejscu
+;; pokazuje się np. rzgrep. To już dużo lepiej, a zawsze można zacząć zapytanie
+;; od ^ i działa to jak normalny regex - na pierszym miejscu jest grep (lub coś
+;; w stylu grep-bla jeśli jest wyżej w historii).
+;;
+;; Na razie zostawiam wyłączone dopóki nie zdecyduję jak skorzystać z orderless.
 ;; (setopt completions-sort 'historical)
 
 ;;;;;;;; Complete filenames with C-M-i
