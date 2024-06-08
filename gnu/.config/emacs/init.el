@@ -89,6 +89,7 @@
 ;; Check out ediff instead of smerge: (smerge-ediff) - https://www.youtube.com/watch?v=9S2pMZ6U5Tc
 ;; C-j - Select whatever is in minibuffer, ignoring completions
 ;; C-x 4 {b,f,d,.} - Buffer/find file/dired/M-. in other window (shorter than C-x 4 4 M-.)
+;; Search for files with prefixes: C-x C-f ~/R/n/p/d/l-m ->~/Repos/nixpkgs/pkgs/development/lisp-modules/
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
