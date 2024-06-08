@@ -119,6 +119,9 @@
     ;; Use UTF-8 by default.
     (set-language-environment "UTF-8")
 
+    ;; Musi być tutaj - z top levelu nie działa, bo coś nadpisuje.
+    (setopt default-input-method "polish-slash")
+
     ;; Show the depth of the minibuffer.
     (minibuffer-depth-indicate-mode t)
 
