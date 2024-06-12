@@ -204,7 +204,8 @@
   "Refresh opened subtrees to detect added and deleted files."
   (interactive)
   ;; Remember it to bring the point back to it after refresh.
-  (let ((saved-node (dirtree-node-at-point)))
+  (let ((position (window-start))
+        (saved-node (dirtree-node-at-point)))
     (dirtree--refresh-subtree-2 *dirtree-root*)
     (goto-char (point-min))
     (dirtree-next)
@@ -212,13 +213,9 @@
              until (string= (.path node) (.path saved-node))
              do (dirtree-next))
     ;; (recenter)
+    (set-window-start (selected-window) position)
     ;; TODO żeby przywracał też scroll (scroll-excursion?)
     (pulse-momentary-highlight-one-line)))
-
-            
-        
-    
-
   
 ;; I'll refresh all initialized subtrees (including closed) in order to not
 ;; have to refresh those lazily. It's slower but gives simpler code.
