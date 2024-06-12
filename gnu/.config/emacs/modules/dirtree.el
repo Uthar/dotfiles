@@ -44,7 +44,7 @@
 (cl-defmethod initialize-instance :after ((node dirtree-node) &optional args)
   (cl-destructuring-bind (&key path kind parent &allow-other-keys) args
     (unless kind
-      (cl-destructuring-bind (dirp &rest _) (file-attributes path)
+      (cl-destructuring-bind (dirp &rest) (file-attributes path)
         (setf (.kind node) (dirtree-decode-kind dirp))))
     (when parent
       (setf (.path node) (concat (.path parent) "/" path))
@@ -105,7 +105,7 @@
          ;; and it is unneeded when there were no children, because it creates
          ;; an extra empty line.
          (when t ;(consp children)
-           (backward-delete-char 1))
+           (delete-char -1))
          (setf end (1+ (point))))
        (setf (.subtree-overlay node) (make-overlay start end))
        (setf (.subtree-state node) :opened)
@@ -152,35 +152,40 @@
 ;;     (setf ___tmp123 (list '("a") '("b") '("foo")))
 ;;     (cl-pushnew '("bar") ___tmp123 :test #'string= :key #'car)
 
+;; (let ((*testvar* 0))
+;;   (cl-labels ((testfun ()
+;;                 (if (< *testvar* 10)
+;;                   (let ((*testvar* (1+ *testvar*)))
+;;                     (testfun))
+;;                   *testvar*)))
+;;     (testfun)))
 
 (defun dirtree--refresh-subtree-2 (node)
     ;; ALTERNATIVE SOLUTION
     ;; First remember which nodes were opened.
     ;; Then wipe all nodes
     ;; Reinit root then reinit the remembered nodes, too.
-    (let* ((oldroot *dirtree-root*)
+    (let* ((oldroot node)
            (newroot (make-instance 'dirtree-node :path (.path oldroot))))
       (erase-buffer)
       (cl-labels
-        ((reopen (node)
-           (when-let
-               ((savedroot
-                 (cl-find-if
-                  (lambda (oldnode)
-                    (and (eq :dir (.kind oldnode))
-                         (eq :opened (.subtree-state oldnode))
-                         (string= (.path oldnode) (.path node))))
-                  (.children *dirtree-root*))))
+        ((index-nodes (nodes)
+           (let ((index (make-hash-table :test 'equal)))
+             (dolist (node nodes)
+               (when (and (eq :dir (.kind node))
+                          (eq :opened (.subtree-state node)))
+                 (puthash (.path node) node index)))
+             index))
+         (reopen (node cousins)
+           (when-let ((savedroot (gethash (.path node) cousins)))
              (dirtree-expand-dir node)
              ;; (pulse-momentary-highlight-one-line)
              ;; (sit-for 0.5)
-             (let ((*dirtree-root* savedroot))
+             (let ((cousins (index-nodes (.children savedroot))))
                (cl-loop for child in (.children node) do
                  (dirtree-next)
-                 (reopen child))))))
-        (let ((*dirtree-root* (make-instance 'dirtree-node :path null-device)))
-          (setf (.children *dirtree-root*) (list oldroot))
-          (reopen newroot))
+                 (reopen child cousins))))))
+        (reopen newroot (index-nodes (list oldroot)))
         ;; Save new root with recreated structure
         (setq-local *dirtree-root* newroot))))
 
@@ -228,11 +233,11 @@
 
 (defun dirtree-previous ()
   (interactive)
-  (next-line -1))
+  (forward-line -1))
 
 (defun dirtree-next ()
   (interactive)
-  (next-line 1))
+  (forward-line 1))
 
 (defun dirtree-previous-dir ()
   (interactive)
