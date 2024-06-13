@@ -6,7 +6,9 @@
       (when (and (minibufferp)
                  (= 1 (minibuffer-depth))
                  (not (string-empty-p contents))
-                 (memq this-command lcr-commands))
+                 (memq this-command '(self-insert-command
+                                      delete-backward-char
+                                      kill-region yank undo)))
         (funcall fn contents)))))
 
 (defun kaspi/%live-compile (fn)
