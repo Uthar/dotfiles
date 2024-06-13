@@ -22,6 +22,21 @@
   (defvar *asdf-path* nil
     "Path to asdf.lisp file, to be loaded in case (require \"asdf\") fails."))
 
+;; Try loading from the ASDF environment variable first
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (unless (member :asdf *features*)
+    (flet ((getenv (x)
+             #+(or abcl clasp clisp ecl) (ext:getenv x)
+             #+allegro (sys:getenv x)
+             #+clozure (ccl:getenv x)
+             #+lispworks (lispworks:environment-variable x)
+             #+sbcl (sb-ext:posix-getenv x)
+             #-(or abcl clasp clisp ecl allegro clozure lispworks sbcl)
+             (warn "No getenv on this lisp.")))
+      (let ((asdf (getenv "ASDF")))
+        (when asdf
+          (ignore-errors (load asdf)))))))
+
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (unless (member :asdf *features*)
     (ignore-errors (funcall 'require "asdf"))))
