@@ -119,14 +119,6 @@
      (overlay-put (.subtree-overlay node) 'invisible nil)
      (setf (.subtree-state node) :opened))))
  
-(defun dirtree ()
-  (interactive)
-  (let ((switch-to-buffer-obey-display-actions t)
-        (display-buffer-overriding-action
-         '(display-buffer-in-side-window . ((side . left)))))
-    (pop-to-buffer "*Dirtree*")
-    (dirtree-mode)))
-
 (defvar *dirtree-root*)
 
 (defun dirtree-close-dirtree ()
@@ -279,6 +271,16 @@
   "q" #'dirtree-close-dirtree
   "w" #'dirtree-copy-path
   "g" #'dirtree-refresh)
+
+(defun dirtree ()
+  (interactive)
+  (let ((switch-to-buffer-obey-display-actions t)
+        (display-buffer-overriding-action
+         '(display-buffer-in-side-window . ((side . left)))))
+    (if (get-buffer "*Dirtree*")
+      (pop-to-buffer "*Dirtree*")
+      (pop-to-buffer "*Dirtree*")
+      (dirtree-mode))))
 
 ;; TODO isearch?
 
