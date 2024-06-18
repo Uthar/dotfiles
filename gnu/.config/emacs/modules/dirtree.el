@@ -93,6 +93,7 @@
   (cl-case (.subtree-state node)
     (:init
      (let ((children (list))
+           (inhibit-read-only t)
            start end)
        (cl-loop for (path dirp) in (directory-files-and-attributes (.path node)) do
          (unless (member path '("." ".."))
@@ -115,7 +116,7 @@
                   (insert (propertize (if morep "│" "└") 'face '(:foreground "gray80")))
                   (insert (propertize " " 'face '(:foreground "gray80")))
                   (insert (propertize (file-name-nondirectory (.path node))
-                                      'dirtree-node node
+                                      'dirtree-beginning t
                                       'face (cl-case (.kind node)
                                               (:dir dired-directory-face)
                                               (:link dired-symlink-face)
@@ -179,7 +180,8 @@
     ;; First remember which nodes were opened.
     ;; Then wipe all nodes
     ;; Reinit root then reinit the remembered nodes, too.
-    (let* ((oldroot node)
+    (let* ((inhibit-read-only t)
+           (oldroot node)
            (newroot (make-instance 'dirtree-node :path (.path oldroot))))
       (erase-buffer)
       (cl-labels
@@ -247,11 +249,16 @@
 
 (defun dirtree-previous ()
   (interactive)
-  (forward-line -1))
+  (forward-line -1)
+  (beginning-of-line)
+  (text-property-search-forward 'dirtree-beginning t))
+                  
 
 (defun dirtree-next ()
   (interactive)
-  (forward-line 1))
+  (forward-line 1)
+  (beginning-of-line)
+  (text-property-search-forward 'dirtree-beginning t))
 
 (defun dirtree-previous-dir ()
   (interactive)
@@ -306,9 +313,11 @@
 
 ;; TODO isearch?
 
-(define-derived-mode dirtree-mode nil "File Browser"
+(define-derived-mode dirtree-mode fundamental-mode "File Browser"
   (setq-local *dirtree-root* (make-instance 'dirtree-node :path (string-remove-suffix "/" default-directory)))
   ;; (setq-local *dirtree-root* (make-instance 'dirtree-node :path "~/Repos"))
+  (insert (propertize (.path *dirtree-root*) 'face 'bold))
   (dirtree-expand-dir *dirtree-root*)
   ;; TODO read-only-mode
+  (read-only-mode)
   )
