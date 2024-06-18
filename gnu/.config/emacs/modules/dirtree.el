@@ -122,13 +122,10 @@
                                               (:link dired-symlink-face)
                                               (:file t))))
                   (add-text-properties start2 (point) (list 'dirtree-node node))
-                  (newline))
-         ;; Always because it removes the initial newline, which is unneeded if
-         ;; there were children, because they always write a trailing newline,
-         ;; and it is unneeded when there were no children, because it creates
-         ;; an extra empty line.
-         (unless (eobp) ;(consp children)
-           (delete-char -1))
+                  (when morep
+                    (newline)))
+         (when (eobp)
+           (newline))
          (setf end (1+ (point))))
        (setf (.subtree-overlay node) (make-overlay start end))
        (setf (.subtree-state node) :opened)
@@ -250,14 +247,14 @@
 
 (defun dirtree-previous ()
   (interactive)
-  (forward-line -1)
+  (line-move -1)
   (beginning-of-line)
   (text-property-search-forward 'dirtree-beginning t))
                   
 
 (defun dirtree-next ()
   (interactive)
-  (forward-line 1)
+  (line-move 1)
   (beginning-of-line)
   (text-property-search-forward 'dirtree-beginning t))
 
