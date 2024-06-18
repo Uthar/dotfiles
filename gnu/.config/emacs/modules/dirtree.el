@@ -27,6 +27,10 @@
     :type number
     :initform 0
     :accessor .depth)
+   (prefix
+    :type string
+    :initform ""
+    :accessor .prefix)
    (subtree-state
     :type (member :init :opened :closed)
     :initform :init
@@ -47,6 +51,7 @@
       (cl-destructuring-bind (dirp &rest) (file-attributes path)
         (setf (.kind node) (dirtree-decode-kind dirp))))
     (when parent
+      (setf (.prefix node) (concat (.prefix parent) "│ "))
       (setf (.path node) (concat (.path parent) "/" path))
       (setf (.depth node) (1+ (.depth parent))))))
 
@@ -95,6 +100,9 @@
      (let ((children (list))
            (inhibit-read-only t)
            start end)
+       ;; It's rendered by now anyway. It lets children inherit the fixed prefix
+       ;; once instead of doing that same replacement from constructor.
+       (subst-char-in-string ?└ ?  (.prefix node) t)
        (cl-loop for (path dirp) in (directory-files-and-attributes (.path node)) do
          (unless (member path '("." ".."))
            (push (make-instance 'dirtree-node
@@ -104,17 +112,15 @@
                  children)))
        (cl-stable-sort children 'dirtree-sort-function)
        (setf (.children node) children)
+       (when (consp children)
+         (cl-replace (.prefix (car (last children))) "└ " :start1 (* 2 (.depth node))))
        (save-excursion
          (end-of-line)
          (newline)
          (setf start (point))
          (cl-loop for start2 = (line-beginning-position)
                   for (node morep) on children do
-                  (dotimes (n (1- (.depth node)))
-                    (insert (propertize "│" 'face '(:foreground "gray80")))
-                    (insert (propertize " " 'face '(:foreground "gray80"))))
-                  (insert (propertize (if morep "│" "└") 'face '(:foreground "gray80")))
-                  (insert (propertize " " 'face '(:foreground "gray80")))
+                  (insert (propertize (.prefix node) 'face '(:foreground "gray80")))
                   (insert (propertize (file-name-nondirectory (.path node))
                                       'dirtree-beginning t
                                       'face (cl-case (.kind node)
