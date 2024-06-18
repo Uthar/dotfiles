@@ -74,7 +74,20 @@
 ;;   (let ((node (dirtree-node-at-point))
 ;;         (siblings (.children (.parent node)))
 ;;         (index 0))
-;;     (cl-loop for sib in siblings 
+;;     (cl-loop for sib in siblings
+
+(cl-defun dirtree-sort-function (a b)
+  (let ((a-path (file-name-nondirectory (.path a)))
+        (b-path (file-name-nondirectory (.path b))))
+    (string>
+     (format "%s-%s-%s" 
+             (if (eq :dir (.kind a)) 2 1)
+             (if (eql ?. (aref a-path 0)) 2 1)
+             a-path)
+     (format "%s-%s-%s"
+             (if (eq :dir (.kind b)) 2 1)
+             (if (eql ?. (aref b-path 0)) 2 1)
+             b-path))))
 
 (defun dirtree-expand-dir (node)
   (cl-case (.subtree-state node)
@@ -88,23 +101,32 @@
                                 :parent node
                                 :kind (dirtree-decode-kind dirp))
                  children)))
+       (cl-stable-sort children 'dirtree-sort-function)
        (setf (.children node) children)
        (save-excursion
          (end-of-line)
          (newline)
          (setf start (point))
-         (cl-loop for node in children do
-                  ;; TODO defmethod dirtree-format-node
-                  (insert (propertize (format "%s%s: %s\n"
-                                              (make-string (.depth node) ?\ )
-                                              (.kind node)
-                                              (file-name-nondirectory (.path node)))
-                                      'dirtree-node node)))
+         (cl-loop for start2 = (line-beginning-position)
+                  for (node morep) on children do
+                  (dotimes (n (1- (.depth node)))
+                    (insert (propertize "│" 'face '(:foreground "gray80")))
+                    (insert (propertize " " 'face '(:foreground "gray80"))))
+                  (insert (propertize (if morep "│" "└") 'face '(:foreground "gray80")))
+                  (insert (propertize " " 'face '(:foreground "gray80")))
+                  (insert (propertize (file-name-nondirectory (.path node))
+                                      'dirtree-node node
+                                      'face (cl-case (.kind node)
+                                              (:dir dired-directory-face)
+                                              (:link dired-symlink-face)
+                                              (:file t))))
+                  (add-text-properties start2 (point) (list 'dirtree-node node))
+                  (newline))
          ;; Always because it removes the initial newline, which is unneeded if
          ;; there were children, because they always write a trailing newline,
          ;; and it is unneeded when there were no children, because it creates
          ;; an extra empty line.
-         (when t ;(consp children)
+         (unless (eobp) ;(consp children)
            (delete-char -1))
          (setf end (1+ (point))))
        (setf (.subtree-overlay node) (make-overlay start end))
