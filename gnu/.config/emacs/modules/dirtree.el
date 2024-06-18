@@ -51,7 +51,7 @@
       (cl-destructuring-bind (dirp &rest) (file-attributes path)
         (setf (.kind node) (dirtree-decode-kind dirp))))
     (when parent
-      (setf (.prefix node) (concat (.prefix parent) "│ "))
+      (setf (.prefix node) (concat (.prefix parent) "├ "))
       (setf (.path node) (concat (.path parent) "/" path))
       (setf (.depth node) (1+ (.depth parent))))))
 
@@ -96,6 +96,7 @@
        ;; It's rendered by now anyway. It lets children inherit the fixed prefix
        ;; once instead of doing that same replacement from constructor.
        (subst-char-in-string ?└ ?  (.prefix node) t)
+       (subst-char-in-string ?├ ?│  (.prefix node) t)
        (cl-loop for (path dirp) in (directory-files-and-attributes (.path node)) do
          (unless (member path '("." ".."))
            (push (make-instance 'dirtree-node
@@ -113,7 +114,7 @@
          (setf start (point))
          (cl-loop for start2 = (line-beginning-position)
                   for (node morep) on children do
-                  (insert (propertize (.prefix node) 'face '(:foreground "gray80")))
+                  (insert (propertize (.prefix node) 'face 'shadow))
                   (insert (propertize (file-name-nondirectory (.path node))
                                       'dirtree-beginning t
                                       'face (cl-case (.kind node)
