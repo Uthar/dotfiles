@@ -93,6 +93,7 @@
 ;; C-x z - repeat last operation - for example:
 ;;  M-z / (delete until '/' character)
 ;;  C-x z z z z z (do that 5 additional times)
+;; C-M-t transpose-sexps
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
