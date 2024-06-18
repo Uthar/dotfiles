@@ -184,6 +184,7 @@
            (oldroot node)
            (newroot (make-instance 'dirtree-node :path (.path oldroot))))
       (erase-buffer)
+      (insert (propertize (.path newroot) 'face 'bold))
       (cl-labels
         ((index-nodes (nodes)
            (let ((index (make-hash-table :test 'equal)))
@@ -278,11 +279,14 @@
 
 (defun dirtree-up-dir ()
   (interactive)
-  (cl-loop with depth = (prog1 (.depth (dirtree-node-at-point))
-                          (dirtree-previous))
-           for node = (dirtree-node-at-point)
-           until (= (1- depth) (.depth node))
-           do (dirtree-previous)))
+  (let (depth)
+    (setf depth (.depth (dirtree-node-at-point)))
+    (when (= 1 depth)
+      (error "At root level"))
+    (dirtree-previous)
+    (cl-loop for node = (dirtree-node-at-point)
+             until (= (1- depth) (.depth node))
+             do (dirtree-previous))))
 
 (defun dirtree-copy-path ()
   "Save full path of file under point to kill ring."
