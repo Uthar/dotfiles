@@ -81,18 +81,11 @@
 ;;         (index 0))
 ;;     (cl-loop for sib in siblings
 
-(cl-defun dirtree-sort-function (a b)
-  (let ((a-path (file-name-nondirectory (.path a)))
-        (b-path (file-name-nondirectory (.path b))))
-    (string>
-     (format "%s-%s-%s" 
-             (if (eq :dir (.kind a)) 2 1)
-             (if (eql ?. (aref a-path 0)) 2 1)
-             a-path)
-     (format "%s-%s-%s"
-             (if (eq :dir (.kind b)) 2 1)
-             (if (eql ?. (aref b-path 0)) 2 1)
-             b-path))))
+(defun dirtree-sort-key (node)
+  (let ((path (file-name-nondirectory (.path node))))
+    (list (if (eq :dir (.kind node)) 1 2)
+          (if (eql ?. (aref path 0)) 1 2)
+          path)))
 
 (defun dirtree-expand-dir (node)
   (cl-case (.subtree-state node)
@@ -110,7 +103,7 @@
                                 :parent node
                                 :kind (dirtree-decode-kind dirp))
                  children)))
-       (cl-stable-sort children 'dirtree-sort-function)
+       (sort children :key 'dirtree-sort-key :in-place t)
        (setf (.children node) children)
        (when (consp children)
          (cl-replace (.prefix (car (last children))) "└ " :start1 (* 2 (.depth node))))
@@ -190,7 +183,7 @@
       (insert (propertize (.path newroot) 'face 'bold))
       (cl-labels
         ((index-nodes (nodes)
-           (let ((index (make-hash-table :test 'equal)))
+           (let ((index (make-hash-table :test 'equal :size (length nodes))))
              (dolist (node nodes)
                (when (and (eq :dir (.kind node))
                           (eq :opened (.subtree-state node)))
@@ -253,15 +246,11 @@
 
 (defun dirtree-previous ()
   (interactive)
-  (line-move -1)
-  (beginning-of-line)
-  (text-property-search-forward 'dirtree-beginning t))
+  (text-property-search-backward 'dirtree-beginning t))
                   
 
 (defun dirtree-next ()
   (interactive)
-  (line-move 1)
-  (beginning-of-line)
   (text-property-search-forward 'dirtree-beginning t))
 
 (defun dirtree-previous-dir ()
@@ -328,3 +317,5 @@
   ;; TODO read-only-mode
   (read-only-mode)
   )
+
+;; TODO isearch-open-invisible-temporary
