@@ -114,7 +114,8 @@
          (setf start (point))
          (cl-loop for start2 = (line-beginning-position)
                   for (node morep) on children do
-                  (insert (propertize (.prefix node) 'face 'shadow))
+                  ;; TODO :line-prefix text property
+                  (insert (propertize (.prefix node) 'face '(:foreground "gray80")))
                   (insert (propertize (file-name-nondirectory (.path node))
                                       'dirtree-beginning t
                                       'face (cl-case (.kind node)
