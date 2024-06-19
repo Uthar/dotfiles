@@ -251,7 +251,7 @@
 
 (defun dirtree-previous ()
   (interactive)
-  (text-property-search-backward 'dirtree-beginning t))
+  (text-property-search-backward 'dirtree-beginning t t t))
                   
 
 (defun dirtree-next ()
