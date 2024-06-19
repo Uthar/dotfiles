@@ -251,12 +251,17 @@
 
 (defun dirtree-previous ()
   (interactive)
-  (text-property-search-backward 'dirtree-beginning t t t))
-                  
+  (while
+    (progn
+      (text-property-search-backward 'dirtree-beginning t t t)
+      (invisible-p (point)))))
 
 (defun dirtree-next ()
   (interactive)
-  (text-property-search-forward 'dirtree-beginning t))
+  (while
+    (progn
+      (text-property-search-forward 'dirtree-beginning t)
+      (invisible-p (point)))))
 
 (defun dirtree-previous-dir ()
   (interactive)
