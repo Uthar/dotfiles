@@ -110,23 +110,26 @@
          (cl-replace (.prefix (car (last children))) "└ " :start1 (* 2 (.depth node))))
        (save-excursion
          (end-of-line)
-         (newline)
+         (insert ?\n)
          (setf start (point))
          (cl-loop for start2 = (line-beginning-position)
                   for (node morep) on children do
-                  ;; TODO :line-prefix text property
+                  ;; TODO:line-prefix text property
+                  ;; TODO: propertize once in constructor
                   (insert (propertize (.prefix node) 'face '(:foreground "gray80")))
                   (insert (propertize (file-name-nondirectory (.path node))
                                       'dirtree-beginning t
                                       'face (cl-case (.kind node)
                                               (:dir dired-directory-face)
                                               (:link dired-symlink-face)
-                                              (:file t))))
+                                              (:file 'default))
+                                      'mouse-face 'highlight))
+                  ;; TODO buttons
                   (add-text-properties start2 (point) (list 'dirtree-node node))
                   (when morep
-                    (newline)))
+                    (insert ?\n)))
          (when (eobp)
-           (newline))
+           (insert ?\n))
          (setf end (1+ (point))))
        (setf (.subtree-overlay node) (make-overlay start end))
        (setf (.subtree-state node) :opened)
