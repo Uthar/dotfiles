@@ -290,6 +290,8 @@
   (interactive)
   (kill-new (message (.path (dirtree-node-at-point)))))
 
+;; TODO set mark before jumping for C-x x
+
 (defvar-keymap dirtree-mode-map
   :doc "Keymap for File Browser mode"
   "<return>" #'dirtree-expand
