@@ -346,6 +346,8 @@
   (dirtree-expand-dir *dirtree-root*)
   ;; TODO read-only-mode
   (read-only-mode)
+  ;; Prevent selection on double click
+  (setq-local double-click-time nil)
   )
 
 ;; TODO isearch-open-invisible-temporary
