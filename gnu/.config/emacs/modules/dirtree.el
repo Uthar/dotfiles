@@ -69,9 +69,24 @@
 (defun dirtree-expand ()
   (interactive)
   (let ((node (dirtree-node-at-point)))
-    (cl-case (.kind node)
-      ((:file :link) (error "Opening files not implemented"))
-      (:dir (dirtree-expand-dir node)))))
+    (dirtree--expand-node node)))
+
+(defun dirtree-mouse-expand (event)
+  (interactive "e")
+  (let ((window (posn-window (event-end event)))
+        (pos (posn-point (event-end event)))
+        node)
+    (unless (windowp window)
+      (error "No file chosen"))
+    (with-current-buffer (window-buffer window)
+      (goto-char pos)
+      (setf node (dirtree-node-at-point))
+      (dirtree--expand-node node))))
+
+(defun dirtree--expand-node (node)
+  (cl-case (.kind node)
+    ((:file :link) (error "Opening files not implemented"))
+    (:dir (dirtree-expand-dir node))))
 
 ;; (defun dirtree--DEBUG-find-last-child-position ()
 ;;   "Find last child position by finding the next child after us in our parent"
@@ -123,6 +138,8 @@
                                               (:dir dired-directory-face)
                                               (:link dired-symlink-face)
                                               (:file 'default))
+                                      'help-echo (.path node)
+                                      'follow-link t
                                       'mouse-face 'highlight))
                   ;; TODO buttons
                   (add-text-properties start2 (point) (list 'dirtree-node node))
@@ -300,6 +317,7 @@
 (defvar-keymap dirtree-mode-map
   :doc "Keymap for File Browser mode"
   "<return>" #'dirtree-expand
+  "<mouse-2>" #'dirtree-mouse-expand
   "p" #'dirtree-previous
   "n" #'dirtree-next
   "{" #'dirtree-previous-dir
