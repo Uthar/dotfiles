@@ -98,6 +98,22 @@
 ;; Ogranicz destrukcyjne działanie gita
 (setq vc-filter-command-function 'kaspi/vc-filter-command-function)
 
+;; Żeby nie wchodził w nieśledzone podkatalogi.
+;; (Niestety normalny filter nie wystarczy bo to jest wewnętrzne).
+;; Inaczej duże katalogi source czy outputs z nix develop sprawiają kłopoty.
+(advice-add 'vc-git-command :filter-args
+  (lambda (args)
+    (cl-destructuring-bind (buffer okstatus file-or-list &rest flags) args
+      (cl-destructuring-bind (cmd &rest flags) (or flags '(nil))
+        (cond
+         ((cl-endp flags) args)
+         ((and (string= "ls-files" cmd)
+               (or (cl-find "-o" flags :test #'string=)
+                   (cl-find "--others" flags :test #'string=)))
+          (cl-list* buffer okstatus file-or-list cmd "--directory" flags))
+         (t args)))))
+  '((name . kaspi/dont-recurse-untracked-dirs)))
+
 ;; I want to see the diff of the file at point, not the diff of marked files.
 ;;
 ;; The workflow is the following:
