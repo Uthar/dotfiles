@@ -5,6 +5,8 @@
 (require 'eieio)
 (require 'subr-x)
 
+;; TODO dirtree-narrow-to-subtree
+
 (defclass dirtree-node ()
   ((path
     :type string
@@ -268,17 +270,19 @@
 
 (defun dirtree-previous ()
   (interactive)
-  (while
-    (progn
-      (text-property-search-backward 'dirtree-beginning t t t)
-      (invisible-p (point)))))
+  (cl-loop for match = (text-property-search-backward 'dirtree-beginning t t t)
+           while match
+           do (goto-char (prop-match-beginning match))
+           while (invisible-p (point))
+           finally (return match)))
 
 (defun dirtree-next ()
   (interactive)
-  (while
-    (progn
-      (text-property-search-forward 'dirtree-beginning t)
-      (invisible-p (point)))))
+  (cl-loop for match = (text-property-search-forward 'dirtree-beginning t t t)
+           while match
+           do (goto-char (prop-match-beginning match))
+           while (invisible-p (point))
+           finally (return match)))
 
 (defun dirtree-previous-dir ()
   (interactive)
@@ -351,3 +355,49 @@
   )
 
 ;; TODO isearch-open-invisible-temporary
+
+;;;; VC integration
+
+(defvar dirtree-vc-process-buffer nil)
+
+(defun dirtree-vc-update ()
+  (let* ((node (dirtree-node-at-point))
+         (path (.path node))
+         (backend (ignore-errors (vc-responsible-backend path)))
+         (buffer (current-buffer))
+         (children (make-hash-table :test 'equal))
+         (offset 0))
+    ;; (cl-labels
+    ;;     ((add-children (n)
+    ;;        (dolist (child (.children n))
+    ;;          (puthash (cl-subseq (.path child) (1+ (length path))) child children)
+    ;;          (add-children child))))
+    ;;   (add-children node))
+    (when backend
+      (save-excursion
+        (cl-loop with prefixlen = (1+ (length path))
+                 for match = (dirtree-next)
+                 for child = (dirtree-node-at-point)
+                 while (and match (> (.depth child) (.depth node)))
+                 do (puthash (cl-subseq (.path child) prefixlen)
+                             (prop-match-end match)
+                             children)))
+      (setq dirtree-vc-process-buffer (generate-new-buffer " *dirtree-vc-process* tmp status"))
+      (with-current-buffer dirtree-vc-process-buffer
+        (setq default-directory (expand-file-name path))
+        (erase-buffer)
+        (vc-call-backend backend 'dir-status-files path (mapcar #'.path (.children node))
+          (lambda (entries &optional more-to-come)
+            (when (buffer-live-p buffer)
+              (with-current-buffer buffer
+                (dolist (entry entries)
+                  (cl-destructuring-bind (file state &rest r) entry
+                    (unless (eq 'up-to-date state)
+                      (when-let ((end (gethash file children)))
+                        (let ((inhibit-read-only t)
+                              (tag (propertize (format " %s\n" (symbol-name state))
+                                               'face '(:inherit shadow :slant italic))))
+                          (put-text-property end (1+ end) 'display tag))))))))))))))
+
+
+
