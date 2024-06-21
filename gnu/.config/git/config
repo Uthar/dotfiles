@@ -15,7 +15,7 @@
 	rev = restore --staged --worktree .
 	d = diff
 	s = status --short --untracked-files=no
-  x = ls-files --others --exclude-standard
+  x = ls-files --others --directory --exclude-standard
 
 [user]
 	email = kgalkowski@comscore.com
