@@ -1,3 +1,4 @@
 set print pretty on
 set print elements 1000
 set disassembly-flavor att
+set history save on
