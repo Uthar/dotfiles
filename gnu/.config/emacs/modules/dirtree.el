@@ -251,13 +251,13 @@
     (dirtree--refresh-subtree-2 *dirtree-root*)
     (goto-char (point-min))
     (dirtree-next)
-    (cl-loop for node = (dirtree-node-at-point) while node
-             until (string= (.path node) (.path saved-node))
-             do (dirtree-next))
-    ;; (recenter)
-    (set-window-start (selected-window) position)
-    ;; TODO żeby przywracał też scroll (scroll-excursion?)
-    (pulse-momentary-highlight-one-line)))
+    (unless (string= (.path saved-node) (.path *dirtree-root*))
+      (cl-loop for node = (dirtree-node-at-point) while node
+               until (string= (.path node) (.path saved-node))
+               do (dirtree-next))
+      (set-window-start (selected-window) position))
+    (pulse-momentary-highlight-one-line)
+    ))
   
 ;; I'll refresh all initialized subtrees (including closed) in order to not
 ;; have to refresh those lazily. It's slower but gives simpler code.
@@ -316,12 +316,47 @@
   (interactive)
   (kill-new (message (.path (dirtree-node-at-point)))))
 
+(defun dirtree-chroot ()
+  (interactive)
+  (let* ((node (dirtree-node-at-point))
+         (depth (.depth node)))
+    (unless (eq :dir (.kind node))
+      (error "Not a directory"))
+    (when (memq (.subtree-state node) '(:closed :init))
+      (dirtree-expand-dir node))
+    (cl-labels ((adjust-depth (node)
+                  (cl-decf (.depth node) depth)
+                  (dolist (child (.children node))
+                    (adjust-depth child))))
+      (adjust-depth node))
+    (setq-local *dirtree-root* node)
+    (dirtree-refresh)))
+
+(defun dirtree-chroot-up ()
+  (interactive)
+  (let* ((node *dirtree-root*)
+         (path (.path node))
+         (up (string-remove-suffix "/" (file-name-directory path)))
+         (inhibit-read-only t))
+    (setq-local *dirtree-root* (make-instance 'dirtree-node :path up))
+    (erase-buffer)
+    (insert (propertize (.path *dirtree-root*) 'face 'bold))
+    (dirtree-expand-dir *dirtree-root*)
+    (dirtree-next)
+    (cl-loop for node2 = (dirtree-node-at-point)
+             while node2
+             until (string= (.path node2) (.path node))
+             do (dirtree-next))
+    (pulse-momentary-highlight-one-line)))
+
 ;; TODO set mark before jumping for C-x x
 
 (defvar-keymap dirtree-mode-map
   :doc "Keymap for File Browser mode"
   "<return>" #'dirtree-expand
   "<mouse-2>" #'dirtree-mouse-expand
+  "C" #'dirtree-chroot
+  "U" #'dirtree-chroot-up
   "p" #'dirtree-previous
   "n" #'dirtree-next
   "{" #'dirtree-previous-dir
@@ -347,6 +382,14 @@
   (setq-local *dirtree-root* (make-instance 'dirtree-node :path (string-remove-suffix "/" default-directory)))
   ;; (setq-local *dirtree-root* (make-instance 'dirtree-node :path "~/Repos"))
   (insert (propertize (.path *dirtree-root*) 'face 'bold))
+
+  ;; (let ((bound (point))
+  ;;       start)
+  ;;   (beginning-of-line)
+  ;;   (setf start (search-forward "/" bound t)) ;skip root
+  ;;   (while start
+  ;;     (set-text-properties start (setf start (search-forward "/" bound t))
+    
   (dirtree-expand-dir *dirtree-root*)
   ;; TODO read-only-mode
   (read-only-mode)
