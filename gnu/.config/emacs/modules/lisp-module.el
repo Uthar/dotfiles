@@ -129,3 +129,12 @@
     (delete-char -1)))
 
 (global-set-key (kbd "C-c l u") 'kaspi/unprogn-sexp)
+
+(defun kaspi/duplicate-sexp ()
+  "Wstaw kopię sexpr pod wskaźnikiem."
+  (interactive)
+  (mark-sexp)
+  (kill-ring-save (region-beginning) (region-end))
+  (yank))
+
+(global-set-key (kbd "C-c l s") 'kaspi/duplicate-sexp)
