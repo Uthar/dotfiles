@@ -391,8 +391,8 @@
   ;;     (set-text-properties start (setf start (search-forward "/" bound t))
     
   (dirtree-expand-dir *dirtree-root*)
-  ;; TODO read-only-mode
   (read-only-mode)
+  (hl-line-mode)
   ;; Prevent selection on double click
   (setq-local double-click-time nil)
   )
