@@ -87,8 +87,14 @@
 
 (defun dirtree--expand-node (node)
   (cl-case (.kind node)
-    ((:file :link) (error "Opening files not implemented"))
+    ((:file :link) (dirtree-open-file node))
     (:dir (dirtree-expand-dir node))))
+
+(defun dirtree-open-file (node)
+  (let ((display-buffer-overriding-action
+         '(display-buffer-use-some-window (some-window . mru)))
+        (switch-to-buffer-obey-display-actions t))
+    (find-file (.path node))))
 
 ;; (defun dirtree--DEBUG-find-last-child-position ()
 ;;   "Find last child position by finding the next child after us in our parent"
