@@ -97,6 +97,9 @@
 ;;  C-x z z z z z (do that 5 additional times)
 ;; C-M-t transpose-sexps
 ;; M-s . M-s o - immediately open occur buffer of symbol at point
+;; Info: the best documentation browser - simple design, keyboard shortcuts - encourages high focus
+;;   (C-h i C-h m)
+;; C-h m -> H.K.O.N. endorsed communication channel interface - achieve tranquillity.
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
