@@ -372,6 +372,25 @@
   "w" #'dirtree-copy-path
   "g" #'dirtree-refresh)
 
+(cl-defmacro some-> (&body body)
+  (let ((g (gensym)))
+    `(let ((,g ,(car body)))
+       (when-let ,(mapcar (lambda (expr) `(,g (thread-first ,g ,expr))) (cdr body))
+       ,g))))
+
+(defun dirtree-toggle ()
+  (interactive)
+  (cond
+   ;; ((string= "*Dirtree*" (buffer-name (current-buffer)))
+   ;;  (dirtree-close-dirtree))
+   ((some-> (get-buffer "*Dirtree*") (get-buffer-window) (window-live-p))
+    (progn
+      (pop-to-buffer "*Dirtree*")
+      (dirtree-close-dirtree)))
+   (t (dirtree))))
+
+;; (global-set-key (kbd "<f2>") #'dirtree-toggle)
+
 (defun dirtree ()
   (interactive)
   (let ((switch-to-buffer-obey-display-actions t)
