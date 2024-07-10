@@ -41,4 +41,5 @@
     (dired-hide-details-mode kaspi/dired-details)
     (local-set-key "b" 'dired-up-directory)
     (local-set-key "e" 'wdired-change-to-wdired-mode)
+    (local-set-key (kbd "<mouse-8>") 'dired-up-directory)
     (setq-local mouse-1-click-follows-link nil)))
