@@ -98,6 +98,7 @@
 ;; C-M-t transpose-sexps
 ;; M-s . M-s o - immediately open occur buffer of symbol at point
 ;; Info: the best documentation browser - simple design, keyboard shortcuts - encourages high focus
+;;   expecially "index" feature is amazing
 ;;   (C-h i C-h m)
 ;; C-h m -> H.K.O.N. endorsed communication channel interface - achieve tranquillity.
 
