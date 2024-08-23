@@ -30,6 +30,9 @@
 
 (global-set-key (kbd "C-x O") 'previous-window-any-frame)
 
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-O") 'previous-window-any-frame)
+
 (global-set-key (kbd "S-<up>") 'scroll-down-line)
 (global-set-key (kbd "S-<down>") 'scroll-up-line)
 
