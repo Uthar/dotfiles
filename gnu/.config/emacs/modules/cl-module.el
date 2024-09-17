@@ -61,6 +61,7 @@
 (with-eval-after-load 'slime
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
+  (define-key slime-inspector-mode-map [mouse-8] 'slime-inspector-pop)
   )
 
 (advice-add 'slime-repl-return :around 'kaspi/slime-repl-return-advice)
