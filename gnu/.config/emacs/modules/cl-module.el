@@ -95,6 +95,9 @@
    ;; Same but for indent-region
    (setq-local indent-region-function 'indent-region-line-by-line)))
 
+(with-eval-after-load 'slime-repl
+  (add-hook 'slime-repl-return-hooks (lambda (_) (slime-repl-save-merged-history) nil)))
+
 (add-hook 'slime-mode-hook
  (lambda ()
    (setq-local slime-completion-at-point-functions '(slime-filename-completion kaspi/slime-capf))))
