@@ -20,6 +20,7 @@
     ;; Prevent messing with the diff by removing save hooks.
     (setq-local require-final-newline nil)
     (setq-local before-save-hook nil)
+    (define-key diff-mode-map (kbd "M-<backspace>") 'backward-kill-word)
     ;; Highlight current hunk at point
     (hl-hunk-mode)))
 
