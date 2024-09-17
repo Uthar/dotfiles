@@ -13,6 +13,7 @@
   co = checkout
 	m = merge --no-ff --no-commit
   p = push
+  pf = push --force
 	r = restore --staged --worktree .
 	d = diff
 	s = status --short --untracked-files=no
