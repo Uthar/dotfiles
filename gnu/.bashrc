@@ -51,7 +51,8 @@ alias l="ls -vlah --color=auto --group-directories-first"
 alias ls="ls --color=auto --group-directories-first"
 alias e="emacs"
 alias s=systemctl
-alias j=journalctl
+alias su="systemctl --user"
+alias ju="journalctl --user"
 
 shopt -s checkwinsize
 shopt -s histappend
