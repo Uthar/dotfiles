@@ -39,8 +39,8 @@
  ;; Less jumpy scroll.
  scroll-margin 4
  scroll-conservatively 1000
- scroll-preserve-screen-position t
- next-screen-context-lines 8
+ scroll-preserve-screen-position nil
+ next-screen-context-lines 10
 
  ;; Clear the scratch buffer.
  initial-scratch-message ""

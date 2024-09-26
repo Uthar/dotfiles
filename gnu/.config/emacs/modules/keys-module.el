@@ -29,3 +29,6 @@
 (global-set-key (kbd "C-c l l") 'kaspi/copy-line*)
 
 (global-set-key (kbd "C-x O") 'previous-window-any-frame)
+
+(global-set-key (kbd "S-<up>") 'scroll-down-line)
+(global-set-key (kbd "S-<down>") 'scroll-up-line)
