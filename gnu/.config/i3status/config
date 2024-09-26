@@ -1,0 +1,29 @@
+general {
+  colors = true
+  interval = 5
+}
+
+order += "disk /"
+order += "memory"
+order += "battery all"
+order += "tztime local"
+
+battery all {
+  format = "%percentage %remaining"
+  last_full_capacity = true
+  integer_battery_capacity = true
+  low_threshold = 10
+  threshold_type = "percentage"
+}
+
+disk "/" {
+  format = "%used/%total"
+}
+
+memory {
+  format = "%used/%total"
+}
+
+tztime local {
+  format = "%Y-%m-%d %H:%M"
+}
