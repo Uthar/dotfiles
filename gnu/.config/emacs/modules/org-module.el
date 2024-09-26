@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(setopt org-startup-folded 't)
+(setopt org-startup-folded 'show2levels)
 
 (with-eval-after-load "org"
   (org-babel-do-load-languages
