@@ -42,6 +42,9 @@
  scroll-preserve-screen-position nil
  next-screen-context-lines 10
 
+ ;; Może kiedyś włączę.
+ ;; scroll-error-top-bottom t
+
  ;; Clear the scratch buffer.
  initial-scratch-message ""
 
