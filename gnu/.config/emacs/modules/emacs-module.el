@@ -151,8 +151,8 @@
     (global-so-long-mode)
 
     ;; Window movement keybindings
-    (windmove-default-keybindings)
-    (windmove-swap-states-default-keybindings)
+    ;; (windmove-default-keybindings)
+    ;; (windmove-swap-states-default-keybindings)
 
     ;; Repeatable undo, other-window etc.
     (repeat-mode)
