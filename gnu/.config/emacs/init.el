@@ -110,7 +110,7 @@
 ;; Odpalaj litery tylko przy zapisie pliku 
 (setq flymake-no-changes-timeout nil)
 
-(add-to-list 'default-frame-alist '(font . "SourceCodePro-10"))
+(add-to-list 'default-frame-alist '(font . "Terminus-11"))
 
 ;; Unfortunately this is really slow
 ;; (require 'marginalia)
