@@ -32,3 +32,6 @@
 
 (global-set-key (kbd "S-<up>") 'scroll-down-line)
 (global-set-key (kbd "S-<down>") 'scroll-up-line)
+
+(global-set-key (kbd "<undo>") 'undo)
+(global-set-key (kbd "<redo>") 'undo-redo)
