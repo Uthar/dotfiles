@@ -6,13 +6,14 @@
   autocrlf = false
 
 [alias]
-	graph = log --oneline --graph --all --pretty='format:%d%h (%as) [%an] %s' # --grep='^<<hidden>>' --notes --invert-grep
+	g = log --graph --all --pretty='format:%h%d (%cs) [%an] %s'
+	l = log --first-parent --pretty='format:%h%d (%cs) [%an] %s'
   up = git pull --no-commit
 	ci = commit
   co = checkout
 	m = merge --no-ff --no-commit
-  p = pull --no-commit
-	rev = restore --staged --worktree .
+  p = push
+	r = restore --staged --worktree .
 	d = diff
 	s = status --short --untracked-files=no
   x = ls-files --others --directory --exclude-standard
