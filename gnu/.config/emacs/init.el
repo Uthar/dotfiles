@@ -56,6 +56,7 @@
 (load "links-module")
 (load "asm-module")
 (load "proced-module")
+(load "novinky-module")
 
 (let ((hour (decoded-time-hour (decode-time))))
   (cond
