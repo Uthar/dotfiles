@@ -35,3 +35,16 @@
 
 (global-set-key (kbd "<undo>") 'undo)
 (global-set-key (kbd "<redo>") 'undo-redo)
+
+;; Możliwość skakania z powrotem po przewinięciach ekranu.
+;;
+;; (Domyślnie scroll-*-command nie pamięta marka)
+(advice-add 'scroll-up-command :before 'push-mark)
+(advice-add 'scroll-down-command :before 'push-mark)
+;; O tyle inne od domyślnego exchange-point-and-mark, że nie aktywuje regionu.
+(global-set-key (kbd "C-c x") 'pop-to-mark-command)
+(defvar kaspi/pop-to-mark-repeat-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "x" 'pop-to-mark-command)
+    map))
+(put 'pop-to-mark-command 'repeat-map 'kaspi/pop-to-mark-repeat-map)
