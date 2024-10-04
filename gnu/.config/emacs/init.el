@@ -57,7 +57,7 @@
 (load "asm-module")
 (load "proced-module")
 
-(let ((hour (nth 2 (decode-time))))
+(let ((hour (decoded-time-hour (decode-time))))
   (cond
    ((not window-system)
     (load-theme 'modus-vivendi))
