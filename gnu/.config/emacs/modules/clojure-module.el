@@ -17,7 +17,7 @@
 (setq cider-mode-line-show-connection nil)
 (setq cider-use-overlays nil)
 (setq cider-use-tooltips nil)
-(setq cider-repl-history-file (concat user-emacs-directory "cider-history"))
+(setq cider-repl-history-file (locate-user-emacs-file "cider-history"))
 (setq cider-repl-tab-command 'indent-for-tab-command)
 (add-hook 'cider-after-eval-done-hook 'cider-repl-history-just-save)
 

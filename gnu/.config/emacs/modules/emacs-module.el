@@ -58,9 +58,9 @@
 
  ;; Prevent filesystem trashing.
  backup-directory-alist
- `((".*" . ,(concat user-emacs-directory "backups/")))
+ `((".*" . , (locate-user-emacs-file "backups/")))
  auto-save-file-name-transforms
- `((".*" ,(concat user-emacs-directory "auto-save/") t))
+ `((".*" ,(locate-user-emacs-file "auto-save/") t))
  create-lockfiles nil
 
  ;; Display line and column numbers in the modeline.
