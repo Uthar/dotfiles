@@ -133,5 +133,15 @@
 (put 'move-lines-up 'repeat-map 'kaspi/move-lines-repeat-map)
 (put 'move-lines-down 'repeat-map 'kaspi/move-lines-repeat-map)
 
+(defun kaspi/paste-passwd ()
+  "Wczytaj hasło z clipboard, usuwając potem wszelkie ślady po nim z pamięci."
+  (interactive)
+  (let ((passwd (funcall interprogram-paste-function)))
+    (when passwd
+      ;; Zapobiegawczo, żeby M-y nie wrzucało ochoczo haseł do kill ringu.
+      (funcall interprogram-cut-function "")
+      (unwind-protect
+          (insert passwd)
+        (clear-string passwd)))))
 
-  
+(global-set-key (kbd "C-M-y") 'kaspi/paste-passwd)
