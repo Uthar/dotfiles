@@ -141,3 +141,12 @@
   (yank))
 
 (global-set-key (kbd "C-c l s") 'kaspi/duplicate-sexp)
+
+(defun kaspi/yank-sexp ()
+  "Wrzuć sexpr pod wskaźnikiem do kill ringa."
+  (interactive)
+  (mark-sexp)
+  (kill-ring-save (region-beginning) (region-end))
+  (message "Skopiowano wyrażenie do kill ringa."))
+
+(global-set-key (kbd "C-c l y") 'kaspi/yank-sexp)
