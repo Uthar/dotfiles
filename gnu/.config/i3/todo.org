@@ -1,0 +1,14 @@
+* TODO
+
+- [ ] Dźwięk (pavucontrol)
+- [ ] Jasność (xbacklight/light)
+- [ ] Sieć (networkmanager)
+- [ ] Redshift (ogranicznik światła niebieskiego)
+- [ ] Powiadomienia (dunst)
+- [ ] Zewnętrzny ekran (xrandr)
+- [ ] Urządzenia (mount)
+- [ ] Bluetooth
+- [ ] Polska klawiatura (xkb)
+- [ ] Drukarki (cups)
+- [ ] Screen lock (i3lock)
+- [ ] Dark mode (xsettingsd)
