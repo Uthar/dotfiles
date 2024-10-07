@@ -135,6 +135,9 @@
   (interactive)
   (mark-sexp)
   (kill-ring-save (region-beginning) (region-end))
+  (when current-prefix-arg
+    (forward-sexp)
+    (newline-and-indent))
   (yank))
 
 (global-set-key (kbd "C-c l s") 'kaspi/duplicate-sexp)
