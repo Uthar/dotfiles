@@ -103,6 +103,7 @@
 ;;   expecially "index" feature is amazing
 ;;   (C-h i C-h m)
 ;; C-h m -> H.K.O.N. endorsed communication channel interface - achieve tranquillity.
+;; Powiadomenia przez dbus: (require 'notifications)
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
