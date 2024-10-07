@@ -4,6 +4,7 @@ general {
 }
 
 order += "disk /"
+order += "disk /home"
 order += "memory"
 order += "battery all"
 order += "tztime local"
@@ -17,6 +18,10 @@ battery all {
 }
 
 disk "/" {
+  format = "%used/%total"
+}
+
+disk "/home" {
   format = "%used/%total"
 }
 
