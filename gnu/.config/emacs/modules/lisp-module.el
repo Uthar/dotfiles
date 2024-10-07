@@ -150,3 +150,10 @@
   (message "Skopiowano wyrażenie do kill ringa."))
 
 (global-set-key (kbd "C-c l y") 'kaspi/yank-sexp)
+
+(global-set-key (kbd "C-c l SPC") 'mark-sexp)
+(defvar kaspi/mark-sexp-repeat-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "SPC") 'mark-sexp)
+    map))
+(put 'mark-sexp 'repeat-map 'kaspi/mark-sexp-repeat-map)
