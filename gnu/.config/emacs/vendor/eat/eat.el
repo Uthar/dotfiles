@@ -5777,7 +5777,10 @@ EVENT is the mouse event."
   (interactive)
   (unless eat-terminal
     (user-error "Process not running"))
-  (eat-term-send-string eat-terminal (read-passwd "Password: "))
+  (when-let ((password  (read-passwd "Password: ")))
+    (unwind-protect
+        (eat-term-send-string eat-terminal password)
+      (clear-string password)))
   (eat-self-input 1 'return))
 
 ;; When changing these keymaps, be sure to update the manual, README
@@ -6767,21 +6770,9 @@ The output chunks are pushed, so last output appears first.")
     (delete-process proc)))
 
 (defun eat--send-string (process string)
-  "Send to PROCESS the contents of STRING as input.
-
-This is equivalent to `process-send-string', except that long input
-strings are broken up into chunks of size `eat-input-chunk-size'.
-Processes are given a chance to output between chunks.  This can help
-prevent processes from hanging when you send them long inputs on some
-OS's."
-  (let ((i 0)
-        (j eat-input-chunk-size)
-        (l (length string)))
-    (while (< i l)
-      (process-send-string process (substring string i (min j l)))
-      (accept-process-output)
-      (cl-incf i eat-input-chunk-size)
-      (cl-incf j eat-input-chunk-size))))
+  "Send to PROCESS the contents of STRING as input."
+  (process-send-string process string)
+  (accept-process-output))
 
 (defun eat--send-input (_ input)
   "Send INPUT to subprocess."
