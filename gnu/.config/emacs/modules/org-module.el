@@ -12,11 +12,10 @@
 (with-eval-after-load "org"
   (require 'org-tempo))
 
-(setopt org-agenda-files '("~/Org/"))
+(setopt org-agenda-skip-unavailable-files t)
+(setopt org-default-notes-file "~/.notes.org")
+(setopt org-agenda-files '("~/Org/" "~/.notes.org"))
 (setopt org-agenda-span 20)
-
-(with-eval-after-load "org"
-  (make-directory "~/Org/" t))
 
 ;; Poniedziałek
 (setopt calendar-week-start-day 1)
