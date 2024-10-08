@@ -3,12 +3,12 @@
 ;; The 'modules' directory contains elisp code modules that tweaks
 ;; Emacs to either change its default behavior or add minor new
 ;; functionality. They may also tweak third-party elisp modules.
-(defvar +module-dir+ (locate-user-emacs-file "modules/"))
+(defvar +module-dir+ "~/.config/emacs/modules/")
 
 ;; The 'vendor' directory contains third party elisp code.
 ;; It provides major new functionality that's too big to be put in
 ;; 'modules', because it would load too slow.
-(defvar +vendor-dir+ (locate-user-emacs-file "vendor/"))
+(defvar +vendor-dir+ "~/.config/emacs/vendor/")
 
 ;; Run to recompile elisp files. This is worth it for third party
 ;; libraries in particular, because they are huge. They will load and

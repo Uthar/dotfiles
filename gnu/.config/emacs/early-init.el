@@ -6,3 +6,10 @@
 ;; should be loaded. This is exactly what code in the 'modules'
 ;; subdirectory is doing.
 (setq package-enable-at-startup nil)
+
+;; Zapisuj stan do katalogu ze stanem.
+(setq user-emacs-directory "~/.local/state/emacs/")
+
+;; Zapisuj cache do katalogu z cachem.
+(when (native-comp-available-p)
+  (startup-redirect-eln-cache "~/.local/cache/eln-cache/"))
