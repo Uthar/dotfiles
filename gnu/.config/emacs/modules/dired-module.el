@@ -7,7 +7,7 @@
 
  ;; Makes it show directories first
  ;; Also show dotfiles before normal files with -v
- dired-listing-switches "--group-directories-first -vlh"
+ dired-listing-switches "--group-directories-first --ignore-backups -vlh"
 
  dired-dwim-target t
 
