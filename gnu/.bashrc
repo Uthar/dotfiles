@@ -47,8 +47,9 @@ alias d=docker
 alias f=fossil
 alias g=git
 alias x=exit
-alias l="ls -vlah --color=auto --group-directories-first"
-alias ls="ls --color=auto --group-directories-first"
+alias l="ls -v --color=auto --group-directories-first --ignore-backups"
+alias la="l -A"
+alias ll="la -lh"
 alias e="emacs"
 alias s=systemctl
 alias su="systemctl --user"
