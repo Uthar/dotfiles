@@ -2,8 +2,8 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-# exec --no-startup-id systemctl --user import-environment
-# exec --no-startup-id dunst
+exec --no-startup-id systemctl --user import-environment
+exec --no-startup-id systemctl --user start i3-session.target
 
 for_window [class="Pavucontrol"] floating enable
 for_window [title="Event Tester"] floating enable # xev
