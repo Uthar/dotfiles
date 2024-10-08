@@ -51,16 +51,16 @@
  ;; Disable the startup screen.
  inhibit-startup-screen t
 
- ;; Keep previous backup files.
- version-control t
- delete-old-versions t
- kept-old-versions 20
+ ;; Create backup files afresh instead of moving the original file.
+ backup-by-copying t
+
+ ;; Don't do it, because it goes to tmp and changing it is too hairy.
+ remote-file-name-inhibit-auto-save t
+
+ ;; Disable session recovery.
+ auto-save-list-file-prefix nil
 
  ;; Prevent filesystem trashing.
- backup-directory-alist
- `((".*" . , (locate-user-emacs-file "backups/")))
- auto-save-file-name-transforms
- `((".*" ,(locate-user-emacs-file "auto-save/") t))
  create-lockfiles nil
 
  ;; Display line and column numbers in the modeline.
