@@ -1358,15 +1358,12 @@ The default condition handler for timer functions (see
     (capitalize (match-string 0 name))))
 
 (defvar slime-words-of-encouragement
-  `("Let the hacking commence!"
-    "Hacks and glory await!"
-    "Hack and be merry!"
-    "Your hacking starts... NOW!"
-    "May the source be with you!"
-    "Lemonodor-fame is but a hack away!"
-    "Are we consing yet?"
-    ,(format "%s, this could be the start of a beautiful program."
-             (slime-user-first-name)))
+  '("Robisz postępy - niedługo sam Fukamachi pozazdrości Ci programistycznej sławy."
+    "Zachowaj rozwagę - ten jaszczur potrafi pokąsać."
+    "OSTRZEŻENIE: W pamięci wykryto pozaziemską technologię."
+    "Niech źródła będą z Tobą!"
+    "Tym razem nie daj się oszlamić."
+    "Witaj w świecie z nawiasami.")
   "Scientifically-proven optimal words of hackerish encouragement.")
 
 (defun slime-random-words-of-encouragement ()
@@ -7695,6 +7692,6 @@ See `slime-output-target-to-marker'."
 ;; Local Variables:
 ;; outline-regexp: ";;;;+"
 ;; indent-tabs-mode: nil
-;; coding: latin-1-unix
+;; coding: utf-8-unix
 ;; End:
 ;;; slime.el ends here
