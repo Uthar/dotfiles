@@ -51,3 +51,7 @@
     (define-key map "x" 'pop-to-mark-command)
     map))
 (put 'pop-to-mark-command 'repeat-map 'kaspi/pop-to-mark-repeat-map)
+
+(with-eval-after-load "Info"
+  (define-key Info-mode-map (kbd "<mouse-8>") 'Info-history-back)
+  (define-key Info-mode-map (kbd "<mouse-9>") 'Info-history-forward))
