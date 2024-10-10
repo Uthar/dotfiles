@@ -34,3 +34,7 @@
     ;; ("America/Sao_Paulo" "Sao Paulo")
     ;; ("Chile/Continental" "Santiago")
     ))
+
+(setq org-clock-persist t)
+
+(setq org-log-done 'time)
