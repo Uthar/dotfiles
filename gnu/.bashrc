@@ -19,7 +19,7 @@ kube_ns() {
 }
 
 nix_shell() {
-  [ $IN_NIX_SHELL ] && echo "(nix-shell)"
+  [ "$IN_NIX_SHELL$(echo $PATH | grep /nix/store)" ] && echo "(nix-shell)"
 }
 
 make_ps1() {
