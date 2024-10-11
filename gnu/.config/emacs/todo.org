@@ -14,3 +14,5 @@
 - jvm: check out class unloading
 - jvm: for debugging, see man java, search for -agentlib
 - lisp: Write a document how to very simply use the condition system where it is applicable
+
+- transient dla live-rg, live-fd
