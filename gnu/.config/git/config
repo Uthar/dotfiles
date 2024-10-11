@@ -17,6 +17,8 @@
 	r = restore --staged --worktree .
 	d = diff
 	s = status --short --untracked-files=no
+	sb = s --branch
+	io = sb 3215d944-95c4-4e90-bca9-4f29cff7db20
   x = ls-files --others --directory --exclude-standard
 
 [user]
