@@ -8,7 +8,7 @@
 [alias]
 	g = log --graph --all --pretty='format:%h%d (%cs) [%an] %s'
 	l = log --first-parent --pretty='format:%h%d (%cs) [%an] %s'
-  up = git pull --no-commit
+  up = pull --no-commit
 	ci = commit
   co = checkout
 	m = merge --no-ff --no-commit
