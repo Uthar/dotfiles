@@ -1,0 +1,6 @@
+[Unit]
+Description=Notify about new screenshots
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'dunstify "Utworzono zrzut ekranu" "file://$TRIGGER_PATH"'

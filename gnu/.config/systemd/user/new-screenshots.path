@@ -1,0 +1,8 @@
+[Unit]
+Description=Detect new screenshots
+PartOf=graphical-session.target
+
+[Path]
+PathChanged=/home/kpg/Zrzuty/
+MakeDirectory=true
+DirectoryMode=700
