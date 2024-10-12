@@ -6,6 +6,7 @@ exec --no-startup-id systemctl --user import-environment
 exec --no-startup-id systemctl --user start i3-session.target
 
 for_window [class="Pavucontrol"] floating enable
+for_window [title="qpaeq"] floating enable
 for_window [title="Event Tester"] floating enable # xev
 for_window [class="Nm-connection-editor"] floating enable
 for_window [class="blueman-manager"] floating enable
