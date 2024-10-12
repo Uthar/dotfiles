@@ -50,8 +50,8 @@ bindsym $mod+e exec --no-startup-id emacs
 bindsym $mod+b exec $BROWSER
 
 # screenshots
-exec_always --no-startup-id mkdir -p ~/Zrzuty\ Ekranu
-bindsym Print exec --no-startup-id sh -c 'xwd -root | magick xwd:- ~/Zrzuty\ Ekranu/$(date +%Y%m%dT%H%M%S%03N).png'
+exec_always --no-startup-id mkdir -p ~/Zrzuty/
+bindsym Print exec --no-startup-id sh -c 'xwd -root | magick xwd:- ~/Zrzuty/$(date +%Y%m%dT%H%M%S%03N).png'
 
 # kill focused window
 bindsym $mod+Shift+q kill
