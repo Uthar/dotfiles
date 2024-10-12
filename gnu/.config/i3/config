@@ -41,7 +41,7 @@ bindsym $mod+Shift+grave exec --no-startup-id dunstctl close
 bindsym $mod+d exec --no-startup-id dmenu_run
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id xterm
+bindsym $mod+Return exec --no-startup-id emacs --eval '(eat)'
 
 # start emacs
 bindsym $mod+e exec --no-startup-id emacs
