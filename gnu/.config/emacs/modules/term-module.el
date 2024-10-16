@@ -12,3 +12,6 @@
 (setopt eat-line-input-ring-size 1000000)
 
 (setopt eat-term-scrollback-size (* 2 1024 1024 1024)) ;2GiB
+
+(with-eval-after-load "eat"
+  (define-key eat-semi-char-mode-map (kbd "M-o") 'other-window))
