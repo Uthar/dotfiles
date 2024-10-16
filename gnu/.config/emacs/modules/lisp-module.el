@@ -138,7 +138,9 @@
   (when current-prefix-arg
     (forward-sexp)
     (newline-and-indent))
-  (yank))
+  (yank)
+  (when current-prefix-arg
+    (backward-sexp)))
 
 (global-set-key (kbd "C-c l s") 'kaspi/duplicate-sexp)
 
