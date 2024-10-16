@@ -21,6 +21,7 @@
     (setq-local require-final-newline nil)
     (setq-local before-save-hook nil)
     (define-key diff-mode-map (kbd "M-<backspace>") 'backward-kill-word)
+    (define-key diff-mode-map (kbd "M-o") 'other-window)
     ;; Highlight current hunk at point
     (hl-hunk-mode)))
 
