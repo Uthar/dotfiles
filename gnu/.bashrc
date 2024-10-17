@@ -61,7 +61,7 @@ shopt -s autocd
 stty -ixon -ixoff
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
 test -d "$EAT_SHELL_INTEGRATION_DIR" && source $EAT_SHELL_INTEGRATION_DIR/bash
-test -n "$INSIDE_EMACS" && __eat_enable_integration
+test -n "$INSIDE_EMACS" && test -z "$__eat_integration_enabled" && __eat_enable_integration
 
 # Naprawia zgniłe kolorki w screen
 #
