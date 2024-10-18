@@ -9,6 +9,7 @@
 	g = log --graph --all --pretty='format:%h%d (%cs) [%an] %s'
 	l = log --first-parent --pretty='format:%h%d (%cs) [%an] %s'
   up = pull --no-commit
+  ur = pull --rebase
 	ci = commit
   co = checkout
 	m = merge --no-ff --no-commit
