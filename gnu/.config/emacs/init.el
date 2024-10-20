@@ -98,6 +98,7 @@
 ;; C-M-t transpose-sexps
 ;; M-s . M-s o - occur dla symbol at point
 ;; Info: przeglądarka dokumentacji  (C-h i C-h m)
+;;   (`i` w *Help* przechodzi do podręcznika info)
 ;; C-h m -> pomoc dla major mode
 ;; Powiadomenia przez dbus: (require 'notifications)
 ;; Przydaje się rfc2047-decode-region do oglądania patchy z git format-patches][
