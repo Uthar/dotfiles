@@ -71,7 +71,7 @@
 (unless window-system
   (xterm-mouse-mode))
 
-;; notes:
+;; notatki:
 
 ;; diff a/ b/ in eshell creates a diff-mode buffer
 ;; Also = in dired
@@ -104,6 +104,7 @@
 ;;   (C-h i C-h m)
 ;; C-h m -> H.K.O.N. endorsed communication channel interface - achieve tranquillity.
 ;; Powiadomenia przez dbus: (require 'notifications)
+;; Przydaje się rfc2047-decode-region do oglądania patchy z git format-patches][
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
