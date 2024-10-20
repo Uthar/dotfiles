@@ -101,6 +101,9 @@
 
  ;; Disable default help, because I know about that already
  echo-keystrokes-help nil
+
+ ;; Ukryj szum
+ erc-hide-list '("JOIN" "PART" "QUIT")
  
  )
 
