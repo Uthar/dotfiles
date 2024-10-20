@@ -73,36 +73,32 @@
 
 ;; notatki:
 
-;; diff a/ b/ in eshell creates a diff-mode buffer
-;; Also = in dired
-;; C-x v ~  - visits other revision of file in other window
-;; M-x reverse-region : reverse order of lines in buffer
-;; C-x v M D - best vc command, show CHANGES in one branch relative to another
-;; C-x v M L - best vc command, show COMMITS in one branch relative to another
-;; aggressive-completion : autorefreshing in completions buffer
-;; (global-)prettify-symbols-mode, makes it easy to have ligatures
-;; M-x scratch-buffer - recreate *scratch*
-;; C-x e  call kb macro
-;; j in dired, fast go to file or directory by name
-;; C-x v C-h - show keybindings starting with C-x v (can be whatever)
-;; align-regexp: align columns by some regex: Example:
+;; diff a/ b/ w eshell otwiera buffor diff-mode
+;; Podobnie = w dired
+;; C-x v ~  - pyta o vc revision pliku i otwiera ją obok
+;; M-x reverse-region : przestawia linijki od ostatniej
+;; C-x v M D - pokazuje diffa między branchami
+;; C-x v M L - pokazuje log między branchami
+;; (global-)prettify-symbols-mode - upiększenia typu λ zamiast lambda
+;; M-x scratch-buffer - otwiera lub tworzy usunięty *scratch*
+;; C-x e  wywołuje kb macro
+;; j in dired, przeskakuje do pliku o danej nazwie (z completing read)
+;; C-x v C-h - pokazuje klawisze pod przedrostkiem C-x v (lub dowolnym innym)
+;; align-regexp: układa kolumny: Przykład:
 ;;   asdasd            = 1
 ;;   asdasdasdasdasdas = 2
-;; Check out ediff instead of smerge: (smerge-ediff) - https://www.youtube.com/watch?v=9S2pMZ6U5Tc
 ;; - Używam ediffa do wygodnego porównywania plików z jednym po lewej a drugin po prawej
 ;;   (w przeciwieństwie do klasycznego "patch" gdzie są poprzeplatane)
-;; C-j - Select whatever is in minibuffer, ignoring completions
-;; C-x 4 {b,f,d,.} - Buffer/find file/dired/M-. in other window (shorter than C-x 4 4 M-.)
-;; Search for files with prefixes: C-x C-f ~/R/n/p/d/l-m ->~/Repos/nixpkgs/pkgs/development/lisp-modules/
-;; C-x z - repeat last operation - for example:
-;;  M-z / (delete until '/' character)
-;;  C-x z z z z z (do that 5 additional times)
+;; C-j - Wybiera surowy tekst wpisany w minibuffer (nie wybierając zaznaczonego completion)
+;; C-x 4 {b,f,d,.} - Buffer/find file/dired/M-. w oknie obok (skrócona wersja C-x 4 4 M-.)
+;; Otwiera plik po przedrostkach folderów: C-x C-f ~/R/n/p/d/l-m ->~/Repos/nixpkgs/pkgs/development/lisp-modules/
+;; C-x z - powtarza ostatni command:
+;;  M-z / (delete until '/')
+;;  C-x z z z z z (powtórz 5 razy)
 ;; C-M-t transpose-sexps
-;; M-s . M-s o - immediately open occur buffer of symbol at point
-;; Info: the best documentation browser - simple design, keyboard shortcuts - encourages high focus
-;;   expecially "index" feature is amazing
-;;   (C-h i C-h m)
-;; C-h m -> H.K.O.N. endorsed communication channel interface - achieve tranquillity.
+;; M-s . M-s o - occur dla symbol at point
+;; Info: przeglądarka dokumentacji  (C-h i C-h m)
+;; C-h m -> pomoc dla major mode
 ;; Powiadomenia przez dbus: (require 'notifications)
 ;; Przydaje się rfc2047-decode-region do oglądania patchy z git format-patches][
 
@@ -116,7 +112,7 @@
 
 (add-to-list 'default-frame-alist '(font . "Terminus-11"))
 
-;; Unfortunately this is really slow
+;; Niestety bardzo wolne
 ;; (require 'marginalia)
 ;; (add-hook 'completion-list-mode-hook 'toggle-truncate-lines)
 ;; (marginalia-mode 'toggle)
