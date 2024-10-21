@@ -15,7 +15,8 @@
 (setopt org-agenda-skip-unavailable-files t)
 (setopt org-default-notes-file "~/.notes.org")
 (setopt org-agenda-files '("~/Org/" "~/.notes.org"))
-(setopt org-agenda-span 20)
+(setopt org-agenda-span 'week)
+(setopt org-agenda-mouse-1-follows-link t)
 
 ;; Poniedziałek
 (setopt calendar-week-start-day 1)
