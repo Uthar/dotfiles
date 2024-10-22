@@ -1,4 +1,4 @@
 [Unit]
 Description=i3 graphical session
-Wants=blueman-applet.service xsettingsd.service xsettingsd-conf.path nm-applet.service pasystray.service redshift.service dunst.service new-screenshots.path
+Wants=blueman-applet.service xsettingsd.service xsettingsd-conf.path nm-applet.service pasystray.service redshift.service dunst.service new-screenshots.service
 BindsTo=graphical-session.target
