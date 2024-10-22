@@ -2,6 +2,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+exec --no-startup-id dbus-update-activation-environment
 exec --no-startup-id systemctl --user import-environment
 exec --no-startup-id systemctl --user start i3-session.target
 
