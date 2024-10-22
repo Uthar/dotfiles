@@ -1,7 +1,5 @@
 [Unit]
 Description=Notify about new screenshots
-StartLimitBurst=0
 
 [Service]
-Type=oneshot
-ExecStart=/bin/sh -c 'dunstify "Utworzono zrzut ekranu" "file://$TRIGGER_PATH"'
+ExecStart=/usr/bin/env adhocify -w %h/Zrzuty/ -- /bin/sh -c 'dunstify "Utworzono zrzut ekranu" "file://$ADHOCIFYFILE"'
