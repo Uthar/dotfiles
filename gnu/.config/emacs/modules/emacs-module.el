@@ -28,7 +28,7 @@
  use-short-answers t
 
  ;; Disable an impure config source.
- custom-file null-device
+ custom-file "~/.config/emacs/custom.el"
 
  ;; Enable dialog boxes.
  use-dialog-box t
