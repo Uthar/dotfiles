@@ -1,5 +1,6 @@
 [Unit]
 Description=Notify about new screenshots
+StartLimitBurst=0
 
 [Service]
 Type=oneshot

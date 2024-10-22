@@ -3,6 +3,7 @@ Description=Detect new screenshots
 PartOf=graphical-session.target
 
 [Path]
-PathChanged=/home/kpg/Zrzuty/
+PathChanged=%h/Zrzuty/
 MakeDirectory=true
 DirectoryMode=700
+TriggerLimitBurst=0

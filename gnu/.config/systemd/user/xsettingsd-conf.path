@@ -3,4 +3,4 @@ Description=Reapply xsettingsd.conf
 PartOf=graphical-session.target
 
 [Path]
-PathChanged=/home/kpg/.config/xsettingsd/xsettingsd.conf
+PathChanged=%h/.config/xsettingsd/xsettingsd.conf
