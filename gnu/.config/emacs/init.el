@@ -44,6 +44,7 @@
 (load "clojure-module")
 (load "glsl-module")
 (load "docker-module")
+(load "groovy-module")
 (load "restclient-module")
 (load "window-module")
 (load "scheme-module")
