@@ -70,3 +70,6 @@
 
 ;; Add Tramp methods dockercp and podmancp
 ;; - May allow to copy files from bare bone containers with no sh?
+
+
+;; *** New optional connection method "run0".
