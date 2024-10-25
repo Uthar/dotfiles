@@ -103,3 +103,7 @@
 ;; mocne
 ;; *** New command 'diff-revert-and-kill-hunk' bound to C-c M-r.
 ;; Sean Whitton 2024-09-30 New command diff-delete-other-hunks
+
+
+;; może się przydać
+;; Sean Whitton 2024-10-03 New M-~ entry in save-some-buffers-action-alist
