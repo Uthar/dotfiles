@@ -94,3 +94,7 @@
 
 ;; no nie wiem, przecież raczej wiem co klikam
 ;; Philip Kaludercic 2024-09-03 Allow 'kill-region' to kill the last word when there is no region
+
+
+;; podświetlanie docstringów
+;;  *** New user option 'java-ts-mode-enable-doxygen'.
