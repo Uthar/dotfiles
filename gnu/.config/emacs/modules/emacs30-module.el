@@ -73,3 +73,6 @@
 
 
 ;; *** New optional connection method "run0".
+
+;; nowe makro z kosmosu
+;; Richard Stallman 2024-08-02 Install cond*
