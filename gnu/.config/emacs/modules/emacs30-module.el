@@ -76,3 +76,7 @@
 
 ;; nowe makro z kosmosu
 ;; Richard Stallman 2024-08-02 Install cond*
+
+
+;; chyba coś z długimi liniami w eww
+;; Jim Porter 2024-08-04 Improve SHR/EWW support for 'visual-wrap-prefix-mode'
