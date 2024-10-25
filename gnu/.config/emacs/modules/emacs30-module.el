@@ -88,3 +88,5 @@
 
 ;; kiedyś może się przydać
 ;; Michael Albinus 2024-09-11 Allow to disable symbolic links check in Dired
+
+;; Visuwesh 2024-09-09 Make the *grep* buffer editable
