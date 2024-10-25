@@ -84,3 +84,7 @@
 
 ;; kopiuje tekst bez patchy
 ;; *** New command 'diff-kill-ring-save'
+
+
+;; kiedyś może się przydać
+;; Michael Albinus 2024-09-11 Allow to disable symbolic links check in Dired
