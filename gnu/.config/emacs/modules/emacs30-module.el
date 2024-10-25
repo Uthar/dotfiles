@@ -90,3 +90,7 @@
 ;; Michael Albinus 2024-09-11 Allow to disable symbolic links check in Dired
 
 ;; Visuwesh 2024-09-09 Make the *grep* buffer editable
+
+
+;; no nie wiem, przecież raczej wiem co klikam
+;; Philip Kaludercic 2024-09-03 Allow 'kill-region' to kill the last word when there is no region
