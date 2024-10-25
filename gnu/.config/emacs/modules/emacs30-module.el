@@ -112,3 +112,6 @@
 
 ;; o, szukałem
 ;; +** New function 'native-compile-directory'.
+
+;; zobaczymy
+;; *** Using 'e' from Log View mode to modify change comments now works for Git.
