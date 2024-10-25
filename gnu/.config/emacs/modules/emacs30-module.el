@@ -80,3 +80,7 @@
 
 ;; chyba coś z długimi liniami w eww
 ;; Jim Porter 2024-08-04 Improve SHR/EWW support for 'visual-wrap-prefix-mode'
+
+
+;; kopiuje tekst bez patchy
+;; *** New command 'diff-kill-ring-save'
