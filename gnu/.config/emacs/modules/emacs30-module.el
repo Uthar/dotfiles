@@ -108,3 +108,7 @@
 
 ;; może się przydać
 ;; Sean Whitton 2024-10-03 New M-~ entry in save-some-buffers-action-alist
+
+
+;; o, szukałem
+;; +** New function 'native-compile-directory'.
