@@ -103,6 +103,7 @@
 ;; mocne
 ;; *** New command 'diff-revert-and-kill-hunk' bound to C-c M-r.
 ;; Sean Whitton 2024-09-30 New command diff-delete-other-hunks
+;; Dmitry Gutov 2024-10-08 Support file creation and deletion in diff-apply-hunk
 
 
 ;; może się przydać
