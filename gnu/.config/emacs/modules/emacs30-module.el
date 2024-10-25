@@ -98,3 +98,8 @@
 
 ;; podświetlanie docstringów
 ;;  *** New user option 'java-ts-mode-enable-doxygen'.
+
+
+;; mocne
+;; *** New command 'diff-revert-and-kill-hunk' bound to C-c M-r.
+;; Sean Whitton 2024-09-30 New command diff-delete-other-hunks
