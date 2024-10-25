@@ -115,3 +115,4 @@
 
 ;; zobaczymy
 ;; *** Using 'e' from Log View mode to modify change comments now works for Git.
+;; *** 'vc-clone' is now an interactive command.
