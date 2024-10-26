@@ -40,6 +40,7 @@ export HISTFILESIZE=100000
 export EDITOR=emacs
 export VISUAL=emacs
 export TERM=xterm-256color
+export PAGER=less
 
 alias k=kubectl
 alias n=nix
