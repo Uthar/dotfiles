@@ -2,6 +2,8 @@
 
 ;;;; Clickable links:
 
+(require 'browse-url)
+
 (defun kaspi/browse-url-at-mouse-except-at-eol (event)
   "Open the link unless the click happened the end of it or at eol"
   (interactive "e")
@@ -11,12 +13,11 @@
 
 (defvar kaspi/links-font-lock-keymap
   (let ((map (make-sparse-keymap)))
-    ;; Manual says it should be mouse-2 but this works for me.
-    (define-key map [mouse-1] 'kaspi/browse-url-at-mouse-except-at-eol)
+    (define-key map [mouse-2] 'kaspi/browse-url-at-mouse-except-at-eol)
     map))
 
 (defvar kaspi/links-font-lock-keywords
-  '(("http[s]?://[[:alnum:]:@/?=#&.*_+%-]+"  0 
+  `((,browse-url-button-regexp  0 
      `(face link mouse-face highlight keymap ,kaspi/links-font-lock-keymap) t)))
 
 ;; TODO minor mode?
@@ -53,6 +54,7 @@
 ;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz). foo
 ;; (See https://example.org/foo?bar=krasn&blah=foo+zoo%20baz#baz}z. foo
 ;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz}p. foo
+;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz(p) . foo
 ;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz:x. foo
 ;; (See https://example.org/foo?bar=krasn&blah=foo%20baz#baz]n. foo
 ;; (See https://user:pass@example.org/foo?bar=krasn&blah=foo%20baz#baz]n. foo
