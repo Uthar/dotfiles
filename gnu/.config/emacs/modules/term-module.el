@@ -18,4 +18,8 @@
 (setopt eat-term-scrollback-size (* 1 1024 1024)) ;1MiB
 
 (with-eval-after-load "eat"
-  (define-key eat-semi-char-mode-map (kbd "M-o") 'other-window))
+  (define-key eat-semi-char-mode-map (kbd "M-o") 'other-window)
+  (define-key eat-semi-char-mode-map (kbd "C-?") 'kaspi/noop)
+  (define-key eat-semi-char-mode-map (kbd "C-/") 'kaspi/noop)
+  (define-key eat-semi-char-mode-map (kbd "<undo>") 'kaspi/noop)
+  (define-key eat-semi-char-mode-map (kbd "<redo>") 'kaspi/noop))
