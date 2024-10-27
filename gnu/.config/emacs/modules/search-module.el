@@ -30,11 +30,11 @@
 (defvar kaspi/fd-regexp-alist
   '(("^\\(.+\\)$" 1)))
 
-(define-derived-mode kaspi/fd-mode grep-mode "Fd"
+(define-derived-mode kaspi/fd-mode grep-mode "Grep/fd"
   "Mode to find files with the fd program"
   (setq-local compilation-error-regexp-alist kaspi/fd-regexp-alist))
 
-(define-derived-mode kaspi/rg-mode grep-mode "Rg"
+(define-derived-mode kaspi/rg-mode grep-mode "Grep/rg"
   "Mode to search files with the rg program")
 
 (defun kaspi/fd (regex)
