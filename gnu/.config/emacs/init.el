@@ -59,6 +59,7 @@
 (load "proced-module")
 (load "novinky-module")
 (load "project-module")
+(load "irc-module")
 
 (let ((hour (decoded-time-hour (decode-time))))
   (cond
