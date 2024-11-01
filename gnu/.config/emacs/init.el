@@ -104,6 +104,9 @@
 ;; C-h m -> pomoc dla major mode
 ;; Powiadomenia przez dbus: (require 'notifications)
 ;; Przydaje się rfc2047-decode-region do oglądania patchy z git format-patches
+;; C-s/C-r: świetne jest to, że M-e ustawia wskaźnik na pierwszym znaku który nie został znaleziony
+;; nxml-mode: niesamowite to jest.
+;; project-kill-buffers: usuwa bufory z danego projektu
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
