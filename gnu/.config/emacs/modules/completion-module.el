@@ -33,4 +33,12 @@
 (add-to-list 'load-path (concat +vendor-dir+ "vertico"))
 (require 'vertico)
 (define-key vertico-map (kbd "C-j") 'vertico-exit-input)
+(define-key vertico-map (kbd "M-?") 'minibuffer-completion-help)
+(define-key vertico-map (kbd "M-<up>") 'minibuffer-previous-completion)
+(define-key vertico-map (kbd "M-<down>") 'minibuffer-next-completion)
+(define-key vertico-map (kbd "M-RET") 'minibuffer-choose-completion)
+(define-key vertico-map (kbd "M-g M-c") 'switch-to-completions)
+
+(setq completions-sort 'historical)
+
 (vertico-mode)
