@@ -1,81 +1,86 @@
 ;; -*- lexical-binding: t -*-
 
+
+;;;; Ustawienia
+
 ;; Configure syntax highlighting in diff buffers
 (setq diff-font-lock-syntax t)
 
-;; Przejdź do następnego hunka po zaaplikowaniu.
-(setopt diff-advance-after-apply-hunk t)
+;; Nie przechodź do następnego hunka po zaaplikowaniu, bo zrobię to w advice.
+;; Dlaczego? Bo domyślnie skacze jeszcze przed wykonaniem after advice, a
+;; najpierw chcę jeszcze zapisać zmieniony bufor.
+(setq diff-advance-after-apply-hunk nil)
 
-;; Zapisuj pliki od razu po zaaplikowaniu hunka, bo i tak bym to zrobił.
-(advice-add 'diff-apply-hunk :after
-  (lambda (&rest _)
+(defvar kaspi/diff-after-apply-hunk-actions '(save next))
+
+(defun kaspi/diff-after-apply-hunk (&rest _)
+  "Save/kill/advance in the diff bufer after applying a hunk."
+  (when (memq 'save kaspi/diff-after-apply-hunk-actions)
     (save-window-excursion
-      (pop-to-buffer (diff-find-file-name))
-      (recenter)
-      (save-buffer)))
-  '((name . kaspi/after-apply)))
+      (when-let* ((file (diff-find-file-name)))
+        (find-file-other-window file)
+        (recenter)
+        (save-buffer))))
+  (cond
+   ((memq 'kill kaspi/diff-after-apply-hunk-actions) (diff-hunk-kill))
+   ((memq 'next kaspi/diff-after-apply-hunk-actions) (diff-hunk-next))))
+
+(advice-add 'diff-apply-hunk :after 'kaspi/diff-after-apply-hunk)
 
 (add-hook 'diff-mode-hook
   (lambda ()
-    ;; Prevent messing with the diff by removing save hooks.
+    ;; Nie psuj mi diffa
     (setq-local require-final-newline nil)
     (setq-local before-save-hook nil)
     (define-key diff-mode-map (kbd "M-<backspace>") 'backward-kill-word)
-    (define-key diff-mode-map (kbd "M-o") 'other-window)
-    ;; Highlight current hunk at point
-    (hl-hunk-mode)))
+    (define-key diff-mode-map (kbd "M-o") 'other-window)))
 
-(defvar hl-hunk-overlay nil
-  "Overlay used to highlight the hunk under point.")
 
-(defface hl-hunk
-  '((t :background "CornflowerBlue"))
-  "Default face for highlighting the current hunk in hl-hunk mode.")
+;;;; Podświetlanie hunka pod kursorem
 
-(defvar hl-hunk-face 'hl-hunk)
+(add-hook 'diff-mode-hook 'hl-hunk-mode)
+
+(defun remove-from-list (var elt)
+  "Remove ELT from VAR. Sets the variable VAR."
+  (set var (remove elt (symbol-value var))))
+
+(defvar-local hl-hunk-overlay-arrow-position nil)
 
 (define-minor-mode hl-hunk-mode
   "Toggle highlighting of the current hunk."
   :global nil
   (if hl-hunk-mode
     (progn
+      (make-local-variable 'overlay-arrow-variable-list) 
+      (add-to-list 'overlay-arrow-variable-list 'hl-hunk-overlay-arrow-position)
       (add-hook 'post-command-hook #'hl-hunk-highlight nil t))
     (progn
+      (setq hl-hunk-overlay-arrow-position nil)
       (remove-hook 'post-command-hook #'hl-hunk-highlight t)
-      (delete-overlay hl-hunk-overlay))))
+      (remove-from-list 'overlay-arrow-variable-list 'hl-hunk-overlay-arrow-position))))
 
 (defun hl-hunk-highlight ()
-  ;; This happens on 'revert-buffer'.
-  (when-let ((ov hl-hunk-overlay))
-    (unless (eq (current-buffer) (overlay-buffer ov))
-      (delete-overlay ov)
-      (setq-local hl-hunk-overlay nil)))
-  (unless hl-hunk-overlay
-    (setq-local hl-hunk-overlay (make-overlay 1 1))
-      (overlay-put hl-hunk-overlay 'line-prefix
-        (propertize "|" 'display `(left-fringe vertical-bar ,hl-hunk-face))))
-  (when-let ((pos (hl-hunk-position)))
-    (cl-destructuring-bind (start . end) pos
-      (let ((ov hl-hunk-overlay))
-        (unless (and (= start (overlay-start ov))
-                     (= end (overlay-end ov)))
-          (move-overlay ov start end))))))
+  (unless (memq this-command '(self-insert-command delete-backward-char kill-region yank undo))
+    (setq hl-hunk-overlay-arrow-position (copy-marker (kaspi/diff-beginning-of-hunk-position)))))
 
-(defun hl-hunk-position ()
-  (ignore-errors
-    (cons
-     (save-excursion (diff-beginning-of-hunk) (point))
-     (save-excursion (diff-end-of-hunk) (point)))))
+(defun kaspi/diff-beginning-of-hunk-position ()
+  (ignore-errors (save-excursion (diff-beginning-of-hunk) (point))))
+
+(defun kaspi/diff-end-of-hunk-position ()
+  (ignore-errors (save-excursion (diff-end-of-hunk) (point))))
+  
+(defun kaspi/diff-hunk-span ()
+  (cons
+   (kaspi/diff-beginning-of-hunk-position)
+   (kaspi/diff-end-of-hunk-position)))
 
 (defun kaspi/flash-line (&rest _)
   (pulse-momentary-highlight-region
    (line-beginning-position)
    (line-end-position)))
 
-(advice-add 'diff-hunk-next :after 'kaspi/flash-line)
-(advice-add 'diff-hunk-prev :after 'kaspi/flash-line)
-(advice-add 'diff-file-next :after 'kaspi/flash-line)
-(advice-add 'diff-file-prev :after 'kaspi/flash-line)
+
+;;;; Ediff
 
 ;; Ediff control window in same frame as A/B windows
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
