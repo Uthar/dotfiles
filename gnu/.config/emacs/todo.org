@@ -4,6 +4,7 @@
 - vc-dir: fix C-x v u sometimes not working (git)
 - dired: open subtree (see prot video)
 - consider emacs as pager (stdio bindings)
+  albo chociaż C-s/C-r w less
 - org: numbered/indented headings
 - slime: package completion
 - cider: add cider-who-specialises for protocols and multimethods (and java interfaces too?)
