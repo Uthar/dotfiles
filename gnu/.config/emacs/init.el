@@ -110,7 +110,7 @@
 
 (setq ring-bell-function 'ignore)
 
-;; Odpalaj litery tylko przy zapisie pliku 
+;; Odpalaj lintery tylko przy zapisie pliku 
 (setq flymake-no-changes-timeout nil)
 
 (add-to-list 'default-frame-alist '(font . "Terminus-11"))
