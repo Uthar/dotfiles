@@ -103,7 +103,7 @@
 ;; C-h R (`info-display-manual') - otwiera wybrany podręcznik
 ;; C-h m -> pomoc dla major mode
 ;; Powiadomenia przez dbus: (require 'notifications)
-;; Przydaje się rfc2047-decode-region do oglądania patchy z git format-patches][
+;; Przydaje się rfc2047-decode-region do oglądania patchy z git format-patches
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
