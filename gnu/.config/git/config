@@ -13,6 +13,8 @@
 	ci = commit
   co = checkout
 	m = merge --no-ff --no-commit
+  f = fetch
+  fa = fetch --all
   p = push
   pf = push --force
 	r = restore --staged --worktree .
