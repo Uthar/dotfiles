@@ -1,0 +1,6 @@
+#command
+^G clear-search
+^S forw-search
+^R back-search
+s repeat-search
+r reverse-search
