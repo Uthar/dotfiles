@@ -144,4 +144,24 @@
           (insert passwd)
         (clear-string passwd)))))
 
+(defun kaspi/copy-passwd ()
+  "Po prostu skopiuj region do systemowego schowka. Nie do kill ringa."
+  (interactive)
+  (let ((password (buffer-substring-no-properties (region-beginning) (region-end))))
+    (unwind-protect
+        (funcall interprogram-cut-function password)
+      ;; żeby dało się paste-passwd
+      (setq gui-last-cut-in-clipboard nil)
+      (deactivate-mark)
+      (message "Clearing clipboard in 30 seconds")
+      (run-at-time 30 nil (lambda ()
+                            (unwind-protect
+                                (funcall interprogram-cut-function "")
+                              (clear-string password)
+                              (message "Cleared clipboard")))))))
+
+;; upewniam się żeby tego nigdy nie włączyli
+(setq save-interprogram-paste-before-kill nil)
+
 (global-set-key (kbd "C-M-y") 'kaspi/paste-passwd)
+(global-set-key (kbd "C-M-w") 'kaspi/copy-passwd)
