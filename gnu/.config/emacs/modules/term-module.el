@@ -19,6 +19,7 @@
 
 (with-eval-after-load "eat"
   (define-key eat-semi-char-mode-map (kbd "M-o") 'other-window)
+  (define-key eat-semi-char-mode-map (kbd "M-!") 'self-insert-command)
   (define-key eat-semi-char-mode-map (kbd "C-?") 'kaspi/noop)
   (define-key eat-semi-char-mode-map (kbd "C-/") 'kaspi/noop)
   (define-key eat-semi-char-mode-map (kbd "<undo>") 'kaspi/noop)
