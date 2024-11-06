@@ -7,10 +7,11 @@
 ;;
 ;; Default GC operation is restored afterwards.
 
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold 1000000000)
+(setq inhibit-message t)
 
 (add-hook 'emacs-startup-hook
   (lambda ()
-    (message "booted in %s" (emacs-init-time))
-    (setq gc-cons-threshold
-          (car (get 'gc-cons-threshold 'standard-value)))))
+    (setq inhibit-message nil)
+    (setq gc-cons-threshold 800000)
+    (message "booted in %s" (emacs-init-time))))
