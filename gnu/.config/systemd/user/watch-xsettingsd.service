@@ -1,0 +1,7 @@
+[Unit]
+Description=Restart xsettingsd
+ConditionPathExists=%h/.config/xsettingsd/xsettingsd.conf
+
+[Service]
+ExecStart=/usr/bin/env adhocify -w %h/.config/xsettingsd/xsettingsd.conf -- systemctl --user restart xsettingsd.service
+Restart=always

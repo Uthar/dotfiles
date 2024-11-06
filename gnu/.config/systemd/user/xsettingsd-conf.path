@@ -1,6 +1,0 @@
-[Unit]
-Description=Reapply xsettingsd.conf
-PartOf=graphical-session.target
-
-[Path]
-PathChanged=%h/.config/xsettingsd/xsettingsd.conf

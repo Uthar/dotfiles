@@ -2,4 +2,6 @@
 Description=Notify about new screenshots
 
 [Service]
+ExecStartPre=/usr/bin/env mkdir -p %h/Zrzuty
 ExecStart=/usr/bin/env adhocify -w %h/Zrzuty/ -- /bin/sh -c 'dunstify "Utworzono zrzut ekranu" "file://$ADHOCIFYFILE"'
+Restart=always

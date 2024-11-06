@@ -1,0 +1,8 @@
+[Unit]
+Description=Regenerate mandb
+AssertPathExists=%h/.local/state/nix/profiles/profile
+
+[Service]
+ExecStartPre=/usr/bin/env mkdir -p %h/.cache/man/nix
+ExecStart=/usr/bin/env adhocify --no-dereference -e -w %h/.local/state/nix/profiles/profile -- mandb -cu
+Restart=always
