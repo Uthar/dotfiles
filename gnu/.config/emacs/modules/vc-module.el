@@ -1,32 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
-(defun kaspi/toggle-hook (hook function)
-  (if (and (consp (symbol-value hook))
-           (memq function (symbol-value hook)))
-      (remove-hook hook function)
-    (add-hook hook function)))
-
-(defun kaspi/vc-annotate-toggle-annotation-visibility* ()
-  (kaspi/toggle-hook 'vc-annotate-mode-hook
-                     'vc-annotate-toggle-annotation-visibility))
-
 ;; Don't display the actual Git/Hg/Fossil commands in the minibuffer.
 ;; This used to be fun, but not anymore after installing 'diff-hl'
 ;; which constantly calls VC commands.
 (setq vc-command-messages nil)
 
 (setq vc-annotate-background-mode nil)
-
-(with-eval-after-load 'vc-annotate
-  ;; Make the v key in 'vc-annotation-mode' persist between revision
-  ;; changes. Useful for "time machine" functionality, because there's
-  ;; no need to constantly disable annotations when all you want is
-  ;; the code.
-  (define-key vc-annotate-mode-map (kbd "v")
-    (lambda ()
-      (interactive)
-      (vc-annotate-toggle-annotation-visibility)
-      (kaspi/vc-annotate-toggle-annotation-visibility*))))
 
 ;; Chcę zobaczyć diffa nawet jeśli plik nie jest zapisany.
 ;;
