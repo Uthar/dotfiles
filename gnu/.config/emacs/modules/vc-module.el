@@ -131,8 +131,7 @@
   (interactive)
   (vc-diff nil t (list vc-dir-backend (list (vc-dir-current-file)))))
 
-(add-hook 'vc-dir-mode-hook
-  (lambda ()
-    (define-key vc-dir-mode-map (kbd "=") 'kaspi/vc-dir-diff-current-file)))
+(with-eval-after-load 'vc-dir
+  (define-key vc-dir-mode-map (kbd "=") 'kaspi/vc-dir-diff-current-file))
 
 (add-hook 'log-view-mode-hook 'hl-line-mode)
