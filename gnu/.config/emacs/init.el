@@ -64,6 +64,8 @@
 ;; Sprawia, że indicator jest ładny cieńki (z Terminusem jest jakiś za szeroki)
 ;; Musi być po modus-themes, żeby nadpisać ich ustawienia
 (set-face-attribute 'fill-column-indicator nil :font "DejaVu Sans Mono")
+(with-eval-after-load 'log-edit
+  (set-face-attribute 'log-edit-headers-separator nil :font "DejaVu Sans Mono"))
 
 (unless window-system
   (xterm-mouse-mode))
