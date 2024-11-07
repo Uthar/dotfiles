@@ -46,7 +46,6 @@
 (load "docker-module")
 (load "groovy-module")
 (load "window-module")
-(load "scheme-module")
 (load "org-module")
 (load "rust-module")
 (load "search-module")
