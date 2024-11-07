@@ -38,8 +38,8 @@
  )
 
 (add-to-list 'load-path (concat +vendor-dir+ "slime/contrib"))
-(with-eval-after-load 'inf-lisp
-  (require 'inferior-slime))
+(autoload 'inferior-slime-mode "inferior-slime")
+(add-hook 'inferior-lisp-mode-hook 'inferior-slime-mode)
 
 (defun kaspi/slime-capf ()
   (let* ((endpos (slime-symbol-end-pos))
