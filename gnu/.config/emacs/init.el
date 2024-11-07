@@ -59,14 +59,11 @@
 (load "project-module")
 (load "irc-module")
 
-(let ((hour (decoded-time-hour (decode-time))))
-  (cond
-   ((not window-system)
-    (load-theme 'modus-vivendi))
-   ((<= 7 hour 20)
-    (load-theme 'modus-operandi-tinted))
-   (t
-    (load-theme 'modus-vivendi-tinted))))
+(load-theme 'modus-vivendi)
+
+;; Sprawia, że indicator jest ładny cieńki (z Terminusem jest jakiś za szeroki)
+;; Musi być po modus-themes, żeby nadpisać ich ustawienia
+(set-face-attribute 'fill-column-indicator nil :font "DejaVu Sans Mono")
 
 (unless window-system
   (xterm-mouse-mode))
