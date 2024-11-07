@@ -14,15 +14,9 @@
     ;; Don't indent members of the top-level class
     (c-set-offset 'inclass 'kaspi/c-lineup-java-toplevel-class)))
 
-(with-eval-after-load 'eglot
-  (cl-defmethod eglot-execute-command
-    (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
-    (mapc #'eglot--apply-workspace-edit arguments)))
-
 (defun kaspi/open-current-file-in-idea ()
   (interactive)
   (start-process "idea" nil "idea-community" (buffer-file-name)))
-
 
 ;; used in openjdk source
 (add-to-list 'auto-mode-alist '("\\.gmk\\'" . makefile-mode))
