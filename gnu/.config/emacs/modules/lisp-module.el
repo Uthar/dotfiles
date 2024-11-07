@@ -142,7 +142,13 @@
   (when current-prefix-arg
     (backward-sexp)))
 
+(defvar kaspi/duplicate-sexp-repeat-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "s") 'kaspi/duplicate-sexp)
+    map))
+
 (global-set-key (kbd "C-c l s") 'kaspi/duplicate-sexp)
+(put 'kaspi/duplicate-sexp 'repeat-map 'kaspi/duplicate-sexp-repeat-map)
 
 (defun kaspi/yank-sexp ()
   "Wrzuć sexpr pod wskaźnikiem do kill ringa."
