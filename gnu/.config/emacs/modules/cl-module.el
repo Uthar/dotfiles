@@ -110,6 +110,7 @@
     'slime-inspect-presentation-at-mouse))
 
 (add-to-list 'load-path (concat +vendor-dir+ "slime"))
+(autoload 'slime-lisp-mode-hook "slime")
 (autoload 'slime "slime" "" t)
 (autoload 'slime-connect "slime" "" t)
-(autoload 'slime-selector "slime" "" t)
+(add-hook 'lisp-mode-hook 'slime-lisp-mode-hook)
