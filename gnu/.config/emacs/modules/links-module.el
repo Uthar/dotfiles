@@ -44,6 +44,12 @@
     (add-to-list 'font-lock-extra-managed-props 'mouse-face)
     (add-to-list 'font-lock-extra-managed-props 'keymap)))
 
+(add-hook 'compilation-mode-hook
+  (lambda ()
+    (make-local-variable 'font-lock-extra-managed-props)
+    (add-to-list 'font-lock-extra-managed-props 'mouse-face)
+    (add-to-list 'font-lock-extra-managed-props 'keymap)))
+
 (add-hook 'prog-mode-hook 'kaspi/enable-clickable-links)
 (add-hook 'conf-mode-hook 'kaspi/enable-clickable-links)
 (add-hook 'compilation-mode-hook 'kaspi/enable-clickable-links)
