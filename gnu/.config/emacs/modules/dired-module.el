@@ -9,6 +9,9 @@
  ;; Also show dotfiles before normal files with -v
  dired-listing-switches "--group-directories-first -Bvlh"
 
+ ;; Przy kopiowaniu pomiędzy katalogami, od razu podpowiadaj dired otwarty obok.
+ ;; Nie wiem czy tego nie wyłączę, bo wtedy przeszkadza w kopiowaniu w tym samym
+ ;; katalogu. Niby można po prostu o tym pamiętać.
  dired-dwim-target t
 
  ;; Limit filenames to window length
@@ -21,7 +24,7 @@
   (if (string-match-p "a" dired-actual-switches)
       (dired "." (remove ?a dired-listing-switches))
       (dired "." (concat dired-listing-switches "a")))
-  (setf dired-listing-switches dired-actual-switches))
+  (setq dired-listing-switches dired-actual-switches))
 
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "M-h") 'kaspi/dired-toggle-hidden)
@@ -32,7 +35,7 @@
 
 (defun kaspi/dired-toggle-details ()
   (interactive)
-  (setf kaspi/dired-details (- kaspi/dired-details))
+  (setq kaspi/dired-details (- kaspi/dired-details))
   (dired-hide-details-mode kaspi/dired-details))
   
 (add-hook 'dired-mode-hook

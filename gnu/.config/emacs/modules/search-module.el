@@ -40,22 +40,10 @@
 (defun kaspi/fd (regex)
   (compilation-start (format "fd -H -c never %s" regex) #'kaspi/fd-mode))
 
-(setopt grep-use-headings t)
+(setq grep-use-headings t)
 
 (defun kaspi/rg (regex)
   (compilation-start (format "rg --hidden --no-heading -nH %s" regex) #'kaspi/rg-mode))
-
-(defun kaspi/sensible-directory ()
-  (cond (current-prefix-arg (read-directory-name "Dir: "))
-        ((project-current) (project-root (project-current)))
-        (t default-directory)))
-
-(defun kaspi/call-with-sensible-directory (fn &rest args)
-  (let ((default-directory (kaspi/sensible-directory)))
-    (apply fn args)))
-
-(cl-defmacro kaspi/with-sensible-directory (&body body)
-  `(kaspi/call-with-sensible-directory (lambda () ,@body)))
   
 (defun kaspi/live-fd ()
   (interactive)

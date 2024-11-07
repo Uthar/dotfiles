@@ -14,5 +14,3 @@
 
 ;; Disable very annoying pop up when entering the ``` code block
 (setopt markdown-gfm-use-electric-backquote nil)
-
-

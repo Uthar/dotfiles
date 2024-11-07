@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(setopt org-startup-folded 'show2levels)
+(setq org-startup-folded 'show2levels)
 
 (with-eval-after-load "org"
   (org-babel-do-load-languages
@@ -12,16 +12,16 @@
 (with-eval-after-load "org"
   (require 'org-tempo))
 
-(setopt org-agenda-skip-unavailable-files t)
-(setopt org-default-notes-file "~/.notes.org")
-(setopt org-agenda-files '("~/Org/" "~/.notes.org"))
-(setopt org-agenda-span 'week)
-(setopt org-agenda-mouse-1-follows-link t)
+(setq org-agenda-skip-unavailable-files t)
+(setq org-default-notes-file "~/.notes.org")
+(setq org-agenda-files '("~/Org/" "~/.notes.org"))
+(setq org-agenda-span 'week)
+(setq org-agenda-mouse-1-follows-link t)
 
 ;; Poniedziałek
-(setopt calendar-week-start-day 1)
+(setq calendar-week-start-day 1)
 
-(setopt zoneinfo-style-world-list
+(setq zoneinfo-style-world-list
   '(("UTC" "UTC")
     ("Europe/Oslo" "Oslo")
     ;; ("Europe/Athens" "Ateny")

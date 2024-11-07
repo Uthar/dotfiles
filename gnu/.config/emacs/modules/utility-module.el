@@ -36,6 +36,28 @@
 
 (defun kaspi/noop (&rest _))
 
+(defun remove-from-list (var elt)
+  "Remove ELT from VAR. Sets the variable VAR."
+  (set var (remove elt (symbol-value var))))
+
+(defun kaspi/toggle-hook (hook function)
+  (if (and (consp (symbol-value hook))
+           (memq function (symbol-value hook)))
+    (remove-hook hook function)
+    (add-hook hook function)))
+
+(defun kaspi/sensible-directory ()
+  (cond (current-prefix-arg (read-directory-name "Dir: "))
+        ((project-current) (project-root (project-current)))
+        (t default-directory)))
+
+(defun kaspi/call-with-sensible-directory (fn &rest args)
+  (let ((default-directory (kaspi/sensible-directory)))
+    (apply fn args)))
+
+(defmacro kaspi/with-sensible-directory (&rest body)
+  `(kaspi/call-with-sensible-directory (lambda () ,@body)))
+
 (defun kaspi/bash ()
   (interactive)
   (ansi-term "bash"))
@@ -84,28 +106,28 @@
 (advice-add 'duplicate-line :after (kaspi/ignore-arguments 'next-line))
 
 (defun kaspi/back-to-indentation* ()
+  "Usuń spacje od pointa do najbliższego znaku w obecnej linijce"
   (interactive)
   (kill-region (point) (save-excursion
                          (search-forward-regexp "[ ]*")
                          (point))))
 
 (global-set-key (kbd "C-c l m") 'kaspi/back-to-indentation*)
-(global-set-key (kbd "M-M") 'kaspi/back-to-indentation*)
 
 (defun kaspi/kill-line* ()
+  "Usuń całą obecną linijkę."
   (interactive)
   (save-excursion
     (goto-char (line-beginning-position))
     (let ((kill-whole-line t))
       (kill-line))))
 
-(global-set-key (kbd "C-c l k") 'kaspi/kill-line*)
-(global-set-key (kbd "C-S-k") 'kaspi/kill-line*)
-
 (defvar kaspi/kill-line-repeat-map
   (let ((map (make-sparse-keymap)))
     (define-key map "k" 'kaspi/kill-line*)
     map))
+
+(global-set-key (kbd "C-c l k") 'kaspi/kill-line*)
 
 (put 'kaspi/kill-line* 'repeat-map 'kaspi/kill-line-repeat-map)
 

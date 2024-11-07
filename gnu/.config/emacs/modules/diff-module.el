@@ -40,10 +40,6 @@
 
 (add-hook 'diff-mode-hook 'hl-hunk-mode)
 
-(defun remove-from-list (var elt)
-  "Remove ELT from VAR. Sets the variable VAR."
-  (set var (remove elt (symbol-value var))))
-
 (defvar-local hl-hunk-overlay-arrow-position nil)
 
 (define-minor-mode hl-hunk-mode

@@ -58,9 +58,9 @@
   )
 
 (advice-add 'slime-flash-region :override 'kaspi/noop)
-(advice-add 'slime-eval-defun :after 'kaspi/flash-defun)
-(advice-add 'slime-compile-defun :after 'kaspi/flash-defun)
-(advice-add 'slime-eval-last-expression :after 'kaspi/flash-last-sexp)
+(advice-add 'slime-eval-defun :before 'kaspi/flash-defun)
+(advice-add 'slime-compile-defun :before 'kaspi/flash-defun)
+(advice-add 'slime-eval-last-expression :before 'kaspi/flash-last-sexp)
 
 (with-eval-after-load 'slime-repl
   (defslime-repl-shortcut nil ("delete-package" "dp")
@@ -96,10 +96,7 @@
 
 ;; Inspect presentations in repl with a mouse click.
 (with-eval-after-load 'slime-presentations
-  (define-key
-    slime-presentation-map
-    [mouse-1]
-    'slime-inspect-presentation-at-mouse))
+  (define-key slime-presentation-map [mouse-1] 'slime-inspect-presentation-at-mouse))
 
 (add-to-list 'load-path (concat +vendor-dir+ "slime"))
 (autoload 'slime-lisp-mode-hook "slime")

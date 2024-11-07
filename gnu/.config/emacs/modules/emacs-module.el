@@ -102,19 +102,20 @@
  ;; Disable default help, because I know about that already
  echo-keystrokes-help nil
 
+ ;; Never try to save password on disk
+ auth-source-save-behavior nil
+
  )
 
 ;; Space indentation
-(setopt indent-tabs-mode nil)
-(setopt tab-width 2)
-(setq c-basic-offset 2)
-(setq sh-basic-offset 2)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+(setq-default c-basic-offset 2)
+(setq-default sh-basic-offset 2)
 
 (setq-default fill-column 80)
 (setq-default cursor-type 'bar)
 
-;; Never try to save password on disk
-(setq auth-source-save-behavior nil)
 
 (add-hook 'after-init-hook
   (lambda ()
@@ -123,24 +124,24 @@
     (set-language-environment "UTF-8")
 
     ;; Musi być tutaj - z top levelu nie działa, bo coś nadpisuje.
-    (setopt default-input-method "polish-slash")
+    (setq default-input-method "polish-slash")
 
     ;; Show the depth of the minibuffer.
-    (minibuffer-depth-indicate-mode t)
+    (minibuffer-depth-indicate-mode)
 
     ;; Save some screen estate by disabling bulky widgets.
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
 
     ;; Remember where point was when visiting previous buffers.
-    (save-place-mode t)
+    (save-place-mode)
 
     ;; Highlight matching parenthesis.
-    (show-paren-mode t)
+    (show-paren-mode)
 
     ;; Enable window configuration change tracking and undo.
-    (winner-mode t)
-
+    (winner-mode)
+    
     ;; Enable recent files tracking and visiting.
     (recentf-mode)
 

@@ -8,6 +8,8 @@
   (modify-syntax-entry ?\{ "(}" lisp-mode-syntax-table)
   (modify-syntax-entry ?\} "){" lisp-mode-syntax-table))
 
+;; ZRÓB: treesitter zamiast tego? a co z makrami?
+
 ;; Indent [...] {...} for reader macros
 (defun kaspi/indent-braces-function (function &rest args)
   (cl-destructuring-bind (point column char)
@@ -46,8 +48,8 @@
      (point))
    (point)))
 
-(advice-add 'eval-last-sexp :after 'kaspi/flash-last-sexp)
-(advice-add 'eval-defun :after 'kaspi/flash-defun)
+(advice-add 'eval-last-sexp :before 'kaspi/flash-last-sexp)
+(advice-add 'eval-defun :before 'kaspi/flash-defun)
 
 ;; Fixes e.g. make-todo or add-note from being highlighted (todo-module.el)
 (advice-add 'lisp-mode-variables :filter-args 
@@ -159,9 +161,10 @@
 
 (global-set-key (kbd "C-c l w") 'kaspi/yank-sexp)
 
-(global-set-key (kbd "C-c l SPC") 'mark-sexp)
 (defvar kaspi/mark-sexp-repeat-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "SPC") 'mark-sexp)
     map))
+
+(global-set-key (kbd "C-c l SPC") 'mark-sexp)
 (put 'mark-sexp 'repeat-map 'kaspi/mark-sexp-repeat-map)
