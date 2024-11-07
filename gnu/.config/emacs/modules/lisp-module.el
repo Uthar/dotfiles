@@ -157,7 +157,7 @@
   (kill-ring-save (region-beginning) (region-end))
   (message "Skopiowano wyrażenie do kill ringa."))
 
-(global-set-key (kbd "C-c l y") 'kaspi/yank-sexp)
+(global-set-key (kbd "C-c l w") 'kaspi/yank-sexp)
 
 (global-set-key (kbd "C-c l SPC") 'mark-sexp)
 (defvar kaspi/mark-sexp-repeat-map
