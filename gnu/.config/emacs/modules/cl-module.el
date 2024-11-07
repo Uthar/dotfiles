@@ -51,20 +51,12 @@
        (lambda (&rest _)
          (cl-first (slime-contextual-completions beg end)))))))
           
-;; Make RET either insert completions or send input, depending on the context
-(defun kaspi/slime-repl-return-advice (function &rest args)
-  (if (and completion-in-region-mode
-           (get-buffer-window (get-buffer "*Completions*")))
-      (minibuffer-choose-completion)
-      (apply function args)))
-
 (with-eval-after-load 'slime
   (define-key slime-mode-map (kbd "C-c C-z") 'slime-repl)
   (define-key slime-mode-map (kbd "C-c h") 'slime-hyperspec-lookup)
   (define-key slime-inspector-mode-map [mouse-8] 'slime-inspector-pop)
   )
 
-(advice-add 'slime-repl-return :around 'kaspi/slime-repl-return-advice)
 (advice-add 'slime-flash-region :override 'kaspi/noop)
 (advice-add 'slime-eval-defun :after 'kaspi/flash-defun)
 (advice-add 'slime-compile-defun :after 'kaspi/flash-defun)
