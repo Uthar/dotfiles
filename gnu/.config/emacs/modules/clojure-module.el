@@ -21,9 +21,6 @@
 (setq cider-repl-tab-command 'indent-for-tab-command)
 (add-hook 'cider-after-eval-done-hook 'cider-repl-history-just-save)
 
-(with-eval-after-load "cider"
-  ;; CL style
-  (put 'if 'clojure-indent-function 4))
 
 (add-hook 'cider-repl-mode-hook
   (lambda () 
