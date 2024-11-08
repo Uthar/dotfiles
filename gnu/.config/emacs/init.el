@@ -105,6 +105,7 @@
 ;; C-s/C-r: świetne jest to, że M-e ustawia wskaźnik na pierwszym znaku który nie został znaleziony
 ;; nxml-mode: niesamowite to jest.
 ;; project-kill-buffers: usuwa bufory z danego projektu
+;; C-x p r: obczaić, może być lepsze/szybsze niż ręczne grep+wgrep
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
