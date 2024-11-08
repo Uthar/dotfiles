@@ -113,6 +113,9 @@
  comment-multi-line t
  comment-auto-fill-only-comments t
 
+ ;; Rozsądne rozdzielanie zdań dla fill/M-q (inaczej przesuwa za dużo słów)
+ sentence-end-double-space nil
+
  )
 
 ;; Powinno być aktywne tylko w komentarzach
