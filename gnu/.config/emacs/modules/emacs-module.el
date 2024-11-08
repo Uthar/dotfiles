@@ -108,7 +108,17 @@
  ;; Niby coś tam przyśpiesza, ale aż tak nie sprawdzałem
  fast-but-imprecise-scrolling t
 
+ ;; Usprawnienia wpisywania komentarzy
+ comment-empty-lines t
+ comment-multi-line t
+ comment-auto-fill-only-comments t
+
  )
+
+;; Powinno być aktywne tylko w komentarzach
+;; Oprócz tego można jeszcze ręcznie M-j
+(add-hook 'prog-mode-hook 'auto-fill-mode)
+(add-hook 'conf-mode-hook 'auto-fill-mode)
 
 ;; Space indentation
 (setq-default indent-tabs-mode nil)
