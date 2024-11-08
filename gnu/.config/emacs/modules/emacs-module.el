@@ -132,6 +132,9 @@
 (setq-default fill-column 80)
 (setq-default cursor-type 'bar)
 
+;; Czytelniejsze, bezpieczniejsze.
+(setq-default word-wrap t)
+(setq-default truncate-lines nil)
 
 (add-hook 'after-init-hook
   (lambda ()
