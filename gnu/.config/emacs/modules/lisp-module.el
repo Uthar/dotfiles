@@ -167,4 +167,5 @@
     map))
 
 (global-set-key (kbd "C-c l SPC") 'mark-sexp)
+(global-set-key (kbd "M-SPC") 'mark-sexp)
 (put 'mark-sexp 'repeat-map 'kaspi/mark-sexp-repeat-map)
