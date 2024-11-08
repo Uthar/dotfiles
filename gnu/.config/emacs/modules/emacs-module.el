@@ -105,6 +105,9 @@
  ;; Never try to save password on disk
  auth-source-save-behavior nil
 
+ ;; Niby coś tam przyśpiesza, ale aż tak nie sprawdzałem
+ fast-but-imprecise-scrolling t
+
  )
 
 ;; Space indentation
