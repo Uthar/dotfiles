@@ -10,7 +10,11 @@
   (require 'cider-format)
   (require 'cider-ns))
 
-(setq cider-connection-message-fn (cl-constantly '("Pozdrowienia z Neptuna")))
+(setq cider-connection-message-fn
+  (lambda ()
+    (seq-random-elt 
+     '("Dziś Neptunianie programują razem z Tobą. Uśmiechnij się więc do lustra."
+       "Teraz Neptunianie oglądają wyścigi bobrów. Masz więc chwilę dla siebie."))))
 (setq cider-repl-display-help-banner nil)
 (setq cider-offer-to-open-cljs-app-in-browser nil)
 (setq cider-show-error-buffer 'except-in-repl)
