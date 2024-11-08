@@ -13,3 +13,5 @@
 ;; Zapisuj cache do katalogu z cachem.
 (when (native-comp-available-p)
   (startup-redirect-eln-cache "~/.local/cache/eln-cache/"))
+
+(setq inhibit-x-resources t)
