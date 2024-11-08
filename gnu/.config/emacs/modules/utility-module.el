@@ -28,6 +28,12 @@
     (kill-new name)
     (message name)))
 
+(defun kaspi/copy-buffer-name ()
+  (interactive)
+  (let ((name (buffer-name)))
+    (kill-new name)
+    (message name)))
+
 (defun kaspi/select-or-exit-minibuffer ()
   (interactive)
   (if current-prefix-arg
