@@ -17,6 +17,9 @@
  ;; Limit filenames to window length
  dired-filename-display-length 'window
 
+ ;; Lepszy default
+ dired-recursive-copies 'always
+
  )
 
 (defun kaspi/dired-toggle-hidden ()
