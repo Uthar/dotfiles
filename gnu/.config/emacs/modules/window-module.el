@@ -47,11 +47,13 @@
 
 (defun kaspi/save-window-configuration ()
   (interactive)
-  (setq kaspi/*saved-window-configuration* (current-window-configuration)))
+  (setq kaspi/*saved-window-configuration* (current-window-configuration))
+  (message "Zapamiętano rozmieszczenie okien."))
 
 (defun kaspi/restore-window-configuration ()
   (interactive)
-  (set-window-configuration kaspi/*saved-window-configuration*))
+  (set-window-configuration kaspi/*saved-window-configuration*)
+  (message "Przywrócono rozmieszczenie okien."))
 
 (global-set-key (kbd "C-c w s") 'kaspi/save-window-configuration)
 (global-set-key (kbd "C-c w r") 'kaspi/restore-window-configuration)
