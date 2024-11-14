@@ -134,7 +134,7 @@
 
 ;; Czytelniejsze, bezpieczniejsze.
 (setq-default word-wrap t)
-(setq-default truncate-lines nil)
+(setq-default truncate-lines t)
 
 (add-hook 'after-init-hook
   (lambda ()
