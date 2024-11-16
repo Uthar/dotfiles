@@ -5,9 +5,12 @@
 [core]
   autocrlf = false
 
+[format]
+  pretty = %h%d (%cs) [%an] %s
+
 [alias]
-	g = log --graph --all --pretty='format:%h%d (%cs) [%an] %s'
-	l = log --first-parent --pretty='format:%h%d (%cs) [%an] %s'
+	g = log --graph --tags --remotes
+	l = log --first-parent
   up = pull --no-commit
   ur = pull --rebase
 	ci = commit
