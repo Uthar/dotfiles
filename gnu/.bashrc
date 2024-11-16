@@ -52,8 +52,9 @@ alias x=exit
 alias l="ls -v --color=auto --group-directories-first --ignore-backups"
 alias la="l -A"
 alias ll="la -lh"
-alias e="emacs"
+alias e=emacs
 alias s=systemctl
+alias j=journalctl
 alias su="systemctl --user"
 alias ju="journalctl --user"
 
