@@ -41,6 +41,7 @@ export EDITOR=emacs
 export VISUAL=emacs
 export TERM=xterm-256color
 export PAGER=less
+export SHELL=bash
 
 alias k=kubectl
 alias n=nix

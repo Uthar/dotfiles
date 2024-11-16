@@ -116,6 +116,9 @@
  ;; Rozsądne rozdzielanie zdań dla fill/M-q (inaczej przesuwa za dużo słów)
  sentence-end-double-space nil
 
+ ;; Żeby brał z nix profilu a nie z globalnego bin
+ shell-file-name "bash"
+
  )
 
 ;; Powinno być aktywne tylko w komentarzach
