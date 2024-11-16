@@ -110,6 +110,7 @@
 ;; Shift+mouse scroll: przesuwa na lewo/prawo
 ;; M-. znajduje źródło funkcji
 ;; M-? znajduje odniesienia do funkcji
+;; image-dired-display-thumbs: podgląd zanaczonych zdjęć
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
