@@ -3,3 +3,4 @@ set colored-completion-prefix on
 set colored-stats on
 
 "\C-\b": backward-kill-word
+"\C-\M-k": shell-kill-word
