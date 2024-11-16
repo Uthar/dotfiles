@@ -13,3 +13,9 @@
 
   (cl-defmethod project-root ((project (head .project)))
     (nth 1 project)))
+
+(setq etags-regen-tags-file
+  (lambda (root)
+    (let ((dir (file-name-concat "~/.cache/etags" (file-truename root))))
+      (make-directory dir t)
+      (expand-file-name "TAGS" dir))))
