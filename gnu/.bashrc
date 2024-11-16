@@ -61,6 +61,7 @@ alias ju="journalctl --user"
 shopt -s checkwinsize
 shopt -s histappend
 shopt -s autocd
+shopt -s progcomp_alias
 stty -ixon -ixoff
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
 # test -d "$EAT_SHELL_INTEGRATION_DIR" && source $EAT_SHELL_INTEGRATION_DIR/bash
