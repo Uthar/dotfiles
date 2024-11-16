@@ -76,6 +76,8 @@
 ;; Ogranicz destrukcyjne działanie gita
 (setq vc-filter-command-function 'kaspi/vc-filter-command-function)
 
+(setq vc-git-log-switches "--format=medium")
+
 ;; Żeby nie wchodził w nieśledzone podkatalogi.
 ;; (Niestety normalny filter nie wystarczy bo to jest wewnętrzne).
 ;; Inaczej duże katalogi source czy outputs z nix develop sprawiają kłopoty.
