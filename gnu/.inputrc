@@ -1,6 +1,9 @@
 set blink-matching-paren on
 set colored-completion-prefix on
 set colored-stats on
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set skip-completed-text on
 
 "\C-\b": backward-kill-word
 "\C-\M-k": shell-kill-word
