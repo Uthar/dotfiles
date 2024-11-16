@@ -119,6 +119,9 @@
  ;; Żeby brał z nix profilu a nie z globalnego bin
  shell-file-name "bash"
 
+ ;; Pokazuj manpage w bieżącym oknie
+ Man-notify-method 'pushy
+ 
  )
 
 ;; Powinno być aktywne tylko w komentarzach
