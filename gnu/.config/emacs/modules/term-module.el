@@ -7,8 +7,6 @@
 
 (advice-add 'eat-kill-process :override 'kaspi/noop)
 
-(add-hook 'eat-mode-hook 'toggle-truncate-lines)
-
 ;; Zmniejszenie tych limitów nie pomogło, czasem eat zacina całego emacs i
 ;; zaczyna się cons/gc infinite loop. Zaczęło się to po włączeniu bash
 ;; integration. Nie da się odblokować C-g ani SIGUSR2. Może to dlatego, że nie
