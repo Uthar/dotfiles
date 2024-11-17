@@ -117,7 +117,7 @@
  sentence-end-double-space nil
 
  ;; Żeby brał z nix profilu a nie z globalnego bin
- shell-file-name "bash"
+ shell-file-name (executable-find "bash")
 
  ;; Pokazuj manpage w bieżącym oknie
  Man-notify-method 'pushy
