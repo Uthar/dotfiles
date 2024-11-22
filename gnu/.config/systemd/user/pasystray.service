@@ -1,0 +1,6 @@
+[Unit]
+Description=Pulseaudio tray applet
+
+[Service]
+ExecStart=/usr/bin/env pasystray
+Restart=always
