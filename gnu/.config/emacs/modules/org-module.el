@@ -15,7 +15,8 @@
 (setq org-agenda-skip-unavailable-files t)
 (setq org-default-notes-file "~/.notes.org")
 (setq org-agenda-files '("~/Org/" "~/.notes.org"))
-(setq org-agenda-span 'week)
+(setq org-agenda-span '30)
+(setq org-agenda-start-day "-7d")
 (setq org-agenda-mouse-1-follows-link t)
 
 ;; Poniedziałek
