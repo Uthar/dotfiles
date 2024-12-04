@@ -8,6 +8,9 @@
 [format]
   pretty = %h%d (%cs) [%an] %s
 
+[tag]
+  sort = v:refname
+
 [alias]
 	g = log --graph --tags --remotes
 	l = log --first-parent
