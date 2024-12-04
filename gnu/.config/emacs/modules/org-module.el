@@ -21,6 +21,8 @@
 
 ;; Poniedziałek
 (setq calendar-week-start-day 1)
+(setq calendar-today-marker 'lazy-highlight)
+(add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 
 (setq zoneinfo-style-world-list
   '(("UTC" "UTC")
