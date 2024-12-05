@@ -112,6 +112,7 @@
 ;; M-? znajduje odniesienia do funkcji
 ;; image-dired-display-thumbs: podgląd zanaczonych zdjęć
 ;; C-u 0 w: kopiuj truename ścieżki w dired
+;; C-x w d zabezpiecza dane okno przed zmianami bufora
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
