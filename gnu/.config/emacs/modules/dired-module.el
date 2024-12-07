@@ -31,10 +31,14 @@
 
 (defun kaspi/dired-toggle-hidden ()
   (interactive)
-  (if (string-match-p "a" dired-actual-switches)
-      (dired "." (remove ?a dired-listing-switches))
-      (dired "." (concat dired-listing-switches "a")))
-  (setq dired-listing-switches dired-actual-switches))
+  (cond
+   ((string-match-p "a" dired-listing-switches)
+    (setq dired-listing-switches (remove ?a dired-listing-switches))
+    (setq dired-actual-switches (remove ?a dired-actual-switches)))
+   (:else
+    (setq dired-listing-switches (concat dired-listing-switches "a"))
+    (setq dired-actual-switches (concat dired-actual-switches "a"))))
+  (dired-revert))
 
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "M-h") 'kaspi/dired-toggle-hidden)
