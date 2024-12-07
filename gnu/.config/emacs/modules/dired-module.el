@@ -59,4 +59,11 @@
     (local-set-key "b" 'dired-up-directory)
     (local-set-key "e" 'wdired-change-to-wdired-mode)
     (local-set-key (kbd "<mouse-8>") 'dired-up-directory)
+    (setq-local switch-to-buffer-obey-display-actions t)
     (setq-local mouse-1-click-follows-link nil)))
+
+(defun kaspi/call-with-display-buffer-in-mru-window-overriding-action (fun &rest args)
+  (let ((display-buffer-overriding-action '(display-buffer-use-some-window (some-window . mru))))
+    (apply fun args)))
+
+(advice-add 'dired-view-file :around 'kaspi/call-with-display-buffer-in-mru-window-overriding-action)
