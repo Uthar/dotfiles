@@ -111,6 +111,7 @@
 ;; M-. znajduje źródło funkcji
 ;; M-? znajduje odniesienia do funkcji
 ;; image-dired-display-thumbs: podgląd zanaczonych zdjęć
+;; C-u 0 w: kopiuj truename ścieżki w dired
 
 ;; Dla ekranów z wysoką rozdzielczością:
 ;; (set-face-attribute 'default nil :height 130)
