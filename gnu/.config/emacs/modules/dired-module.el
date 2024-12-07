@@ -23,6 +23,10 @@
  ;; Przeciąganie plików myszą
  dired-mouse-drag-files t
 
+ ;; Omija puste linijki w dired podczas poruszania się, w szczególności gdy
+ ;; przekraczana jest granica między subdirs.
+ dired-movement-style 'bounded
+
  )
 
 (defun kaspi/dired-toggle-hidden ()
