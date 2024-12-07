@@ -35,7 +35,7 @@
 (require 'dired)
 (require 'vc-hooks)
 
-(defvar diff-hl-dired-process-buffer nil)
+(defvar diff-hl-dired-process-buffers (make-hash-table :test 'equal))
 
 (defgroup diff-hl-dired nil
   "VC diff highlighting on the side of a Dired window."
@@ -81,7 +81,7 @@ status indicators."
   (if diff-hl-dired-mode
       (progn
         (diff-hl-maybe-define-bitmaps)
-        (set (make-local-variable 'diff-hl-dired-process-buffer) nil)
+        (set (make-local-variable 'diff-hl-dired-process-buffers) (make-hash-table :test 'equal))
         (add-hook 'dired-after-readin-hook 'diff-hl-dired-update nil t))
     (remove-hook 'dired-after-readin-hook 'diff-hl-dired-update t)
     (diff-hl-dired-clear)))
@@ -89,53 +89,58 @@ status indicators."
 (defun diff-hl-dired-update ()
   "Highlight the Dired buffer."
   (let ((backend (ignore-errors (vc-responsible-backend default-directory)))
-        (def-dir default-directory)
-        (buffer (current-buffer))
-        dirs-alist files-alist)
+        (dired-buffer (current-buffer)))
     (when (and backend (not (memq backend diff-hl-dired-ignored-backends)))
       (diff-hl-dired-clear)
-      (if (buffer-live-p diff-hl-dired-process-buffer)
-          (let ((proc (get-buffer-process diff-hl-dired-process-buffer)))
-            (when proc (kill-process proc)))
-        (setq diff-hl-dired-process-buffer
-              (generate-new-buffer " *diff-hl-dired* tmp status")))
-      (with-current-buffer diff-hl-dired-process-buffer
-        (setq default-directory (expand-file-name def-dir))
-        (erase-buffer)
-        (diff-hl-dired-status-files
-         backend def-dir
-         (when diff-hl-dired-extra-indicators
-           (cl-loop for file in (directory-files def-dir)
-                    unless (member file '("." ".." ".hg"))
-                    collect file))
-         (lambda (entries &optional more-to-come)
-           (when (buffer-live-p buffer)
-             (with-current-buffer buffer
-               (dolist (entry entries)
-                 (cl-destructuring-bind (file state &rest r) entry
-                   ;; Work around http://debbugs.gnu.org/18605
-                   (setq file (replace-regexp-in-string "\\` " "" file))
-                   (let ((type (plist-get
-                                '( edited change added insert removed delete
-                                   unregistered unknown ignored ignored)
-                                state)))
-                     (if (string-match "\\`\\([^/]+\\)/" file)
-                         (let* ((dir (match-string 1 file))
-                                (value (cdr (assoc dir dirs-alist))))
-                           (unless (eq value type)
-                             (cond
-                              ((eq state 'up-to-date))
-                              ((null value)
-                               (push (cons dir type) dirs-alist))
-                              ((not (eq type 'ignored))
-                               (setcdr (assoc dir dirs-alist) 'change)))))
-                       (push (cons file type) files-alist)))))
-               (unless more-to-come
-                 (diff-hl-dired-highlight-items
-                  (append dirs-alist files-alist))))
-             (unless more-to-come
-               (kill-buffer diff-hl-dired-process-buffer))))
-         )))))
+      (dolist (subdir-entry dired-subdir-alist)
+        (cl-destructuring-bind (subdir . marker) subdir-entry
+          (let ((tmp-buffer (gethash subdir diff-hl-dired-process-buffers)))
+            (if (buffer-live-p tmp-buffer)
+                (let ((proc (get-buffer-process tmp-buffer)))
+                  (when proc (kill-process proc)))
+              (setq tmp-buffer
+                (generate-new-buffer (concat " *diff-hl-dired* tmp status for " subdir)))
+              (puthash subdir tmp-buffer diff-hl-dired-process-buffers))
+            (with-current-buffer tmp-buffer
+              (setq default-directory (expand-file-name subdir))
+              (erase-buffer)
+              (diff-hl-dired-status-files
+               backend subdir
+               (when diff-hl-dired-extra-indicators
+                 (cl-loop for file in (directory-files subdir)
+                          unless (member file '("." ".." ".hg"))
+                          collect file))
+               (let (files-alist dirs-alist)
+                 (lambda (entries &optional more-to-come)
+                   (when (buffer-live-p dired-buffer)
+                     (with-current-buffer dired-buffer
+                       (dolist (entry entries)
+                         (cl-destructuring-bind (file state &rest r) entry
+                           ;; Work around http://debbugs.gnu.org/18605
+                           (setq file (replace-regexp-in-string "\\` " "" file))
+                           (let ((type (plist-get
+                                        '( edited change added insert removed delete
+                                           unregistered unknown ignored ignored)
+                                        state)))
+                             (if (string-match "\\`\\([^/]+\\)/" file)
+                                 (let* ((dir (match-string 1 file))
+                                        (value (cdr (assoc dir dirs-alist))))
+                                   (unless (eq value type)
+                                     (cond
+                                      ((eq state 'up-to-date))
+                                      ((null value)
+                                       (push (cons dir type) dirs-alist))
+                                      ((not (eq type 'ignored))
+                                       (setcdr (assoc dir dirs-alist) 'change)))))
+                               (push (cons file type) files-alist)))))
+                       (unless more-to-come
+                         (diff-hl-dired-highlight-items
+                          (append dirs-alist files-alist)
+                          subdir))))
+                     (unless more-to-come
+                       (kill-buffer (gethash subdir diff-hl-dired-process-buffers))
+                       (remhash subdir diff-hl-dired-process-buffers))))))
+         ))))))
 
 (defun diff-hl-dired-status-files (backend dir files update-function)
   "Using version control BACKEND, return list of (FILE STATE EXTRA) entries
@@ -154,15 +159,20 @@ for DIR containing FILES. Call UPDATE-FUNCTION as entries are added."
       (setq stage 'diff-index))
     ad-do-it))
 
-(defun diff-hl-dired-highlight-items (alist)
+(defun diff-hl-dired-highlight-items (alist &optional subdir)
   "Highlight ALIST containing (FILE . TYPE) elements."
   (dolist (pair alist)
-    (let ((file (car pair))
-          (type (cdr pair)))
+    (let* ((file (car pair))
+           (truename (cond
+                      (subdir (concat subdir file))
+                      (t (expand-file-name file))))
+           (type (cdr pair)))
       (save-excursion
-        (goto-char (point-min))
+        (if subdir
+          (dired-goto-subdir subdir)
+          (goto-char (point-min)))
         (when (and type (dired-goto-file-1
-                         file (expand-file-name file) nil))
+                         file truename nil))
           (let* ((diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-type)
                  (diff-hl-fringe-face-function 'diff-hl-dired-face-from-type)
                  (o (diff-hl-add-highlighting type 'single)))
