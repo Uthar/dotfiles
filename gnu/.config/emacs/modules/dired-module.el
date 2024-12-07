@@ -20,6 +20,9 @@
  ;; Lepszy default
  dired-recursive-copies 'always
 
+ ;; Przeciąganie plików myszą
+ dired-mouse-drag-files t
+
  )
 
 (defun kaspi/dired-toggle-hidden ()
