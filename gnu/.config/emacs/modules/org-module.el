@@ -27,10 +27,10 @@
    "lipiec" "sierpień" "wrzesień" "październik" "listopad" "grudzień"])
 
 (setopt calendar-day-name-array
-  ["poniedziałek" "wtorek" "środa" "czwartek" "piątek" "sobota" "niedziela"])
+  ["niedziela" "poniedziałek" "wtorek" "środa" "czwartek" "piątek" "sobota"])
 
-(setq calendar-week-start-day 0)
-(setq calendar-weekend-days '(5 6))
+(setq calendar-week-start-day 1)
+(setq calendar-weekend-days '(0 6))
 (setq org-agenda-weekend-days '(0 6))
 (setq org-agenda-format-date "%a %e %b %Y W%W")
 
