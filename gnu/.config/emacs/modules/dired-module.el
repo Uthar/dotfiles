@@ -62,6 +62,14 @@
     (setq-local switch-to-buffer-obey-display-actions t)
     (setq-local mouse-1-click-follows-link nil)))
 
+;; W emacs -Q środkuje domyślnie... coś mam popsute w configu
+(advice-add 'dired-revert :around
+  (lambda (fun &rest args)
+    (let ((pos (window-start)))
+      (unwind-protect
+        (apply fun args)
+        (set-window-start (selected-window) pos)))))
+
 (defun kaspi/call-with-display-buffer-in-mru-window-overriding-action (fun &rest args)
   (let ((display-buffer-overriding-action '(display-buffer-use-some-window (some-window . mru))))
     (apply fun args)))
