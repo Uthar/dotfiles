@@ -32,12 +32,12 @@
 (defun kaspi/dired-toggle-hidden ()
   (interactive)
   (cond
-   ((string-match-p "a" dired-listing-switches)
-    (setq dired-listing-switches (remove ?a dired-listing-switches))
-    (setq dired-actual-switches (remove ?a dired-actual-switches)))
+   ((string-match-p "A" dired-listing-switches)
+    (setq dired-listing-switches (remove ?A dired-listing-switches))
+    (setq dired-actual-switches (remove ?A dired-actual-switches)))
    (:else
-    (setq dired-listing-switches (concat dired-listing-switches "a"))
-    (setq dired-actual-switches (concat dired-actual-switches "a"))))
+    (setq dired-listing-switches (concat dired-listing-switches "A"))
+    (setq dired-actual-switches (concat dired-actual-switches "A"))))
   (dired-revert))
 
 (with-eval-after-load 'dired
