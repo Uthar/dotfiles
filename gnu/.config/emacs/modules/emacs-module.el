@@ -189,6 +189,10 @@
     ;; Override selected text on yank and insert
     (delete-selection-mode)
 
+    ;; Przesuwaj otwarty kalendarz na następny dzień
+    (setq midnight-hook 'calendar-redraw)
+    (midnight-mode)
+
     ))
 
 ;; Add executable bit when shebang detected.
