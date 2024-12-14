@@ -52,12 +52,17 @@
   (setq kaspi/dired-details (- kaspi/dired-details))
   (dired-hide-details-mode kaspi/dired-details))
   
+(defun kaspi/dired-copy-truename-as-kill ()
+  (interactive)
+  (dired-copy-filename-as-kill 0))
+  
 (add-hook 'dired-mode-hook
   (lambda ()
     (hl-line-mode)
     (dired-hide-details-mode kaspi/dired-details)
     (local-set-key "b" 'dired-up-directory)
     (local-set-key "e" 'wdired-change-to-wdired-mode)
+    (local-set-key "W" 'kaspi/dired-copy-truename-as-kill)
     (local-set-key (kbd "C-M-k") 'dired-kill-subdir)
     (local-set-key (kbd "<mouse-8>") 'dired-up-directory)
     (setq-local switch-to-buffer-obey-display-actions t)
