@@ -52,13 +52,14 @@
     (remove-hook hook function)
     (add-hook hook function)))
 
-(defun kaspi/sensible-directory ()
-  (cond (current-prefix-arg (read-directory-name "Dir: "))
+(defun kaspi/sensible-directory (&optional ask)
+  (cond (ask (read-directory-name "Dir: " (kaspi/sensible-directory)))
+        ((eq major-mode 'dired-mode) (dired-current-directory))
         ((project-current) (project-root (project-current)))
         (t default-directory)))
 
 (defun kaspi/call-with-sensible-directory (fn &rest args)
-  (let ((default-directory (kaspi/sensible-directory)))
+  (let ((default-directory (kaspi/sensible-directory current-prefix-arg)))
     (apply fn args)))
 
 (defmacro kaspi/with-sensible-directory (&rest body)
