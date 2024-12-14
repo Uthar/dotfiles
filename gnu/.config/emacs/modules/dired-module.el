@@ -115,3 +115,6 @@
     (apply fun args)))
 
 (advice-add 'dired-view-file :around 'kaspi/call-with-display-buffer-in-mru-window-overriding-action)
+(advice-add 'dired-display-file :around 'kaspi/call-with-display-buffer-in-mru-window-overriding-action)
+(advice-add 'dired-find-file-other-window :around 'kaspi/call-with-display-buffer-in-mru-window-overriding-action)
+(advice-add 'dired-mouse-find-file-other-window :around 'kaspi/call-with-display-buffer-in-mru-window-overriding-action)
