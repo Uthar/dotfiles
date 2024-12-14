@@ -27,6 +27,9 @@
  ;; przekraczana jest granica między subdirs.
  dired-movement-style 'bounded
 
+ ;; Przejdź automatycznie do pierwszego pliku przy otwieraniu nowego subtree.
+ dired-trivial-filenames t
+
  )
 
 (defun kaspi/dired-toggle-hidden ()
@@ -52,6 +55,33 @@
   (setq kaspi/dired-details (- kaspi/dired-details))
   (dired-hide-details-mode kaspi/dired-details))
   
+(defun kaspi/dired-next-subdir ()
+  (interactive)
+  (dired-next-subdir 1)
+  (dired-goto-next-nontrivial-file))
+
+(defun kaspi/dired-prev-subdir ()
+  (interactive)
+  (dired-prev-subdir 1)
+  (dired-goto-next-nontrivial-file))
+
+(defun kaspi/dired-goto-subdir ()
+  (interactive)
+  (call-interactively #'dired-goto-subdir)
+  (dired-goto-next-nontrivial-file))
+
+;; (setq dired-after-readin-hook (cdr dired-after-readin-hook))
+(add-hook 'dired-after-readin-hook
+  (lambda ()
+    (let ((inhibit-read-only t)
+          (prefix (1- (length (expand-file-name default-directory)))))
+      (cl-loop for (subdir . next) on dired-subdir-alist do
+        (when next
+          (cl-destructuring-bind (dir . marker) subdir
+            (let ((beg (+ 2 marker)))
+              (add-text-properties beg (+ beg prefix) '(invisible dired))
+              (add-text-properties beg (+ beg (length dir)) `(help-echo ,dir)))))))))
+
 (defun kaspi/dired-copy-truename-as-kill ()
   (interactive)
   (dired-copy-filename-as-kill 0))
@@ -60,10 +90,14 @@
   (lambda ()
     (hl-line-mode)
     (dired-hide-details-mode kaspi/dired-details)
+    (setq header-line-format '("  " default-directory))
     (local-set-key "b" 'dired-up-directory)
     (local-set-key "e" 'wdired-change-to-wdired-mode)
     (local-set-key "W" 'kaspi/dired-copy-truename-as-kill)
+    (local-set-key (kbd "C-M-n") 'kaspi/dired-next-subdir)
+    (local-set-key (kbd "C-M-p") 'kaspi/dired-prev-subdir)
     (local-set-key (kbd "C-M-k") 'dired-kill-subdir)
+    (local-set-key (kbd "M-G") 'kaspi/dired-goto-subdir)
     (local-set-key (kbd "<mouse-8>") 'dired-up-directory)
     (setq-local switch-to-buffer-obey-display-actions t)
     (setq-local mouse-1-click-follows-link nil)))
