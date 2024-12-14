@@ -14,7 +14,7 @@
 (defun kaspi/%live-compile (fn)
   (let* ((input-hook (kaspi/%call-for-live-compile fn))
          (buffer-name (format "*%s*" (symbol-name fn)))
-         (query (format "%s for: " (symbol-name fn))))
+         (query (format "%s in %s for: " (symbol-name fn) (file-name-nondirectory (directory-file-name default-directory)))))
     ;; compile mode has hard coded sleep after command termination
     (advice-add 'sit-for :override 'kaspi/noop)
     (setopt compilation-always-kill t)
