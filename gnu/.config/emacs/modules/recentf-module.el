@@ -22,6 +22,6 @@
   ;; Save files to the recent list immediately when visiting
   ;; them. This is better in that recent files are not lost in the
   ;; event of a crash.
-  (add-hook 'buffer-list-update-hook 'kaspi/recentf-save-current-buffer)
+  ;; (add-hook 'buffer-list-update-hook 'kaspi/recentf-save-current-buffer)
 
   )
