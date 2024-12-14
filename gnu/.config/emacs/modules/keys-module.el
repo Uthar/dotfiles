@@ -32,8 +32,12 @@
 
 (global-set-key (kbd "C-c SPC") 'set-mark-command)
 
+(defun kaspi/previous-window ()
+  (interactive)
+  (other-window -1))
+
 (global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "M-O") 'previous-window-any-frame)
+(global-set-key (kbd "M-O") 'kaspi/previous-window)
 
 (global-set-key (kbd "S-<up>") 'scroll-down-line)
 (global-set-key (kbd "S-<down>") 'scroll-up-line)
