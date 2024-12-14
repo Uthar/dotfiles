@@ -43,7 +43,7 @@
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "M-h") 'kaspi/dired-toggle-hidden)
   (define-key dired-mode-map (kbd "(") 'kaspi/dired-toggle-details)
-  (define-key dired-mode-map [mouse-1] 'dired-find-file))
+  (define-key dired-mode-map [mouse-1] nil))
 
 (defvar kaspi/dired-details 1)
 
