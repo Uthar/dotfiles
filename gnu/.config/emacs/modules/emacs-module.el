@@ -191,6 +191,7 @@
 
     ;; Przesuwaj otwarty kalendarz na następny dzień
     (setq midnight-hook 'calendar-redraw)
+    (setq midnight-delay 1)
     (midnight-mode)
 
     ))
