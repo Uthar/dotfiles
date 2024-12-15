@@ -23,14 +23,21 @@ nix_shell() {
 }
 
 make_ps1() {
-  echo -n '\[\033[01;32m\]\u@\h\[\033[00m\]'
-  echo -n '\[\033[01m\]:\[\033[00m\]'
-  echo -n '\[\033[01;34m\]\w\[\033[00m\]'
-  echo -n ' \[\033[38;5;214m\]$(git_branch)$(fossil_branch)\[\033[00m\]'
-  echo -n ' \[\033[38;5;75m\]$(kube_ns)\[\033[00m\]'
+  local RESET='\[\033[00m\]'
+  local BOLD='\[\033[01m\]'
+  local GREEN='\[\033[01;32m\]'
+  local BLUE='\[\033[01;34m\]'
+  local ORANGE='\[\033[38;5;214m\]'
+  local CYAN='\[\033[38;5;75m\]'
+  
+  echo -n "${GREEN}\u@\h${RESET}"
+  echo -n "${BOLD}:${RESET}"
+  echo -n "${BLUE}\w${RESET}"
+  echo -n " ${ORANGE}\$(git_branch)\$(fossil_branch)${RESET}"
+  echo -n " ${CYAN}\$(kube_ns)${RESET}"
   echo -n '\n'
-  echo -n '\[\033[01;34m\]$(nix_shell)\[\033[00m\]'
-  echo -n '\[\033[01m\]\$\[\033[00m\] '
+  echo -n "${BLUE}\$(nix_shell)${RESET}"
+  echo -n "${BOLD}\$ ${RESET}"
 }
 
 export PS1="$(make_ps1)"
