@@ -42,6 +42,7 @@ export VISUAL=emacs
 export TERM=xterm-256color
 export PAGER=less
 export SHELL="$(command -v bash)"
+export PERL_BADLANG=0
 
 alias k=kubectl
 alias n=nix
