@@ -1,21 +1,29 @@
-wrap_parens () {
-  local text=`eval $@`
-  [ "$text" ] && echo -n "($text)"
+
+find_up() {
+  local dir="$(pwd)"
+  local name="$1"
+  while [ "$dir" != "/" ]; do
+    [ -e "$dir/$name" ] && return 1;
+    dir="$(dirname $dir)"
+  done
 }
 
 git_branch() {
-  wrap_parens git branch --show-current 2> /dev/null
+  find_up .git && return;
+  local branch=$(git branch --show-current 2> /dev/null)
+  [ "$branch" ] && echo "($branch)"
 }
 
 fossil_branch() {
-  wrap_parens \
-    "fossil json branch list | jq -r '.payload.current | values' 2> /dev/null"
+  find_up .fslckout && return;
+  local branch=$(fossil json branch list | jq -r '.payload.current | values' 2> /dev/null)
+  [ "$branch" ] && echo "($branch)"
 }
 
 kube_ns() {
   [ -e ~/.kube/config ] || return;
-  wrap_parens \
-    kubectl config view --minify -o jsonpath='{..namespace}' 2> /dev/null
+  local ns=$(kubectl config view --minify -o jsonpath='{..namespace}' 2> /dev/null)
+  [ "$ns" ] && echo "($ns)"
 }
 
 nix_shell() {
