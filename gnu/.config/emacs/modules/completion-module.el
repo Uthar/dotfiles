@@ -17,6 +17,7 @@
 (add-to-list 'completion-styles 'orderless)
 (add-to-list 'orderless-matching-styles #'orderless-initialism)
 (add-to-list 'completion-category-overrides '(file (styles basic partial-completion)))
+(add-to-list 'completion-category-overrides '(buffer (styles substring orderless)))
 
 ;; Corfu sprawia że uzupełnienia pod wskaźnikiem pokazują się tuż obok niego.
 ;; Dodatkowo pozwala na wyszukiwanie w stylu orderless.
