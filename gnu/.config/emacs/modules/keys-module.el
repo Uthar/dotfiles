@@ -61,3 +61,7 @@
 (with-eval-after-load "Info"
   (define-key Info-mode-map (kbd "<mouse-8>") 'Info-history-back)
   (define-key Info-mode-map (kbd "<mouse-9>") 'Info-history-forward))
+
+(with-eval-after-load 'help-mode
+  (define-key help-mode-map (kbd "<mouse-8>") 'help-go-back)
+  (define-key help-mode-map (kbd "<mouse-9>") 'help-go-forward))
